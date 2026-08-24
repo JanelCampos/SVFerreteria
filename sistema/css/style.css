@@ -1,0 +1,581 @@
+:root,
+[data-bs-theme=light] {
+    --bs-primary: #0f7b8a;
+    --bs-primary-rgb: 15, 123, 138;
+    --bs-secondary: #475467;
+    --bs-secondary-rgb: 71, 84, 103;
+    --bs-success: #15803d;
+    --bs-info: #0ea5e9;
+    --bs-warning: #d97706;
+    --bs-danger: #dc2626;
+    --bs-dark: #111827;
+    --bs-body-bg: #f4f7fb;
+    --bs-body-color: #172033;
+    --bs-border-color: rgba(15, 23, 42, 0.08);
+    --bs-border-radius: 1rem;
+    --bs-border-radius-lg: 1.35rem;
+    --bs-box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+    --app-surface: rgba(255, 255, 255, 0.96);
+    --app-muted: #667085;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+#container {
+    padding: 6.5rem 1rem 2rem;
+}
+
+.app-navbar {
+    backdrop-filter: blur(14px);
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(15, 123, 138, 0.92)) !important;
+}
+
+.app-logo {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 6px;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+}
+
+.navbar-dark .dropdown-menu {
+    --bs-dropdown-link-active-bg: rgba(var(--bs-primary-rgb), 0.22);
+    --bs-dropdown-link-hover-bg: rgba(255, 255, 255, 0.08);
+}
+
+.title_container,
+.header_container,
+.info_caja,
+.chart-container,
+.divInfoSistema,
+.containerDataUser,
+.containerDataEmpresa,
+.data_delete {
+    background: var(--app-surface);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: var(--bs-box-shadow);
+}
+
+.title_container {
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.title_container h1,
+#container > h1 {
+    margin: 0;
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2.2rem);
+}
+
+.header_container {
+    padding: 1.25rem;
+}
+
+.left_section,
+.right_section {
+    width: 100%;
+}
+
+.right_section {
+    margin-top: 1rem;
+    padding-left: 0;
+}
+
+.form_search {
+    width: 100%;
+}
+
+.form_search > div {
+    min-width: 0;
+}
+
+.form_imprimir {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+form {
+    background: var(--app-surface);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: var(--bs-box-shadow);
+    padding: 1.5rem;
+}
+
+.formulario form,
+.modal form {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+}
+
+.containerTable {
+    margin-bottom: 1.5rem;
+}
+
+.containerTable table {
+    min-width: 780px;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.95rem 0.85rem;
+}
+
+.table thead th {
+    color: var(--app-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.btn_new,
+.btn_pdf,
+.btn_excel,
+.btn_save,
+.btn_save_1,
+.link_delete_1 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.dashboard {
+    margin-bottom: 1rem;
+}
+
+.dashboard > a {
+    display: block;
+}
+
+.dashboard-card-inner,
+.dashboard a > div {
+    padding: 1.25rem;
+}
+
+.dashboard a i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    margin-bottom: 1rem;
+    border-radius: 999px;
+    background: rgba(var(--bs-primary-rgb), 0.12);
+    color: var(--bs-primary);
+    font-size: 1.25rem;
+}
+
+.dashboard a strong {
+    color: var(--bs-body-color);
+}
+
+.dashboard a span,
+.dashboard p,
+.divDataUser span,
+.report-note,
+.chart-container p {
+    color: var(--app-muted);
+}
+
+.divInfoSistema {
+    padding: 1.5rem;
+}
+
+.titlePanelControl {
+    margin-bottom: 1rem;
+}
+
+.containerPerfil {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+}
+
+.containerDataUser,
+.containerDataEmpresa {
+    padding: 1.5rem;
+}
+
+.logoUser {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 1rem;
+}
+
+.divDataUser > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.divDataUser > div:last-child {
+    border-bottom: 0;
+}
+
+.divDataUser h4 {
+    margin-bottom: 1rem;
+}
+
+.divDataUser h5 {
+    width: 180px;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.container_venta {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 6.5rem 1rem 2rem;
+}
+
+.container_venta .item {
+    background: var(--app-surface);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: var(--bs-box-shadow);
+    padding: 1.25rem;
+}
+
+.container_venta .uno,
+.container_venta .dos,
+.container_venta .cuatro {
+    grid-column: span 3;
+}
+
+.container_venta .tres {
+    grid-column: span 6;
+}
+
+.form_venta {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+}
+
+.resultados-container {
+    max-height: 20rem;
+    margin-top: 0.75rem;
+}
+
+.select-btn {
+    cursor: pointer;
+}
+
+.pagination-shell {
+    display: grid;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--app-surface);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: var(--bs-box-shadow);
+}
+
+.pagination-summary,
+.pagination-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pagination-form {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.pagination-select,
+.pagination-input {
+    min-width: 90px;
+}
+
+.action-menu-content {
+    min-width: 210px;
+}
+
+.pagado,
+.saldo,
+.pendiente,
+.anulado {
+    font-weight: 700;
+}
+
+.pagado {
+    color: var(--bs-success);
+}
+
+.pendiente,
+.saldo {
+    color: var(--bs-warning);
+}
+
+.anulado {
+    color: var(--bs-danger);
+}
+
+.formulario {
+    display: none;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal .modal-content {
+    border-radius: var(--bs-border-radius-lg);
+}
+
+.info_caja h4,
+.data_delete h1 {
+    color: var(--bs-body-color);
+}
+
+.data_delete {
+    text-align: center;
+    padding: 2rem;
+}
+
+.analytics-page {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.analytics-hero,
+.analytics-kpi,
+.analytics-panel,
+.analytics-filter-form,
+.analytics-inline-note {
+    background: var(--app-surface);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: var(--bs-box-shadow);
+}
+
+.analytics-hero,
+.analytics-filter-form,
+.analytics-inline-note,
+.analytics-panel {
+    padding: 1.5rem;
+}
+
+.analytics-hero {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    align-items: center;
+}
+
+.analytics-eyebrow {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    color: var(--bs-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+}
+
+.analytics-hero h1,
+.analytics-panel h2 {
+    margin-bottom: 0.5rem;
+}
+
+.analytics-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.analytics-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.analytics-kpi {
+    padding: 1.25rem;
+}
+
+.analytics-kpi span,
+.analytics-kpi small,
+.analytics-panel p,
+.analytics-inline-note {
+    color: var(--app-muted);
+}
+
+.analytics-kpi strong {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: clamp(1.4rem, 1rem + 1vw, 2rem);
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.analytics-panel {
+    grid-column: span 4;
+}
+
+.analytics-panel-lg {
+    grid-column: span 8;
+}
+
+.analytics-panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.analytics-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.analytics-list > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.analytics-list > div:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.analytics-table-wrap {
+    overflow-x: auto;
+}
+
+.analytics-filter-form {
+    margin-bottom: 0;
+}
+
+.analytics-inline-note {
+    font-size: 0.95rem;
+}
+
+hr {
+    opacity: 0.12;
+}
+
+@media (max-width: 1199.98px) {
+    .container_venta .uno,
+    .container_venta .dos,
+
+    .analytics-panel,
+    .analytics-panel-lg {
+        grid-column: span 6;
+    }
+}
+
+@media (max-width: 991.98px) {
+    #container {
+        padding-top: 6rem;
+    }
+
+    .right_section {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 767.98px) {
+    #container,
+    .container_venta {
+        padding-top: 5.75rem;
+    }
+
+    .container_venta .uno,
+    .container_venta .dos,
+    .container_venta .cuatro,
+    .container_venta .tres {
+        grid-column: 1 / -1;
+    }
+
+    .containerTable table {
+        min-width: 640px;
+    }
+
+    .divDataUser h5 {
+        width: 100%;
+    }
+
+    .analytics-panel,
+    .analytics-panel-lg {
+        grid-column: 1 / -1;
+    }
+
+    .analytics-hero,
+    .analytics-panel-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 575.98px) {
+    #container,
+    .container_venta {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .title_container,
+    .header_container,
+    .divInfoSistema,
+    .containerDataUser,
+    .containerDataEmpresa,
+    .container_venta .item {
+        padding: 1rem;
+    }
+
+    .table-responsive {
+        border-radius: 1rem;
+    }
+}

@@ -1,0 +1,30 @@
+@media (max-width: 767.98px) {
+    .navbar-brand small {
+        display: none;
+    }
+
+    .form_search .btn,
+    .form_imprimir .btn,
+    .btn_new {
+        width: 100%;
+    }
+
+    .pagination-toolbar,
+    .pagination-summary,
+    .pagination-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .dashboard a i {
+        width: 2.75rem;
+        height: 2.75rem;
+        font-size: 1rem;
+    }
+
+    .modal-dialog {
+        margin: 0.75rem;
+    }
+}

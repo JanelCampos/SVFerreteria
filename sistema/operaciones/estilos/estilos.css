@@ -1,0 +1,26 @@
+.container_venta .item h1,
+.container_venta .item h2 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.container_venta .table-responsive,
+.container_venta table {
+    margin-bottom: 0;
+}
+
+.nombre_producto {
+    min-width: 220px;
+}
+
+#metodoVueltoContainer,
+#montoTarjeta,
+#vueltoContainer,
+#saldoContainer {
+    display: none;
+}
+
+#metodoPagoContainer,
+#montoEfectivo {
+    display: block;
+}
