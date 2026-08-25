@@ -2025,8 +2025,10 @@ function procesarVenta() {
                 generarTicketVenta(data.idVenta);
                 window.location.replace('../reportes/ventasDelDia.php');
             }else if(data.estado === 'pendiente'){
+                generarTicketVenta(data.idVenta);
                 window.location.replace('../reportes/ventasDelDia.php');
             }else {
+                generarTicketVenta(data.idVenta);
                 window.location.replace('../reportes/ventasDelDia.php');
             }
         }else{

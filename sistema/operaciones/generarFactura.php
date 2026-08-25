@@ -82,7 +82,7 @@
             $pdf->Cell(25,6,'vuelto',1,0,'C',1);
             $pdf->SetFillColor(255,255,255);
             $pdf->SetFont('Arial','',10);
-            $pdf->Cell(25,6,'S/.'.$vuelto,1,0,'C',1);
+            $pdf->Cell(25,6,'S/.'.number_format($vuelto,2),1,0,'C',1);
         }
         if($saldo > 0){
             $pdf->Cell(136);
@@ -91,7 +91,7 @@
             $pdf->Cell(25,6,'Saldo',1,0,'C',1);
             $pdf->SetFillColor(255,255,255);
             $pdf->SetFont('Arial','',10);
-            $pdf->Cell(25,6,'S/.'.$saldo,1,0,'C',1);
+            $pdf->Cell(25,6,'S/.'.number_format($saldo,2),1,0,'C',1);
         }
         
         $pdf->Output('', 'Ticket de venta Nro '.$noFactura.'.pdf');
