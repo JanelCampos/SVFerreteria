@@ -320,22 +320,22 @@
                             <label for="nuevaUnidad">Nueva unidad de presentación</label>
                             <select name="nuevaUnidad" id="nuevaUnidad" onchange="mostrarOcultarOtraPres()">
                                 <option value="">Seleccionar</option>
-                                <option value="unidad">Unidad</option>
-                                <option value="saco">Saco</option>
-                                <option value="bolsa">Bolsa</option>
-                                <option value="caja">Caja</option>
-                                <option value="paquete">Paquete</option>
-                                <option value="bulto">Bulto</option>
-                                <option value="rollo">Rollo</option>
-                                <option value="carrete">Carrete</option>
-                                <option value="bobina">Bobina</option>
-                                <option value="fardo">Fardo</option>
-                                <option value="juego">juego</option>
-                                <option value="par">Par</option>
-                                <option value="docena">Docena</option>
-                                <option value="balde">Balde</option>
-                                <option value="galon">Galón</option>
-                                <option value="otro">Otro</option>
+                                <option value="Und">Unidad (Und)</option>
+                                <option value="Saco">Saco (Saco)</option>
+                                <option value="Bol">Bolsa (Bol)</option>
+                                <option value="Cja">Caja (Cja)</option>
+                                <option value="Pap">Paquete (Pap)</option>
+                                <option value="Bto">Bulto (Bto)</option>
+                                <option value="Rllo">Rollo (Rllo)</option>
+                                <option value="Cte">Carrete (Cte)</option>
+                                <option value="Bob">Bobina (Bob)</option>
+                                <option value="Fdo">Fardo (Fdo)</option>
+                                <option value="Jgo">juego (Jgo)</option>
+                                <option value="Par">Par (Par)</option>
+                                <option value="Doc">Docena (Doc)</option>
+                                <option value="Bld">Balde (Bld)</option>
+                                <option value="Gal">Galón (Gal)</option>
+                                <option value="Otro">Otro</option>
                             </select>
                         </div>
                         <div class="mb-3 d-none" id="contenedorOtraUnidad">

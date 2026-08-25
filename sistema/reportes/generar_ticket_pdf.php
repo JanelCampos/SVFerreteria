@@ -34,10 +34,15 @@ if (isset($_GET['idVenta'])) {
     $pdf->SetAutoPageBreak(false);
     $pdf->AddPage();
 
+    //imagen
+    $pdf->Image('../../img/logo_ferreteria.png',2,4,9);
+
     // Fuentes y tamaños
     $pdf->SetFont('Arial', 'B', 9);
     $pdf->Cell($printableWidth, 6, utf8_decode('Ticket de Venta'), 0, 1, 'C');
     $pdf->Cell($printableWidth, 7, 'USOL', 0, 1, 'C');
+
+    $pdf->Image('../../img/logo_ferreteria.png',37,4,9);
     
     $pdf->SetFont('Arial', 'I', 7);
     $pdf->Cell($printableWidth, 5, 'Av. San Martin con Jr. El Manzano', 0, 1, 'C');
@@ -62,19 +67,22 @@ if (isset($_GET['idVenta'])) {
     $pdf->SetFont('Arial', 'B', 8);
 
     // Reservar anchos: cantidad y precio fijos, resto para nombre
-    $qtyWidth = 9;                 // ancho en mm para cantidad
+    $qtyWidth = 9;
+    $dsctWidth = 9;                 // ancho en mm para descuento
     $priceWidth = 9;               // ancho en mm para precio
-    $nameWidth = $printableWidth - $qtyWidth - $priceWidth;
+    $nameWidth = $printableWidth - $qtyWidth - $dsctWidth - $priceWidth;
 
     if ($nameWidth < 10) {
         // ajuste mínimo si no hay suficiente espacio
-        $qtyWidth = 9;
-        $priceWidth = 15;
-        $nameWidth = $printableWidth - $qtyWidth - $priceWidth;
+        $qtyWidth = 6;
+        $dsctWidth = 6;                 // ancho en mm para unidad
+        $priceWidth = 6;
+        $nameWidth = $printableWidth - $qtyWidth - $priceWidth - $dsctWidth;
     }
 
-    $pdf->Cell($nameWidth, 5, utf8_decode('Articulo'), 0, 0);
-    $pdf->Cell($qtyWidth, 5, 'Cant', 0, 0, 'C');
+    $pdf->Cell($nameWidth, 5, utf8_decode('Articulo'), 0, 0, 'L');
+    $pdf->Cell($qtyWidth, 5, 'Cant', 0, 0, 'L');
+    $pdf->Cell($dsctWidth, 5, 'Dsct', 0, 0, 'L');
     $pdf->Cell($priceWidth, 5, 'Precio', 0, 1, 'R');
     
     $pdf->SetFont('Arial', '', 7);
@@ -82,22 +90,31 @@ if (isset($_GET['idVenta'])) {
     foreach ($datosVenta as $item) {
         $nombre = isset($item['Nombre']) ? utf8_decode($item['Nombre']) : '';
         $cantidad = isset($item['Cantidad']) ? $item['Cantidad'] : '';
-        $precio_val = floatval($item['precio_venta']);
-        $precio = number_format($precio_val, 2);
+        $unidad = isset($item['Unidad']) ? $item['Unidad'] : '';
+        $porcentajeDescuento = isset($item['porcentajeDescuento']) ? $item['porcentajeDescuento'] : '';
+        $precioVenta = floatval($item['precio_venta']);
+        if($cantidad > 0 && $cantidad < 1){
+            $precioVenta = $item['totalVentaArticulo'];
+        }
+
+        if($porcentajeDescuento > 0){
+            $precioVenta = $item['precioConDescuento'];
+        }
 
         // Posición inicial antes del MultiCell
         $x = $pdf->GetX();
         $y = $pdf->GetY();
 
-        $pdf->MultiCell($nameWidth, 4, $nombre, 0);
+        $pdf->MultiCell($nameWidth, 4, $nombre, 0, 'L');
 
         // Posición después del MultiCell
         $yAfter = $pdf->GetY();
 
         // Colocar cantidad y precio en la primera línea del bloque del nombre
         $pdf->SetXY($x + $nameWidth, $y);
-        $pdf->Cell($qtyWidth, 4, $cantidad, 0, 0, 'C');
-        $pdf->Cell($priceWidth, 4, $precio, 0, 1,'R');
+        $pdf->Cell($qtyWidth, 4, number_format($cantidad, 1) . ' ' . $unidad, 0, 0, 'R');
+        $pdf->Cell($dsctWidth, 4, number_format($porcentajeDescuento, 1) . '%', 0, 0, 'R');
+        $pdf->Cell($priceWidth, 4, number_format($precioVenta, 2), 0, 1,'R');
 
         // Mover el cursor a la línea más baja usada (si el nombre ocupó más de una línea)
         $pdf->SetY(max($yAfter, $pdf->GetY()));
@@ -106,7 +123,7 @@ if (isset($_GET['idVenta'])) {
     $pdf->Ln(4);
     $pdf->SetFont('Arial', 'B', 9);
     $total = number_format($datosVenta[0]['Total'], 2);
-    $pdf->Cell($printableWidth, 6, 'Total: S/. ' . $total, 0, 1, 'R');
+    $pdf->Cell($printableWidth, 6, 'Total: S/. ' . number_format($total, 2), 0, 1, 'R');
     
     if($saldo > 0 ){
         $pdf->SetFont('Arial', '', 8);

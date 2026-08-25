@@ -16,7 +16,11 @@ function obtenerDatosVenta($idVenta) {
                 e.Nombre AS vendedor, 
                 v.saldo, 
                 v.vuelto, 
-                (v.efectivo + v.tarjeta) as importeTotal
+                (v.efectivo + v.tarjeta) as importeTotal, 
+                dva.Unidad as Unidad,
+                dva.Total as totalVentaArticulo,
+                dva.PorcentajeDescuento as porcentajeDescuento,
+                dva.PrecioConDescuento as precioConDescuento
             FROM ventas v
             INNER JOIN clientes c ON v.dniCliente = c.Dni
             INNER JOIN caja ca ON ca.IdCaja = v.Cod_caja 
