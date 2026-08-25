@@ -44,11 +44,6 @@ if ($CantidadOriginal > 0 && $factorSeleccionado > 0) {
     exit;
 }
 
-if ($CantidadAñadir <= 0) {
-    echo json_encode(['resultado' => false, 'mensaje' => 'Cantidad a añadir debe ser mayor que 0']);
-    exit;
-}
-
 if ($CantidadOriginal > 0 && empty($unidadSeleccionada)) {
     $unidadSeleccionada = $UnidadPresentacion;
     if ($factorSeleccionado <= 0) $factorSeleccionado = 1;
@@ -82,26 +77,14 @@ if ($CantidadOriginal <= 0) {
 }
 
 $precioCompraActual = floatval($PrecioCompraActual);
-if ($precioCompraIngresada > 0 && $precioCompraIngresada != $precioCompraActual) {
-    if ($StockActualDB <= 0) {
-        $query_update = $conexionDB->prepare("
-            UPDATE articulos
-            SET Precio_Compra = ?, Cantidad = Cantidad + ?
-            WHERE IdArticulo = ?
-        ");
-        $query_update->bind_param("ddi", $precioCompraIngresada, $CantidadAñadir, $idArticulo);
-    } else {
-        echo json_encode(['resultado' => false, 'mensaje' => 'Si el stock actual es mayor que 0, no puede cambiar el precio de compra']);
-        exit;
-    }
-} else {
-    $query_update = $conexionDB->prepare("
-        UPDATE articulos
-        SET Cantidad = Cantidad + ?
-        WHERE IdArticulo = ?
-    ");
-    $query_update->bind_param("di", $CantidadAñadir, $idArticulo);
-}
+$nuevoPrecioCompra = (($precioCompraActual * $StockActualDB) + ($precioCompraIngresada * $CantidadAñadir))/($StockActualDB + $CantidadAñadir);
+
+$query_update = $conexionDB->prepare("
+    UPDATE articulos
+    SET Precio_Compra = ?, Cantidad = Cantidad + ?
+    WHERE IdArticulo = ?
+");
+$query_update->bind_param("ddi", $nuevoPrecioCompra, $CantidadAñadir, $idArticulo);
 
 if (!$query_update->execute()) {
     echo json_encode(['resultado' => false, 'mensaje' => 'No se pudo añadir el stock: ' . $conexionDB->error]);

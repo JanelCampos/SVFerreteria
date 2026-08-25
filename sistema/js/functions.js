@@ -3982,6 +3982,7 @@ function añadirStock(){
             .then(articulo => {
                 ocultarFormulario('añadirStock');
                 document.getElementById('fila-' + idArticulo).querySelector('td:nth-child(4)').textContent = articulo.datos.Cantidad;
+                document.getElementById('fila-' + idArticulo).querySelector('td:nth-child(7)').textContent = articulo.datos.Precio_Compra;
                 mostrarAlertaExito(data.mensaje);
             })
              .catch(error => {
