@@ -166,10 +166,6 @@
                                         <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('añadirStock', <?php echo $data['IdArticulo']; ?>)">Añadir stock</button></li>
                                         <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('salidaStock', <?php echo $data['IdArticulo']; ?>)">Salida de stock</button></li>
                                     <?php } ?>
-                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('añadirStock', <?php echo $data['IdArticulo']; ?>)">Añadir stock</button></li>
-                                    <?php if($_SESSION['rol'] == 1){ ?>
-                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('salidaStock', <?php echo $data['IdArticulo']; ?>)">Salida de stock</button></li>
-                                    <?php } ?>
                                     <?php if($data['Cantidad'] <= 0){ ?>
                                     <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('eliminarArticulo', <?php echo $data['IdArticulo']; ?>)">Eliminar</button></li>
                                     <?php } ?>
