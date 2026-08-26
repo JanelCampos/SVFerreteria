@@ -181,45 +181,47 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                 </div>
             </article>
 
-            <article class="analytics-panel">
-                <div class="analytics-panel-head">
-                    <div>
-                        <h2>Productos mas vendidos</h2>
-                        <p>Articulos con mayor movimiento dentro del periodo.</p>
+            <?php if($_SESSION['rol'] == 1 ) {?>
+                <article class="analytics-panel">
+                    <div class="analytics-panel-head">
+                        <div>
+                            <h2>Productos mas vendidos</h2>
+                            <p>Articulos con mayor movimiento dentro del periodo.</p>
+                        </div>
+                        <?php if ($_SESSION['rol'] == 1) { ?>
+                            <a href="reportes/estadisticas.php" class="btn btn-link btn-sm">Ir al reporte</a>
+                        <?php } ?>
                     </div>
-                    <?php if ($_SESSION['rol'] == 1) { ?>
-                        <a href="reportes/estadisticas.php" class="btn btn-link btn-sm">Ir al reporte</a>
-                    <?php } ?>
-                </div>
-                <div class="analytics-table-wrap">
-                    <table class="table table-sm align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Unidades</th>
-                                <?php if ($_SESSION['rol'] == 1) { ?>
-                                    <th>Utilidad</th>
+                    <div class="analytics-table-wrap">
+                        <table class="table table-sm align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Unidades</th>
+                                    <?php if ($_SESSION['rol'] == 1) { ?>
+                                        <th>Utilidad</th>
+                                    <?php } ?>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($topProducts) { ?>
+                                    <?php foreach ($topProducts as $product) { ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($product['Nombre']); ?></td>
+                                            <td><?php echo (int)$product['cantidadVendida']; ?></td>
+                                            <?php if ($_SESSION['rol'] == 1) { ?>
+                                                <td>S/. <?php echo number_format((float)$product['utilidadGenerada'], 2); ?></td>
+                                            <?php } ?>
+                                        </tr>
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <tr><td colspan="3">No hay movimientos de productos en el periodo.</td></tr>
                                 <?php } ?>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if ($topProducts) { ?>
-                                <?php foreach ($topProducts as $product) { ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($product['Nombre']); ?></td>
-                                        <td><?php echo (int)$product['cantidadVendida']; ?></td>
-                                        <?php if ($_SESSION['rol'] == 1) { ?>
-                                            <td>S/. <?php echo number_format((float)$product['utilidadGenerada'], 2); ?></td>
-                                        <?php } ?>
-                                    </tr>
-                                <?php } ?>
-                            <?php } else { ?>
-                                <tr><td colspan="3">No hay movimientos de productos en el periodo.</td></tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </article>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            <?php } ?>
         </div>
 
         <?php if ($_SESSION['rol'] == 1) { ?>

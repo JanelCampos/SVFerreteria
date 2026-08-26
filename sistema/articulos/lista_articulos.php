@@ -65,15 +65,17 @@
                     <label for="nombreProveedor">Proveedor</label>
                     <select class="filtrosBusqueda" id="nombreProveedor">
                         <option value="" class="option1" selected>Proveedor</option>
-                        <?php
-                            if($result_proveedor > 0){
-                                while ($proveedor = mysqli_fetch_array($query_proveedor)){
-                        ?>
-                            <option value="<?php echo $proveedor['IdProveedor']; ?>"><?php echo $proveedor['Nombre']; ?></option>
-                        <?php
+                        <?php if($_SESSION['rol'] == 1) { ?>
+                            <?php
+                                if($result_proveedor > 0){
+                                    while ($proveedor = mysqli_fetch_array($query_proveedor)){
+                            ?>
+                                <option value="<?php echo $proveedor['IdProveedor']; ?>"><?php echo $proveedor['Nombre']; ?></option>
+                            <?php
+                                    }
                                 }
-                            }
-                        ?>
+                            ?>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="col-12 col-md-4 col-lg-3">
@@ -97,12 +99,14 @@
                         <a href="lista_articulos.php" class="btn btn-outline-secondary">Restablecer</a>
                     </div>
                 </div>
-                <div class="col-12 col-md-4 col-lg-4 ms-lg-auto">
-                    <div class="d-flex gap-2 justify-content-md-end">
-                        <button class="btn btn-danger" type="button" onclick="exportarArticulosPDF()">Exportar PDF</button>
-                        <button class="btn btn-success" type="button" onclick="exportarArticulosEXCEL()">Exportar Excel</button>
+                <?php if($_SESSION['rol'] == 1){ ?>
+                    <div class="col-12 col-md-4 col-lg-4 ms-lg-auto">
+                        <div class="d-flex gap-2 justify-content-md-end">
+                            <button class="btn btn-danger" type="button" onclick="exportarArticulosPDF()">Exportar PDF</button>
+                            <button class="btn btn-success" type="button" onclick="exportarArticulosEXCEL()">Exportar Excel</button>
+                        </div>
                     </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
 
@@ -123,8 +127,8 @@
                         <th>Precio Mínimo</th>
                         <?php if($_SESSION['rol'] == 1 ){?>
                             <th>Proveedor</th>
+                            <th>Acciones</th>
                         <?php } ?>
-                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -154,7 +158,6 @@
                         <td>S/. <?php echo number_format($data["Precio_Minimo"],2); ?></td>
                         <?php if($_SESSION['rol'] == 1){ ?>
                         <td><?php echo $data["nombreP"]; ?></td>
-                        <?php } ?>
                         <td>
                             <div class="btn-group dropend">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -172,6 +175,7 @@
                                 </ul>
                             </div>
                         </td>
+                        <?php } ?>
                     </tr>
                     <?php
                     }

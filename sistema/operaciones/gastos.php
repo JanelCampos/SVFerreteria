@@ -108,7 +108,9 @@
                         <label for="tipoGasto">Tipo de gasto</label>
                         <select name="tipoGasto" id="tipoGasto">
                             <option value="personal" selected>Personal</option>
-                            <option value="capital">Capital</option>
+                            <?php if($_SESSION['rol'] == 1){ ?>
+                                <option value="capital">Capital</option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="col-md-6">

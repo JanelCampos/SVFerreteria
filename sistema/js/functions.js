@@ -2580,23 +2580,53 @@ function buscarVentaDia(page = 1){
                     <td class="${estadoVenta}">${item.Estado}</td>
                     <td>${item.Medio_Pago}</td>
                     <td>${item.saldo.toFixed(2)}</td>
-                    <td>
-                        <div class="btn-group dropend">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Acciones
-                            </button>
-                            <ul class="dropdown-menu">
-                                ${estadoVenta === 'pagado' ? `
-                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('anularVentaDia', ${item.IdVenta})">Anular</button></li>
-                                ` : estadoVenta === 'pendiente' || estadoVenta === 'saldo' ? `
-                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('pagarVentaDia', ${item.IdVenta})">Pagar</button></li>
-                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('anularVentaDia', ${item.IdVenta})">Anular</button></li>
-                                ` : `
-                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('eliminarVentaDia', ${item.IdVenta})">Eliminar</button></li>
-                                `}
-                            </ul>
-                        </div>
-                    </td>
+                    ${rolUsuario == 1 ? `
+                        <td>
+                            <div class="btn-group dropend">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Acciones
+                                </button>
+
+                                <ul class="dropdown-menu">
+
+                                    ${estadoVenta === 'pagado' ? `
+                                        <li>
+                                            <button class="dropdown-item" type="button"
+                                                onclick="mostrarFormulario('anularVentaDia', ${item.IdVenta})">
+                                                Anular
+                                            </button>
+                                        </li>
+
+                                    ` : estadoVenta === 'pendiente' || estadoVenta === 'saldo' ? `
+
+                                        <li>
+                                            <button class="dropdown-item" type="button"
+                                                onclick="mostrarFormulario('pagarVentaDia', ${item.IdVenta})">
+                                                Pagar
+                                            </button>
+                                        </li>
+
+                                        <li>
+                                            <button class="dropdown-item" type="button"
+                                                onclick="mostrarFormulario('anularVentaDia', ${item.IdVenta})">
+                                                Anular
+                                            </button>
+                                        </li>
+
+                                    ` : `
+
+                                        <li>
+                                            <button class="dropdown-item" type="button"
+                                                onclick="mostrarFormulario('eliminarVentaDia', ${item.IdVenta})">
+                                                Eliminar
+                                            </button>
+                                        </li>
+
+                                    `}
+                                </ul>
+                            </div>
+                        </td>
+                    ` : ''}
                 </tr>`;
                 document.querySelector('#tablaVentas tbody').insertAdjacentHTML('beforeend', fila);
             });
@@ -3126,19 +3156,21 @@ function buscarArticulo(page = 1){
                     <td>S/. ${Number(data.Precio_Unitario).toFixed(2)}</td>
                     <td>S/. ${Number(data.Precio_Minimo || 0).toFixed(2)}</td>
                     ${rolUsuario == 1 ? `<td>${data.nombreP}</td>` : "" }
-                    <td>
-                        <div class="btn-group dropend">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Acciones
-                            </button>
-                            <ul class="dropdown-menu">
-                                ${rolUsuario == 1 ? `<li><button class="dropdown-item" type="button" onclick="mostrarFormulario('editarArticulo', ${data.IdArticulo})">Editar</button></li>` : ''}
-                                <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('añadirStock', ${data.IdArticulo})">Añadir stock</button></li>
-                                ${rolUsuario == 1 ? `<li><button class="dropdown-item" type="button" onclick="mostrarFormulario('salidaStock', ${data.IdArticulo})">Salida de stock</button></li>` : ''}
-                                ${data.Cantidad <= 0 ? `<li><button class="dropdown-item" type="button" onclick="mostrarFormulario('eliminarArticulo', ${data.IdArticulo})">Eliminar</button></li>` : ''}
-                            </ul>
-                        </div>
-                    </td>
+                    ${rolUsuario == 1 ? `
+                        <td>
+                            <div class="btn-group dropend">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Acciones
+                                </button>
+                                <ul class="dropdown-menu">
+                                    ${rolUsuario == 1 ? `<li><button class="dropdown-item" type="button" onclick="mostrarFormulario('editarArticulo', ${data.IdArticulo})">Editar</button></li>` : ''}
+                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('añadirStock', ${data.IdArticulo})">Añadir stock</button></li>
+                                    ${rolUsuario == 1 ? `<li><button class="dropdown-item" type="button" onclick="mostrarFormulario('salidaStock', ${data.IdArticulo})">Salida de stock</button></li>` : ''}
+                                    ${data.Cantidad <= 0 ? `<li><button class="dropdown-item" type="button" onclick="mostrarFormulario('eliminarArticulo', ${data.IdArticulo})">Eliminar</button></li>` : ''}
+                                </ul>
+                            </div>
+                        </td>
+                        ` : ""}
                 </tr>`;
                 document.querySelector('#tablaArticulos tbody').insertAdjacentHTML('beforeend', fila);
             });

@@ -128,7 +128,9 @@
                         <th>Estado</th>
                         <th>Pago</th>
                         <th>Saldo</th>
-                        <th>Acciones</th>                
+                        <?php if($_SESSION['rol'] == 1) { ?>
+                            <th>Acciones</th>
+                        <?php } ?>                
                     </tr>
                 </thead>
                 <tbody>
@@ -192,33 +194,35 @@
                                     ?>
                                     <td><?php echo $data['Medio_Pago']; ?></td>
                                     <td><?php echo number_format($data['saldo'],2); ?></td>
-                                    <td>
-                                        <div class="btn-group dropend">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Acciones
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <?php 
-                                                    $estadoVenta = $data['Estado'];
-                                                    $idVenta = $data['IdVenta'];
-                                                    if($estadoVenta === 'pagado'){
-                                                ?>
-                                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('anularVentaDia',<?php echo $idVenta; ?>)">Anular</button></li>
-                                                <?php 
-                                                    }else if($estadoVenta === 'pendiente' || $estadoVenta === 'saldo'){
-                                                ?>
-                                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('pagarVentaDia', <?php echo $idVenta; ?>)">Pagar</button></li>
-                                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('anularVentaDia', <?php echo $idVenta; ?>)">Anular</button></li>
-                                                <?php 
-                                                    }else{
-                                                ?>
-                                                    <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('eliminarVentaDia',<?php echo $idVenta; ?>)">Eliminar</button></li>
-                                                <?php 
-                                                    }
-                                                ?>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                    <?php if ($_SESSION['rol'] == 1){ ?>
+                                        <td>
+                                            <div class="btn-group dropend">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Acciones
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <?php 
+                                                        $estadoVenta = $data['Estado'];
+                                                        $idVenta = $data['IdVenta'];
+                                                        if($estadoVenta === 'pagado'){
+                                                    ?>
+                                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('anularVentaDia',<?php echo $idVenta; ?>)">Anular</button></li>
+                                                    <?php 
+                                                        }else if($estadoVenta === 'pendiente' || $estadoVenta === 'saldo'){
+                                                    ?>
+                                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('pagarVentaDia', <?php echo $idVenta; ?>)">Pagar</button></li>
+                                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('anularVentaDia', <?php echo $idVenta; ?>)">Anular</button></li>
+                                                    <?php 
+                                                        }else{
+                                                    ?>
+                                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('eliminarVentaDia',<?php echo $idVenta; ?>)">Eliminar</button></li>
+                                                    <?php 
+                                                        }
+                                                    ?>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    <?php } ?>
                                 </tr>
                     <?php
                             }

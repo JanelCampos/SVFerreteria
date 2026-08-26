@@ -59,7 +59,9 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Operaciones</a>
             <ul class="dropdown-menu dropdown-menu-dark shadow border-0">
                 <li><a class="dropdown-item" href="../operaciones/venta_articulo.php">Venta articulo</a></li>
-                <li><a class="dropdown-item" href="../operaciones/ventaLibre.php">Ingresos</a></li>
+                <?php if($_SESSION['rol'] == 1){ ?>
+                    <li><a class="dropdown-item" href="../operaciones/ventaLibre.php">Ingresos</a></li>
+                <?php } ?>
                 <li><a class="dropdown-item" href="../operaciones/gastos.php">Gastos</a></li>
                 <li><a class="dropdown-item" href="../operaciones/conversionDinero.php">Conversion de dinero</a></li>
                 <li><hr class="dropdown-divider"></li>
