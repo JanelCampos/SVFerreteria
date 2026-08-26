@@ -2,6 +2,9 @@
     include "../../conexion.php";
     session_start();
     include "../includes/paginador.php";
+    include "../includes/zona_horaria.php";
+    $inicioDia = date('Y-m-d 00:00:00');
+    $finDia = date('Y-m-d 23:59:59');
 
     $results_per_page = 10;
     $current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
@@ -12,7 +15,8 @@
         INNER JOIN caja c ON v.Cod_Caja = c.IdCaja
         INNER JOIN empleados e ON c.Cod_Empleado = e.IdEmpleado
         INNER JOIN clientes cl ON cl.Dni = v.dniCliente
-        WHERE DATE(v.Fecha) = CURDATE()
+        WHERE v.Fecha >= '$inicioDia'
+        AND v.Fecha <= '$finDia'
         ORDER BY IdVenta DESC
     ";
     $where = "
@@ -20,7 +24,8 @@
         INNER JOIN caja c ON v.Cod_Caja = c.IdCaja
         INNER JOIN empleados e ON c.Cod_Empleado = e.IdEmpleado
         INNER JOIN clientes cl ON cl.Dni = v.dniCliente
-        WHERE DATE(v.Fecha) = CURDATE()
+        WHERE v.Fecha >= '$inicioDia'
+        AND v.Fecha <= '$finDia'
         ORDER BY IdVenta DESC
     ";
     list($result, $total_records) = getPaginatedDataVentas($conexionDB, $consulta, $where, $current_page, $results_per_page);
