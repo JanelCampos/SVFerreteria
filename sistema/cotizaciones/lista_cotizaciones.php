@@ -166,6 +166,7 @@ mysqli_close($conexionDB);
                         var acciones = '';
                         acciones += '<a class="btn btn-outline-primary btn-sm me-1" href="imprimir_cotizacion.php?idCotizacion=' + rr.IdCotizacion + '&nPdf=1" target="_blank" title="Ver PDF"><i class="far fa-file-pdf"></i></a>';
                         acciones += '<a class="btn btn-outline-success btn-sm me-1" href="imprimir_cotizacion.php?idCotizacion=' + rr.IdCotizacion + '&nExcel=1" target="_blank" title="Ver Excel"><i class="far fa-file-excel"></i></a>';
+                        acciones += '<a class="btn btn-outline-info btn-sm me-1" href="imprimir_cotizacion.php?idCotizacion=' + rr.IdCotizacion + '&nTicket=1" target="_blank" title="Ver Ticket"><i class="fas fa-tag"></i></a>';
                         if (new Date(vigencia) < new Date()) {
                             acciones += '<a class="btn btn-outline-warning btn-sm me-1" onclick="mostrarFormulario(\'eliminarCotizacionModal\', ' + rr.IdCotizacion + ')" title="Eliminar"><i class="fas fa-trash"></i></a>';
                         }

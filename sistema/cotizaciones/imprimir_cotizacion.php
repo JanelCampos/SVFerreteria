@@ -11,6 +11,7 @@
     $idCotizacion = isset($_GET['idCotizacion']) ? intval($_GET['idCotizacion']) : 0;
     $nPdf = isset($_GET['nPdf']) ? intval($_GET['nPdf']) : 0;
     $nExcel = isset($_GET['nExcel']) ? intval($_GET['nExcel']) : 0;
+    $nTicket = isset($_GET['nTicket']) ? intval($_GET['nTicket']) : 0;
 
     if ($idCotizacion <= 0) {
         die("Cotización no encontrada");
@@ -168,7 +169,8 @@
         class PDF extends FPDF
         {
             function Header()
-            {
+            {   
+                $this->Image('../../img/logo_ferreteria.png',10,10,20);
                 $this->SetFont('Arial', 'B', 16);
                 $this->Cell(0, 10, utf8_decode('Ferretería USOL'), 0, 1, 'C');
                 $this->SetFont('Arial', '', 9);
@@ -324,6 +326,330 @@
         $pdf->Cell(0, 5, utf8_decode('Documento generado por sistema SVPachacutec - Válido con firma del autorizado'), 0, 1, 'C');
 
         $pdf->Output('I', 'cotizacion_' . str_pad($idCotizacion, 4, '0', STR_PAD_LEFT) . '.pdf');
+        exit;
+    }
+
+    if ($nTicket == 1) {
+        $fpdfPath = '../../fpdf/fpdf.php';
+
+        if (!file_exists($fpdfPath)) {
+            $fpdfPath = '../fpdf.php';
+        }
+
+        if (!file_exists($fpdfPath)) {
+            die("Librería FPDF no encontrada en: " . $fpdfPath);
+        }
+
+        require $fpdfPath;
+
+        class PDFTicket extends FPDF
+        {
+            function Header()
+            {
+                $this->Image('../../img/logo_ferreteria.png',7,5,15);
+                $this->SetFont('Arial', 'B', 14);
+                $this->Cell(0, 7, utf8_decode('Ferretería USOL'), 0, 1, 'C');
+
+                $this->SetFont('Arial', '', 8);
+                $this->Cell(0, 4, utf8_decode('Av. San Martin con Jr. El Manzano'), 0, 1, 'C');
+                $this->Cell(0, 4, 'Tel: 980349451', 0, 1, 'C');
+
+                $this->Ln(2);
+
+                $this->Line(
+                    5,
+                    $this->GetY(),
+                    $this->GetPageWidth() - 5,
+                    $this->GetY()
+                );
+
+                $this->Ln(3);
+            }
+
+            function Footer()
+            {
+                $this->SetY(-10);
+                $this->SetFont('Arial', '', 7);
+
+                $this->Cell(
+                    0,
+                    4,
+                    utf8_decode('Generado: ') . date('d/m/Y H:i:s'),
+                    0,
+                    0,
+                    'C'
+                );
+            }
+
+            function TableHeader()
+            {
+                $this->SetFont('Arial', 'B', 8);
+                $this->SetFillColor(230, 230, 230);
+
+                // Producto
+                $this->Cell(40, 6, utf8_decode('ARTÍCULO'), 1, 0, 'L', true);
+
+                // Cantidad
+                $this->Cell(15, 6, 'CANT.', 1, 0, 'C', true);
+
+                // Precio
+                $this->Cell(13, 6, 'P.UNIT.', 1, 0, 'R', true);
+
+                // Descuento
+                $this->Cell(10, 6, 'DSCT.', 1, 0, 'R', true);
+
+                //precio con descuento
+                $this->Cell(13, 6, 'P.C/Des', 1, 0, 'R', true);
+
+                // Subtotal
+                $this->Cell(16, 6, 'TOTAL', 1, 1, 'R', true);
+            }
+
+            function TableRow($data, $fill = false)
+            {
+                $this->SetFont('Arial', '', 7.5);
+
+                if ($fill) {
+                    $this->SetFillColor(248, 248, 248);
+                } else {
+                    $this->SetFillColor(255, 255, 255);
+                }
+
+                $this->Cell(40, 6, utf8_decode($data[0]), 1, 0, 'L', true);
+                $this->Cell(15, 6, $data[1] . ' ' . $data[2], 1, 0, 'C', true);
+                $this->Cell(13, 6, $data[3], 1, 0, 'R', true);
+                $this->Cell(10, 6, $data[4], 1, 0, 'R', true);
+                $this->Cell(13, 6, $data[5], 1, 0, 'R', true);
+                $this->Cell(16, 6, $data[6], 1, 1, 'R', true);
+            }
+        }
+
+        // =========================================================
+        // CREAR TICKET
+        // =========================================================
+
+        $pdf = new PDFTicket('P', 'mm', [117, 200]);
+
+        $pdf->SetMargins(5, 5, 5);
+        $pdf->SetAutoPageBreak(true, 12);
+
+        $pdf->AddPage();
+
+        // =========================================================
+        // NÚMERO DE COTIZACIÓN
+        // =========================================================
+
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->SetFillColor(0, 51, 102);
+        $pdf->SetTextColor(255, 255, 255);
+
+        $pdf->Cell(
+            0,
+            7,
+            utf8_decode(
+                'COTIZACIÓN N° ' .
+                str_pad($idCotizacion, 4, '0', STR_PAD_LEFT)
+            ),
+            1,
+            1,
+            'C',
+            true
+        );
+
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->Ln(3);
+
+        // =========================================================
+        // DATOS DEL CLIENTE
+        // =========================================================
+
+        $pdf->SetFont('Arial', '', 8);
+
+        $pdf->Cell(25, 5, 'Fecha:', 0, 0);
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(
+            0,
+            5,
+            date('d/m/Y H:i', strtotime($cotizacion['Fecha'])),
+            0,
+            1
+        );
+
+        $pdf->SetFont('Arial', '', 8);
+
+        $pdf->Cell(25, 5, 'Cliente:', 0, 0);
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(
+            0,
+            5,
+            utf8_decode($cotizacion['NombreCliente']),
+            0,
+            1
+        );
+
+        $pdf->SetFont('Arial', '', 8);
+
+        $pdf->Cell(25, 5, 'DNI:', 0, 0);
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(
+            0,
+            5,
+            $cotizacion['DniCliente'],
+            0,
+            1
+        );
+
+        $pdf->SetFont('Arial', '', 8);
+
+        $pdf->Cell(25, 5, utf8_decode('Teléfono:'), 0, 0);
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(
+            0,
+            5,
+            $cotizacion['TelefonoCliente'],
+            0,
+            1
+        );
+
+        $pdf->SetFont('Arial', '', 8);
+
+        $pdf->Cell(25, 5, 'Vigencia:', 0, 0);
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(
+            0,
+            5,
+            !empty($cotizacion['VigenciaHasta'])
+                ? date('d/m/Y', strtotime($cotizacion['VigenciaHasta']))
+                : '-',
+            0,
+            1
+        );
+
+        $pdf->SetFont('Arial', '', 8);
+
+        $pdf->Cell(25, 5, 'Vendedor:', 0, 0);
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(
+            0,
+            5,
+            utf8_decode($cotizacion['NombreEmpleado']),
+            0,
+            1
+        );
+
+        $pdf->Ln(3);
+
+        // =========================================================
+        // DETALLE
+        // =========================================================
+
+        $pdf->TableHeader();
+
+        $fill = false;
+
+        foreach ($detalle as $d) {
+
+            $cant = floatval($d['Cantidad']);
+            $pUnit = floatval($d['PrecioUnitario']);
+            $pDto = floatval($d['PorcentajeDescuento']);
+            $pCDes = floatval($d['PrecioConDescuento']);
+            $sub = floatval($d['SubTotal']);
+
+            $pdf->TableRow([
+                $d['NombreArticulo'],
+                number_format($cant, 2),
+                $d['Unidad'],
+                'S/. ' . number_format($pUnit, 2),
+                number_format($pDto, 1) . '%',
+                'S/. ' . number_format($pCDes, 2), 
+                'S/. ' . number_format($sub, 2)
+            ], $fill);
+
+            $fill = !$fill;
+        }
+
+        // =========================================================
+        // TOTALES
+        // =========================================================
+
+        $pdf->Ln(3);
+
+        $pdf->SetFont('Arial', 'B', 9);
+
+        $pdf->Cell(90, 6, 'SUBTOTAL:', 1, 0, 'R');
+        $pdf->Cell(
+            17,
+            6,
+            'S/. ' . number_format(floatval($cotizacion['SubTotal']), 2),
+            1,
+            1,
+            'R'
+        );
+
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->SetFillColor(0, 51, 102);
+        $pdf->SetTextColor(255, 255, 255);
+
+        $pdf->Cell(90, 8, 'TOTAL: ', 1, 0, 'R', true);
+
+        $pdf->Cell(
+            17,
+            8,
+            'S/. ' . number_format(floatval($cotizacion['Total']), 2),
+            1,
+            1,
+            'R',
+            true
+        );
+
+        $pdf->SetTextColor(0, 0, 0);
+
+        // =========================================================
+        // OBSERVACIONES
+        // =========================================================
+
+        if (!empty($cotizacion['Observaciones'])) {
+
+            $pdf->Ln(4);
+
+            $pdf->SetFont('Arial', 'B', 8);
+            $pdf->Cell(0, 5, 'OBSERVACIONES:', 0, 1);
+
+            $pdf->SetFont('Arial', '', 7.5);
+
+            $pdf->MultiCell(
+                0,
+                4,
+                utf8_decode($cotizacion['Observaciones']),
+                1
+            );
+        }
+
+        // =========================================================
+        // PIE
+        // =========================================================
+
+        $pdf->Ln(5);
+
+        $pdf->SetFont('Arial', 'I', 7);
+
+        $pdf->MultiCell(
+            0,
+            4,
+            utf8_decode(
+                'Documento generado por sistema SVPachacutec'
+            ),
+            0,
+            'C'
+        );
+
+        $pdf->Output(
+            'I',
+            'cotizacion_' .
+            str_pad($idCotizacion, 4, '0', STR_PAD_LEFT) .
+            '.pdf'
+        );
+
         exit;
     }
 
