@@ -92,7 +92,7 @@
 
         echo '<table border="1" cellpadding="3" cellspacing="0">';
         echo '<tr><td colspan="9" align="center" style="font-size:16pt;font-weight:bold;">' . 'Ferretería USOL' . '</td></tr>';
-        echo '<tr><td colspan="9" align="center">' . 'Av. San Martin con Jr. El Manzano | Tel: 980349451' . '</td></tr>';
+        echo '<tr><td colspan="9" align="center">' . 'Av. San Martin con Jr. El Manzano | Tel: 980349451 - 914935698' . '</td></tr>';
         echo '<tr><td colspan="9" align="center" style="font-size:14pt;font-weight:bold;">' . 'COTIZACIÓN N° ' . str_pad($idCotizacion, 4, '0', STR_PAD_LEFT) . '</td></tr>';
         echo '<tr><td colspan="9">&nbsp;</td></tr>';
 
@@ -175,7 +175,7 @@
                 $this->Cell(0, 10, utf8_decode('Ferretería USOL'), 0, 1, 'C');
                 $this->SetFont('Arial', '', 9);
                 $this->Cell(0, 5, utf8_decode('Av. San Martin con Jr. El Manzano'), 0, 1, 'C');
-                $this->Cell(0, 5, 'Tel: 980349451', 0, 1, 'C');
+                $this->Cell(0, 5, 'Tel: 980349451 - 914935698', 0, 1, 'C');
                 $this->SetDrawColor(0, 0, 0);
                 $this->Line(10, $this->GetY() + 2, $this->GetPageWidth() - 10, $this->GetY() + 2);
                 $this->Ln(6);
@@ -352,7 +352,7 @@
 
                 $this->SetFont('Arial', '', 8);
                 $this->Cell(0, 4, utf8_decode('Av. San Martin con Jr. El Manzano'), 0, 1, 'C');
-                $this->Cell(0, 4, 'Tel: 980349451', 0, 1, 'C');
+                $this->Cell(0, 4, 'Tel: 980349451 - 914935698', 0, 1, 'C');
 
                 $this->Ln(2);
 

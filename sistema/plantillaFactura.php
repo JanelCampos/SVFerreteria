@@ -53,7 +53,7 @@
 			$this->ln(10);
 			$this->Cell(33);
 			$this->SetFont('Arial','',11);
-			$this->Cell(60,6,'Av. San Martin con Jr. El Manzano, Cajamarca, Peru. Cel: 980349451',0,0);
+			$this->Cell(60,6,'Av. San Martin con Jr. El Manzano, Cajamarca, Peru. Cel: 980349451 - 914935698',0,0);
 
 			$this->Ln(6);
 			$this->Cell(189,0,'',1,0,'C',1);

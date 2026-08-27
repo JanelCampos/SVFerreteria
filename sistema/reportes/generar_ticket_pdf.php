@@ -46,7 +46,7 @@ if (isset($_GET['idVenta'])) {
     
     $pdf->SetFont('Arial', 'I', 7);
     $pdf->Cell($printableWidth, 5, 'Av. San Martin con Jr. El Manzano', 0, 1, 'C');
-    $pdf->Cell($printableWidth, 5, 'Cel: 980349451', 0, 1, 'C');
+    $pdf->Cell($printableWidth, 5, 'Cel: 980349451 - 914935698', 0, 1, 'C');
     $pdf->Ln(1);
     $pdf->Line($leftMargin, $pdf->GetY(), $pageWidth - $rightMargin, $pdf->GetY());
     $pdf->Ln(3);
