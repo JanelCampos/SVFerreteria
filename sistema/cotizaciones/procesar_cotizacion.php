@@ -2,6 +2,7 @@
     session_start();
     include "../../conexion.php";
     header('Content-Type: application/json');
+    include "../includes/zona_horaria.php";
 
     if (empty($_SESSION['active']) || ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2)) {
         echo json_encode(['resultado' => false, 'mensaje' => 'Acceso no autorizado']);
@@ -141,10 +142,11 @@
 
     $idCotizacion = null;
     $estado = 'vigente';
-    $sqlInsertCot = "INSERT INTO cotizaciones (Fecha, Cod_Cliente, Cod_Empleado, SubTotal, Total, Estado, VigenciaHasta, Observaciones) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?)";
+    $fechaActual = date('Y-m-d H:i:s');
+    $sqlInsertCot = "INSERT INTO cotizaciones (Fecha, Cod_Cliente, Cod_Empleado, SubTotal, Total, Estado, VigenciaHasta, Observaciones) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $queryInsertCot = $conexionDB->prepare($sqlInsertCot);
     if ($queryInsertCot) {
-        $queryInsertCot->bind_param("iidddss", $idCliente, $codEmpleado, $subTotal, $total, $estado, $fechaVigencia, $observaciones);
+        $queryInsertCot->bind_param("siidddss", $fechaActual, $idCliente, $codEmpleado, $subTotal, $total, $estado, $fechaVigencia, $observaciones);
         if ($queryInsertCot->execute()) {
             $idCotizacion = $queryInsertCot->insert_id;
         }

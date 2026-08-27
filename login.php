@@ -1,7 +1,8 @@
 <?php
 require('conexion.php');
 session_start();
-
+require_once ('sistema/includes/zona_horaria.php');
+    
 header('Content-Type: application/json');
 
 function detectarDispositivo($userAgent) {
@@ -30,13 +31,14 @@ function registrarAuditoriaLogin($conexionDB, $codEmpleado, $exito, $motivoFallo
     $ip = getIPCliente();
     $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? substr($_SERVER['HTTP_USER_AGENT'], 0, 250) : '';
     $dispositivo = detectarDispositivo($userAgent);
+    $fechaActual = date('Y-m-d H:i:s');
     $query = $conexionDB->prepare("
-        INSERT INTO auditoria_login (Cod_Empleado, IP, UserAgent, Dispositivo, Exito, MotivoFallo)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO auditoria_login (Cod_Empleado, FechaHora, IP, UserAgent, Dispositivo, Exito, MotivoFallo)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     ");
     if ($query) {
         $exitoInt = $exito ? 1 : 0;
-        $query->bind_param("isssis", $codEmpleado, $ip, $userAgent, $dispositivo, $exitoInt, $motivoFallo);
+        $query->bind_param("issssis", $codEmpleado, $fechaActual, $ip, $userAgent, $dispositivo, $exitoInt, $motivoFallo);
         $query->execute();
         $query->close();
     }

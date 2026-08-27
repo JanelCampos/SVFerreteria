@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "../../conexion.php";
+include "../includes/zona_horaria.php";
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -29,6 +30,7 @@ if ($accion === 'run') {
             $nombre = mysqli_real_escape_string($conexionDB, $row['Nombre']);
             $cant = (int)$row['Cantidad'];
             $stockA = (int)$row['Stock_Alerta'];
+            $fechaActual = date('Y-m-d H:i:s');
             $udm = mysqli_real_escape_string($conexionDB, $row['Unidad_Presentacion']);
 
             $chk = mysqli_query($conexionDB, "SELECT IdAlerta FROM alertas_sistema
@@ -40,7 +42,7 @@ if ($accion === 'run') {
                 $msg = "Stock bajo: Artículo $nombre quedan $cant $udm (alerta ≤$stockA)";
                 $ins = mysqli_query($conexionDB, "INSERT INTO alertas_sistema
                     (Tipo, IdReferencia, Mensaje, FechaGeneracion)
-                    VALUES ('stock_bajo', $idArt, '$msg', NOW())");
+                    VALUES ('stock_bajo', $idArt, '$msg', '$fechaActual')");
                 if ($ins) $nuevas++;
             }
         }
@@ -213,6 +215,7 @@ if ($accion === 'run') {
                 $numC = (int)$row['NumeroCuota'];
                 $montoC = (float)$row['Monto'];
                 $fecV = $row['FechaVencimiento'];
+                $fechaActual = date('Y-m-d H:i:s');
 
                 $chk2 = mysqli_query($conexionDB, "SELECT IdAlerta FROM alertas_sistema
                                                    WHERE Tipo='cuota_vencida'
@@ -223,7 +226,7 @@ if ($accion === 'run') {
                     $msg2 = "Cuota vencida: Cliente $nomC (DNI $dniC) - Cuota N°$numC - Monto S/. " . number_format($montoC, 2) . " - Venc. $fecV";
                     $ins2 = mysqli_query($conexionDB, "INSERT INTO alertas_sistema
                         (Tipo, IdReferencia, Mensaje, FechaGeneracion)
-                        VALUES ('cuota_vencida', $idCuota, '$msg2', NOW())");
+                        VALUES ('cuota_vencida', $idCuota, '$msg2', '$fechaActual')");
                     if ($ins2) $nuevas++;
                 }
             }
@@ -295,12 +298,13 @@ if ($accion === 'list') {
 if ($accion === 'markread') {
     $input = json_decode(file_get_contents('php://input'), true);
     $idAlerta = isset($input['IdAlerta']) ? (int)$input['IdAlerta'] : 0;
+    $fechaActual = date('Y-m-d H:i:s');
     if ($idAlerta <= 0) {
         echo json_encode(['resultado' => false, 'mensaje' => 'IdAlerta inválido']);
         exit;
     }
     $upd = mysqli_query($conexionDB, "UPDATE alertas_sistema
-                                      SET Leida=1, FechaLectura=NOW()
+                                      SET Leida=1, FechaLectura='$fechaActual'
                                       WHERE IdAlerta=$idAlerta");
     echo json_encode(['resultado' => (bool)$upd]);
     exit;
