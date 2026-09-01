@@ -3576,6 +3576,7 @@ function obtenerFiltrosClientes() {
 
 function buscarCliente(page = 1){
     var filtros = obtenerFiltrosClientes();
+    const rolUsuario = document.getElementById('rol').dataset.rol;
     fetch('../clientes/buscar_cliente.php', {
         method: 'POST',
         headers: {
@@ -3598,20 +3599,22 @@ function buscarCliente(page = 1){
                     <td>${data.Telefono}</td>
                     <td>${data.Fecha_Registro}</td>
                     <td>${data.cantidadCompras}</td>
-                    <td>S/. ${parseFloat(data.montoCompras || 0).toFixed(2)}</td>
-                    <td>S/. ${parseFloat(data.gananciaGenerada || 0).toFixed(2)}</td>
-                    <td>
-                        <div class="btn-group dropend">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Acciones
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><button class="dropdown-item" onclick="mostrarFormulario('editarCliente', ${data.Id_Cliente})">Editar</button></button></li>
-                                <li><button class="dropdown-item" onclick="mostrarFormulario('reiniciarMetricas', ${data.Id_Cliente})">Reiniciar metricas</button></li>
-                                <li><button class="dropdown-item" onclick="mostrarFormulario('eliminarCliente', ${data.Id_Cliente})">Eliminar</button></li>
-                            </ul>
-                        </div>
-                    </td>
+                    ${rolUsuario == 1 ? `
+                        <td>S/. ${parseFloat(data.montoCompras || 0).toFixed(2)}</td>
+                        <td>S/. ${parseFloat(data.gananciaGenerada || 0).toFixed(2)}</td>
+                        <td>
+                            <div class="btn-group dropend">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Acciones
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item" onclick="mostrarFormulario('editarCliente', ${data.Id_Cliente})">Editar</button></button></li>
+                                    <li><button class="dropdown-item" onclick="mostrarFormulario('reiniciarMetricas', ${data.Id_Cliente})">Reiniciar metricas</button></li>
+                                    <li><button class="dropdown-item" onclick="mostrarFormulario('eliminarCliente', ${data.Id_Cliente})">Eliminar</button></li>
+                                </ul>
+                            </div>
+                        </td>
+                    ` : ""}
                 </tr>`;
                 document.querySelector('#tablaClientes tbody').insertAdjacentHTML('beforeend', fila);
             });

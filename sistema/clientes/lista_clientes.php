@@ -32,6 +32,7 @@ $total_records = $clientData['total_records'];
 </head>
 <body>
     <?php include "../includes/header_2.php"; ?>
+    <div id="rol" data-rol="<?= $_SESSION['rol']; ?>"></div>
     <section id="container">
         <div class="title_container">
             <h1>Listado de clientes</h1>
@@ -106,9 +107,11 @@ $total_records = $clientData['total_records'];
                         <th>Telefono</th>
                         <th>Fecha de registro</th>
                         <th>C. compras</th>
-                        <th>M. compras</th>
-                        <th>Ganancias</th>
-                        <th>Acciones</th>
+                        <?php if($_SESSION['rol'] == 1){ ?>
+                            <th>M. compras</th>
+                            <th>Ganancias</th>
+                            <th>Acciones</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,20 +124,22 @@ $total_records = $clientData['total_records'];
                                 <td><?php echo htmlspecialchars((string)$data['Telefono']); ?></td>
                                 <td><?php echo htmlspecialchars($data['Fecha_Registro']); ?></td>
                                 <td><?php echo (int)$data['cantidadCompras']; ?></td>
-                                <td>S/. <?php echo number_format((float)$data['montoCompras'], 2); ?></td>
-                                <td>S/. <?php echo number_format((float)$data['gananciaGenerada'], 2); ?></td>
-                                <td>
-                                    <div class="btn-group dropend">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Acciones
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><button class="dropdown-item" onclick="mostrarFormulario('editarCliente', <?php echo $data['Id_Cliente']; ?>)">Editar</button></button></li>
-                                            <li><button class="dropdown-item" onclick="mostrarFormulario('reiniciarMetricas', <?php echo $data['Id_Cliente']; ?>)">Reiniciar metricas</button></li>
-                                            <li><button class="dropdown-item" onclick="mostrarFormulario('eliminarCliente', <?php echo $data['Id_Cliente']; ?>)">Eliminar</button></li>
-                                        </ul>
-                                    </div>
-                                </td>
+                                <?php if($_SESSION['rol'] == 1){ ?>
+                                    <td>S/. <?php echo number_format((float)$data['montoCompras'], 2); ?></td>
+                                    <td>S/. <?php echo number_format((float)$data['gananciaGenerada'], 2); ?></td>
+                                    <td>
+                                        <div class="btn-group dropend">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Acciones
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><button class="dropdown-item" onclick="mostrarFormulario('editarCliente', <?php echo $data['Id_Cliente']; ?>)">Editar</button></button></li>
+                                                <li><button class="dropdown-item" onclick="mostrarFormulario('reiniciarMetricas', <?php echo $data['Id_Cliente']; ?>)">Reiniciar metricas</button></li>
+                                                <li><button class="dropdown-item" onclick="mostrarFormulario('eliminarCliente', <?php echo $data['Id_Cliente']; ?>)">Eliminar</button></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                <?php } ?>
                             </tr>
                         <?php } ?>
                     <?php } else { ?>

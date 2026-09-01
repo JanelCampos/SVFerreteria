@@ -119,8 +119,8 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                     <div><span>Efectivo del dia</span><strong>S/. <?php echo number_format((float)$totalEfectivoDia, 2); ?></strong></div>
                     <div><span>Tarjeta del dia</span><strong>S/. <?php echo number_format((float)$totalTarjetaDia, 2); ?></strong></div>
                     <div><span>Caja del dia</span><strong>S/. <?php echo number_format((float)$totalCajaDia, 2); ?></strong></div>
-                    <div><span>Utilidad del dia</span><strong>S/. <?php echo number_format((float)$utilidadDia, 2); ?></strong></div>
                     <?php if ($_SESSION['rol'] == 1) { ?>
+                        <div><span>Utilidad del dia</span><strong>S/. <?php echo number_format((float)$utilidadDia, 2); ?></strong></div>
                         <div><span>Efectivo acumulado</span><strong>S/. <?php echo number_format((float)$totalEfectivo, 2); ?></strong></div>
                         <div><span>Tarjeta acumalado</span><strong>S/. <?php echo number_format((float)$totalTarjeta, 2); ?></strong></div>
                         <div><span>Caja acumulada</span><strong>S/. <?php echo number_format((float)$totalCaja, 2); ?></strong></div>
@@ -134,10 +134,8 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                     <?php } ?>
                 </div>
                 <div class="analytics-actions mt-3">
-                    <?php if ($_SESSION['rol'] == 1) { ?>
-                        <button class="btn btn-primary btn-sm" type="button" onclick="mostrarFormulario('abrirCaja', <?php echo $user; ?>)">Abrir caja</button>
-                        <button class="btn btn-outline-dark btn-sm" type="button" onclick="mostrarFormulario('cerrarCaja', <?php echo $user; ?>)">Cerrar caja</button>
-                    <?php } ?>
+                    <button class="btn btn-primary btn-sm" type="button" onclick="mostrarFormulario('abrirCaja', <?php echo $user; ?>)">Abrir caja</button>
+                    <button class="btn btn-outline-dark btn-sm" type="button" onclick="mostrarFormulario('cerrarCaja', <?php echo $user; ?>)">Cerrar caja</button>
                 </div>
             </article>
 
