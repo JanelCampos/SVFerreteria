@@ -979,7 +979,17 @@ function mostrarFormulario(idFormulario, id){
             }
         })
     }else if(idFormulario === 'editarCliente'){
-        get_cliente(id).then(data => {
+        fetch('../clientes/get_cliente.php', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                idCliente: id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
             if(data.resultado){
                 document.getElementById('idClienteEditar').value = data.datos.Id_Cliente;
                 document.getElementById('nombreClienteEditar').value = data.datos.Nombre;
@@ -990,19 +1000,9 @@ function mostrarFormulario(idFormulario, id){
             }else{
                 mostrarAlertaErrorTiempo(data.mensaje);
             }
-        }).catch(error => {
-            console.error('Error:', error);
-        });
+        })
     }else if(idFormulario === 'eliminarCliente'){
-        get_cliente(id).then(data => {
-            if(data.resultado){
-                document.getElementById('idClienteEliminar').value = data.datos.Id_Cliente;
-            }else{
-                mostrarAlertaErrorTiempo(data.mensaje);
-            }
-        }).catch(error => {
-            console.error('Error:', error);
-        });
+        document.getElementById('idClienteEliminar').value = id;
     }else if(idFormulario === 'reiniciarMetricas'){
         document.getElementById('idClienteMetricas').value = id;
     }else if(idFormulario === 'editarProveedor'){

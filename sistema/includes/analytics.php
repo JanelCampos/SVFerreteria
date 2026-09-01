@@ -702,9 +702,9 @@ function analyticsGetClientsListData($conexionDB, $filters, $search = '', $sort 
     $rows = analyticsFetchAll(
         $conexionDB,
         "SELECT c.Id_Cliente, c.Dni, c.Nombre, c.direccion, c.Telefono, c.Fecha_Registro,
-                COALESCE(cv.cantidadCompras, 0) AS cantidadCompras,
-                COALESCE(cv.montoCompras, 0) AS montoCompras,
-                COALESCE(cv.gananciaGenerada, 0) AS gananciaGenerada
+                COALESCE(c.cantidadCompras, 0) AS cantidadCompras,
+                COALESCE(c.montoCompras, 0) AS montoCompras,
+                COALESCE(c.gananciaGenerada, 0) AS gananciaGenerada
          {$baseQuery}
          ORDER BY {$orderBy}
          LIMIT {$startFrom}, {$resultsPerPage}",
