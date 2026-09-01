@@ -1791,6 +1791,8 @@ function calcularDescuentoVenta(){
     var cantidad = parseFloat(document.getElementById('stockVenta').value) || 0;
     var factor = parseFloat(document.getElementById('factorAplicado').value) || 1;
     var precioMinimo = parseFloat(document.getElementById('precioMinimoArticulo').value) || 0;
+    var aplicarDescuento = $('#aplicarDescuento').is(':checked');
+    console.log(aplicarDescuento);
     var descuentos = window._descuentosArticuloActual || [];
     var porcentajeDto = 0;
     var cantidadEnBase = cantidad / factor;
@@ -1811,13 +1813,24 @@ function calcularDescuentoVenta(){
     document.getElementById('subTotalMostrar').value = 'S/. ' + subTotal.toFixed(2);
     var inpPrecioVenta = document.getElementById('precioVenta');
     var inpSubTotal = document.getElementById('subTotalMostrar');
-    if (precioMinimo > 0 && precioConDescuento < precioMinimo) {
+    if(aplicarDescuento){
+        if (precioMinimo > 0 && precioConDescuento < precioMinimo) {
         inpPrecioVenta.classList.add('border', 'border-danger');
         inpSubTotal.classList.add('border', 'border-danger');
-    } else {
-        inpPrecioVenta.classList.remove('border', 'border-danger');
-        inpSubTotal.classList.remove('border', 'border-danger');
+        } else {
+            inpPrecioVenta.classList.remove('border', 'border-danger');
+            inpSubTotal.classList.remove('border', 'border-danger');
+        }
+    }else{
+        if (precioMinimo > 0 && precioUdM < precioMinimo) {
+            inpPrecioVenta.classList.add('border', 'border-danger');
+            inpSubTotal.classList.add('border', 'border-danger');
+        } else {
+            inpPrecioVenta.classList.remove('border', 'border-danger');
+            inpSubTotal.classList.remove('border', 'border-danger');
+        }
     }
+    
     actualizarEquivalenteVenta();
 }
 
@@ -1831,10 +1844,18 @@ function añadirProducto(){
     var precioConDescuento = $('#precioConDescuentoMostrar').val();
     var precioMinimo = parseFloat($('#precioMinimoArticulo').val()) || 0;
     var aplicarDescuento = $('#aplicarDescuento').is(':checked');
-    if (precioMinimo > 0 && parseFloat(precioConDescuento) < precioMinimo) {
-        mostrarAlertaError('El precio con descuento (S/.' + precioConDescuento + ') está por debajo del precio mínimo permitido (S/.' + precioMinimo.toFixed(2) + ').');
-        return;
+    if(aplicarDescuento){
+        if (precioMinimo > 0 && parseFloat(precioConDescuento) < precioMinimo) {
+            mostrarAlertaError('El precio con descuento (S/.' + precioConDescuento + ') está por debajo del precio mínimo permitido (S/.' + precioMinimo.toFixed(2) + ').');
+            return;
+        }
+    }else {
+        if (precioMinimo > 0 && parseFloat(precioVenta) < precioMinimo) {
+            mostrarAlertaError('El precio con descuento (S/.' + precioVenta + ') está por debajo del precio mínimo permitido (S/.' + precioMinimo.toFixed(2) + ').');
+            return;
+        }
     }
+    
     fetch('../operaciones/get_producto.php?id='+idArticulo)
             .then(response => response.json())
             .then(resp => {

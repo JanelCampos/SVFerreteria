@@ -320,7 +320,7 @@
                         <label class="form-check-label" for="aplicarDescuento">
                             Aplicar Descuento
                         </label>
-                        <input class="form-check-input" type="checkbox" value="" id="aplicarDescuento" switch>
+                        <input class="form-check-input" type="checkbox" value="" id="aplicarDescuento" switch onchange="calcularDescuentoVenta()">
                     </div>
                     <button class="btn btn-primary" type="button" onclick="añadirProducto()">Añadir</button>
                     <button class="btn btn-secondary" type="button" onclick="ocultarFormulario('añadirProducto')">Cerrar</button>
