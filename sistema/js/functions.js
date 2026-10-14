@@ -3158,14 +3158,18 @@ function buscarArticulo(page = 1){
         if (data.resultado) {
             document.querySelector('#tablaArticulos tbody').innerHTML = '';
             data.datos.forEach(function(data) {
-                var badgeStock = '';
-                if (data.Cantidad <= 0) {
-                    badgeStock = ' <span class="badge bg-danger">Agotado</span>';
-                } else if (data.Cantidad <= data.Stock_Alerta) {
-                    badgeStock = ' <span class="badge bg-warning text-dark">Bajo</span>';
-                } else if(data.Cantidad > data.Stock_Alerta){
-                    badgeStock = ' <span class="badge bg-success">Bien</span>';
+                var badgeStock = ''; 
+                var cantidad = Number(data.Cantidad); 
+                var stock_alerta = Number(data.Stock_Alerta); 
+
+                if (cantidad <= 0) { 
+                    badgeStock = ' <span class="badge bg-danger">Agotado</span>'; 
+                } else if (cantidad <= stock_alerta) { 
+                    badgeStock = ' <span class="badge bg-warning text-dark">Bajo</span>'; 
+                } else { 
+                    badgeStock = ' <span class="badge bg-success">Bien</span>'; 
                 }
+                
                 var fila = `<tr id="fila-${data.IdArticulo}">
                     <td>${data.IdArticulo}</td>
                     <td>${data.nombreA}</td>
