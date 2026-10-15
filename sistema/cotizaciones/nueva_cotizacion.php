@@ -529,7 +529,7 @@
                 totalCotizacion += subTotal;
                 resultadosHtml += `
                     <tr>
-                        <td class="text-truncate" style="max-width:180px;" title="${nombreArticulo}">${nombreArticulo}</td>
+                        <td class="text-wrap" style="max-width:180px; overflow-wrap: break-word;" title="${nombreArticulo}">${nombreArticulo}</td>
                         <td>${cantidad}</td>
                         <td>${unidad}</td>
                         <td>S/. ${precioUnitario.toFixed(2)}</td>

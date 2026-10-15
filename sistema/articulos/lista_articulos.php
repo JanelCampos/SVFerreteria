@@ -12,7 +12,7 @@
     $results_per_page = 10;
     $current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
     $consulta = "
-        SELECT a.IdArticulo, a.Nombre as nombreA, a.Cantidad, a.Stock_Alerta, a.Precio_Compra, a.Precio_Unitario,
+        SELECT a.IdArticulo, a.codigoBarras, a.Nombre as nombreA, a.Cantidad, a.Stock_Alerta, a.Precio_Compra, a.Precio_Unitario,
                a.Precio_Minimo, a.Unidad_Presentacion, p.Nombre as nombreP, c.Nombre as nombreC
         FROM articulos a
         INNER JOIN proveedores p ON a.Cod_Proveedor = p.IdProveedor
@@ -114,6 +114,7 @@
             <table id="tablaArticulos">
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Código</th>
                         <th>Nombre</th>
                         <th>Categoría</th>
@@ -146,6 +147,7 @@
                     ?>
                     <tr id="fila-<?php echo $data['IdArticulo']; ?>">
                         <td><?php echo $data["IdArticulo"]; ?></td>
+                        <td><?php echo $data["codigoBarras"]; ?></td>
                         <td><?php echo $data["nombreA"]; ?></td>
                         <td><?php echo $data["nombreC"] ? $data["nombreC"] : '<span class="text-muted">Sin asignar</span>'; ?></td>
                         <td><?php echo $data["Cantidad"], $alerta_badge; ?></td>

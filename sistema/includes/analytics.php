@@ -648,50 +648,88 @@ function analyticsGetReportDashboardData($conexionDB, $filters)
     ];
 }
 
-function analyticsGetClientsListData($conexionDB, $filters, $search = '', $sort = '', $page = 1, $resultsPerPage = 10)
-{
+function analyticsGetClientsListData(
+    $conexionDB,
+    $filters,
+    $search = '',
+    $sort = '',
+    $page = 1,
+    $resultsPerPage = 10
+) {
     $page = max(1, (int)$page);
     $resultsPerPage = max(1, (int)$resultsPerPage);
     $startFrom = ($page - 1) * $resultsPerPage;
 
+    $fechaInicio = $filters['start_date'] . ' 00:00:00';
+    $fechaFin    = $filters['end_date'] . ' 23:59:59';
+
+    $params = [$fechaInicio, $fechaFin];
     $types = 'ss';
-    $params = [
-        $filters['start_date'] . ' 00:00:00',
-        $filters['end_date'] . ' 23:59:59',
-    ];
 
     $searchSql = '';
     if ($search !== '') {
-        $searchSql = " AND (c.Nombre LIKE ? OR CAST(c.Dni AS CHAR) LIKE ?)";
-        $types .= 'ss';
-        $searchLike = '%' . $search . '%';
-        $params[] = $searchLike;
-        $params[] = $searchLike;
+        $searchSql = " AND (
+            c.Nombre LIKE ?
+            OR CAST(c.Dni AS CHAR) LIKE ?
+            OR c.ruc LIKE ?
+        )";
     }
 
     $sortMap = [
         'cantidadCompra' => 'cantidadCompras DESC, montoCompras DESC, gananciaGenerada DESC, c.Nombre ASC',
-        'mayorCompra' => 'montoCompras DESC, cantidadCompras DESC, gananciaGenerada DESC, c.Nombre ASC',
-        'mayorUtilidad' => 'gananciaGenerada DESC, montoCompras DESC, cantidadCompras DESC, c.Nombre ASC',
+        'mayorCompra'    => 'montoCompras DESC, cantidadCompras DESC, gananciaGenerada DESC, c.Nombre ASC',
+        'mayorUtilidad'  => 'gananciaGenerada DESC, montoCompras DESC, cantidadCompras DESC, c.Nombre ASC',
     ];
+
     $orderBy = $sortMap[$sort] ?? 'c.Id_Cliente DESC';
 
-    $activitySql = isset($sortMap[$sort]) ? ' AND (COALESCE(cv.cantidadCompras, 0) > 0 OR COALESCE(cv.montoCompras, 0) > 0 OR COALESCE(cv.gananciaGenerada, 0) > 0)' : '';
+    /*
+     * LÓGICA DEL PERÍODO:
+     * 1. Si no hay búsqueda de texto, se muestran clientes con compras registradas en el período
+     *    o que hayan sido registrados en dicho rango de fechas.
+     * 2. Si se busca por texto (DNI/RUC/Nombre), se permite ubicar al cliente mostrando sus métricas
+     *    correspondientes al período seleccionado (o 0 si no compró en esas fechas).
+     */
+    $activitySql = '';
+    if ($search === '') {
+        $activitySql = " AND (
+            COALESCE(vp.cantidadCompras, 0) > 0
+            OR (c.Fecha_Registro BETWEEN ? AND ?)
+        )";
+        $params[] = $filters['start_date'];
+        $params[] = $filters['end_date'];
+        $types .= 'ss';
+    }
+
+    if ($search !== '') {
+        $searchLike = '%' . $search . '%';
+        $params[] = $searchLike;
+        $params[] = $searchLike;
+        $params[] = $searchLike;
+        $types .= 'sss';
+    }
 
     $baseQuery = "
         FROM clientes c
         LEFT JOIN (
-            SELECT v.dniCliente,
-                   COUNT(v.IdVenta) AS cantidadCompras,
-                   COALESCE(SUM(v.Total), 0) AS montoCompras,
-                   COALESCE(SUM(v.utilidad), 0) AS gananciaGenerada
+            SELECT
+                v.dniCliente,
+                COUNT(v.IdVenta) AS cantidadCompras,
+                COALESCE(SUM(v.Total), 0) AS montoCompras,
+                COALESCE(SUM(v.utilidad), 0) AS gananciaGenerada
             FROM ventas v
-            INNER JOIN clientes c2 ON c2.Dni = v.dniCliente
-            WHERE " . analyticsGetNonCanceledSalesClause('v') . " AND " . analyticsGetClientExclusionClause('c2') . " AND v.Fecha BETWEEN ? AND ?
+            WHERE " . analyticsGetNonCanceledSalesClause('v') . "
+              AND v.Fecha BETWEEN ? AND ?
             GROUP BY v.dniCliente
-        ) cv ON cv.dniCliente = c.Dni
-        WHERE " . analyticsGetClientExclusionClause('c') . $searchSql . $activitySql;
+        ) vp ON vp.dniCliente = c.Dni
+        WHERE "
+        . analyticsGetClientExclusionClause('c')
+        . $activitySql
+        . $searchSql;
 
+    /*
+     * CONTAR REGISTROS
+     */
     $countRow = analyticsFetchOne(
         $conexionDB,
         "SELECT COUNT(*) AS total {$baseQuery}",
@@ -699,22 +737,37 @@ function analyticsGetClientsListData($conexionDB, $filters, $search = '', $sort 
         $params
     );
 
+    /*
+     * OBTENER CLIENTES CON MÉTRICAS DEL PERÍODO
+     */
     $rows = analyticsFetchAll(
         $conexionDB,
-        "SELECT c.Id_Cliente, c.Dni, c.Nombre, c.direccion, c.Telefono, c.Fecha_Registro,
-                COALESCE(c.cantidadCompras, 0) AS cantidadCompras,
-                COALESCE(c.montoCompras, 0) AS montoCompras,
-                COALESCE(c.gananciaGenerada, 0) AS gananciaGenerada
-         {$baseQuery}
-         ORDER BY {$orderBy}
-         LIMIT {$startFrom}, {$resultsPerPage}",
+        "SELECT
+            c.Id_Cliente,
+            c.Dni,
+            c.Nombre,
+            c.direccion,
+            c.Telefono,
+            c.Fecha_Registro,
+
+            COALESCE(vp.cantidadCompras, 0) AS cantidadCompras,
+            COALESCE(vp.montoCompras, 0) AS montoCompras,
+            COALESCE(vp.gananciaGenerada, 0) AS gananciaGenerada
+
+        {$baseQuery}
+
+        ORDER BY {$orderBy}
+
+        LIMIT {$startFrom}, {$resultsPerPage}",
         $types,
         $params
     );
 
     return [
         'rows' => $rows,
-        'total_records' => isset($countRow['total']) ? (int)$countRow['total'] : 0,
+        'total_records' => isset($countRow['total'])
+            ? (int)$countRow['total']
+            : 0,
     ];
 }
 

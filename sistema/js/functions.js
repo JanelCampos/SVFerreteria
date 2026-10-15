@@ -1911,7 +1911,7 @@ function mostrarDatosVenta(data) {
         totalVenta += subTotal;
         resultadosHtml += `
             <tr>
-                <td class="text-truncate" style="max-width:180px;" title="${nombreArticulo}">${nombreArticulo}</td>
+                <td class="text-wrap" style="max-width:180px; overflow-wrap: break-word;" title="${nombreArticulo}">${nombreArticulo}</td>
                 <td>${cantidad}</td>
                 <td>${unidad}</td>
                 <td>S/. ${precioUnitario.toFixed(2)}</td>
@@ -2494,6 +2494,18 @@ function buscarVenta(page = 1){
             // Itera sobre los datos recibidos y agrega filas a la tabla
             data.datos.forEach(function(item) {
                 var estadoVenta = item.Estado;
+                var claseEstado = '';
+
+                // Determinar el color según el estado
+                if (estadoVenta === 'pagado') {
+                    claseEstado = 'bg-success';
+                } else if (estadoVenta === 'pendiente') {
+                    claseEstado = 'bg-warning text-dark';
+                } else if (estadoVenta === 'saldo') {
+                    claseEstado = 'bg-info text-dark';
+                } else {
+                    claseEstado = 'bg-danger';
+                }
                 var fila = `<tr>
                     <td>${item.IdVenta}</td>
                     <td>${item.Fecha}</td>
@@ -2512,7 +2524,11 @@ function buscarVenta(page = 1){
                             </div>
                         </div>
                     </td>
-                    <td class="${estadoVenta}">${item.Estado}</td>
+                    <td class="text-center">
+                        <span class="badge ${claseEstado}">
+                            ${item.Estado}
+                        </span>
+                    </td>
                     <td>${item.Medio_Pago}</td>
                     <td>${item.saldo.toFixed(2)}</td>
                     <td>
@@ -2580,6 +2596,18 @@ function buscarVentaDia(page = 1){
             // Itera sobre los datos recibidos y agrega filas a la tabla
             data.datos.forEach(function(item) {
                 var estadoVenta = item.Estado;
+                var claseEstado = '';
+
+                // Determinar el color según el estado
+                if (estadoVenta === 'pagado') {
+                    claseEstado = 'bg-success';
+                } else if (estadoVenta === 'pendiente') {
+                    claseEstado = 'bg-warning text-dark';
+                } else if (estadoVenta === 'saldo') {
+                    claseEstado = 'bg-info text-dark';
+                } else {
+                    claseEstado = 'bg-danger';
+                }
                 var fila = `<tr>
                     <td>${item.IdVenta}</td>
                     <td>${item.Fecha}</td>
@@ -2598,7 +2626,11 @@ function buscarVentaDia(page = 1){
                             </div>
                         </div>
                     </td>
-                    <td class="${estadoVenta}">${item.Estado}</td>
+                    <td class="text-center">
+                        <span class="badge ${claseEstado}">
+                            ${item.Estado}
+                        </span>
+                    </td>
                     <td>${item.Medio_Pago}</td>
                     <td>${item.saldo.toFixed(2)}</td>
                     ${rolUsuario == 1 ? `
@@ -2673,6 +2705,7 @@ function buscarVentaMes(page = 1){
     var medioPago = document.getElementById('busquedaMedioPagoMes').value.trim();
     var estado = document.getElementById('busquedaEstadoMes').value.trim();
     const rolUsuario = document.getElementById('rol').dataset.rol;
+    var claseEstado = '';
 
     fetch('../reportes/buscar_ventasDelMes.php', {
         method: 'POST',
@@ -2696,6 +2729,18 @@ function buscarVentaMes(page = 1){
             // Itera sobre los datos recibidos y agrega filas a la tabla
             data.datos.forEach(function(item) {
                 var estadoVenta = item.Estado;
+                var claseEstado = '';
+
+                // Determinar el color según el estado
+                if (estadoVenta === 'pagado') {
+                    claseEstado = 'bg-success';
+                } else if (estadoVenta === 'pendiente') {
+                    claseEstado = 'bg-warning text-dark';
+                } else if (estadoVenta === 'saldo') {
+                    claseEstado = 'bg-info text-dark';
+                } else {
+                    claseEstado = 'bg-danger';
+                }
                 var fila = `<tr>
                     <td>${item.IdVenta}</td>
                     <td>${item.Fecha}</td>
@@ -2714,7 +2759,9 @@ function buscarVentaMes(page = 1){
                             </div>
                         </div>
                     </td>
-                    <td class="${estadoVenta}">${item.Estado}</td>
+                    <td class="text-center">
+                        <span class="badge ${claseEstado}">${item.Estado}</span>
+                    </td>
                     <td>${item.Medio_Pago}</td>
                     <td>${item.saldo.toFixed(2)}</td>
                     <td>
@@ -3172,6 +3219,7 @@ function buscarArticulo(page = 1){
                 
                 var fila = `<tr id="fila-${data.IdArticulo}">
                     <td>${data.IdArticulo}</td>
+                    <td>${data.codigoBarras}</td>
                     <td>${data.nombreA}</td>
                     <td>${data.nombreC ? data.nombreC : '<span class="text-muted">Sin asignar</span>'}</td>
                     <td>${data.Cantidad}${badgeStock}</td>

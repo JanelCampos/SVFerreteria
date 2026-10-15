@@ -197,25 +197,23 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <?php 
-                                        if($estadoVenta === 'pagado'){
-                                    ?>
-                                        <td class="pagado"><?php echo $data['Estado']; ?></td>
                                     <?php
-                                        }else if($estadoVenta === 'pendiente'){
-                                    ?>
-                                        <td class="pendiente"><?php echo $data['Estado']; ?></td>
-                                    <?php
-                                        }else if($estadoVenta === 'saldo'){
-                                    ?>
-                                        <td class="saldo"><?php echo $data['Estado']; ?></td>
-                                    <?php 
-                                        }else{
-                                    ?>
-                                        <td class="anulado"><?php echo $data['Estado']; ?></td>
-                                    <?php
+                                        if ($estadoVenta === 'pagado') {
+                                            $claseEstado = 'bg-success';
+                                        } elseif ($estadoVenta === 'pendiente') {
+                                            $claseEstado = 'bg-warning text-dark';
+                                        } elseif ($estadoVenta === 'saldo') {
+                                            $claseEstado = 'bg-info text-dark';
+                                        } else {
+                                            $claseEstado = 'bg-danger';
                                         }
                                     ?>
+
+                                    <td class="text-center">
+                                        <span class="badge <?php echo $claseEstado; ?>">
+                                            <?php echo htmlspecialchars($data['Estado']); ?>
+                                        </span>
+                                    </td>
                                     <td><?php echo $data['Medio_Pago']; ?></td>
                                     <td><?php echo number_format($data['saldo'],2); ?></td>
                                     <td>

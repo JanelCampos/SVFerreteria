@@ -48,8 +48,9 @@
     }
 
     $sql = "
-        SELECT a.IdArticulo, a.Nombre as nombreA, a.Cantidad, a.Stock_Alerta, a.Precio_Compra, a.Precio_Unitario,
-               a.Precio_Minimo, a.Unidad_Presentacion, p.Nombre as nombreP, c.Nombre as nombreC
+        SELECT a.IdArticulo,a.Nombre as nombreA, a.Cantidad, a.Stock_Alerta, a.Precio_Compra, a.Precio_Unitario,
+               a.Precio_Minimo, a.Unidad_Presentacion, p.Nombre as nombreP, c.Nombre as nombreC,
+               a.codigoBarras
         FROM articulos a
         INNER JOIN proveedores p ON p.IdProveedor = a.Cod_Proveedor
         LEFT JOIN categorias c ON c.IdCategoria = a.Cod_Categoria
