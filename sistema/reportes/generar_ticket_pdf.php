@@ -2,34 +2,44 @@
 require('../fpdf.php');
 include 'obtener_datos_venta.php';
 
+class TicketPDF extends FPDF
+{
+    public function ajustarAlturaPagina($altura)
+    {
+        $diferenciaAltura = $altura - $this->h;
+        $desplazamiento = $diferenciaAltura * $this->k;
+
+        $this->pages[$this->page] = "q\n1 0 0 1 0 " . $desplazamiento . " cm\n"
+            . $this->pages[$this->page] . "Q\n";
+        $this->h = $altura;
+        $this->hPt = $altura * $this->k;
+        $this->CurPageSize = array($this->w, $this->h);
+        $this->DefPageSize = $this->CurPageSize;
+        $this->PageBreakTrigger = $altura - $this->bMargin;
+        $this->PageInfo[$this->page]['size'] = array($this->wPt, $this->hPt);
+    }
+}
+
 // Configuración de impresión para ancho 58mm
 $pageWidth = 48;          // ancho físico de la impresora en mm
 $leftMargin = 2;          // ajustar si la impresora requiere más margen
 $rightMargin = 2;
 $printableWidth = $pageWidth - $leftMargin - $rightMargin;
 
-// Calcular altura dinámica aproximada
-$approxHeader = 60;
-$approxFooter = 120;
-$lineHeight = 5;
-$linesItems = 0;
-
 if (isset($_GET['idVenta'])) {
     $idVenta = intval($_GET['idVenta']);
     $datosVenta = obtenerDatosVenta($idVenta);
-    $saldo = $datosVenta[0]['saldo'];
-    $vuelto = $datosVenta[0]['vuelto'];
 
     if (empty($datosVenta)) {
         echo "No se encontraron datos para la venta.";
         exit;
     }
 
-    $height = $approxHeader + $approxFooter + ($linesItems * $lineHeight);
-    $height = MAX(180, $height);
+    $saldo = $datosVenta[0]['saldo'];
+    $vuelto = $datosVenta[0]['vuelto'];
 
     // Crear PDF
-    $pdf = new FPDF('P', 'mm', array($pageWidth, $height));
+    $pdf = new TicketPDF('P', 'mm', array($pageWidth, 180));
     $pdf->SetMargins($leftMargin, 2, $rightMargin);
     $pdf->SetAutoPageBreak(false);
     $pdf->AddPage();
@@ -43,7 +53,7 @@ if (isset($_GET['idVenta'])) {
     $pdf->Cell($printableWidth, 7, 'USOL', 0, 1, 'C');
 
     $pdf->Image('../../img/logo_ferreteria.png',37,4,9);
-    
+
     $pdf->SetFont('Arial', 'I', 7);
     $pdf->Cell($printableWidth, 5, 'Av. San Martin con Jr. El Manzano', 0, 1, 'C');
     $pdf->Cell($printableWidth, 5, 'Cel: 980349451 - 914935698', 0, 1, 'C');
@@ -60,7 +70,7 @@ if (isset($_GET['idVenta'])) {
     $pdf->Cell($printableWidth, 4, 'Fecha: ' . $fecha, 0, 1);
     $pdf->Cell($printableWidth, 4, 'Cliente: ' . $cliente, 0, 1);
     $pdf->Cell($printableWidth, 4, 'Vendedor: ' . $vendedor, 0, 1);
-    
+
     $pdf->Ln(4);
 
     // Encabezados de la tabla de items
@@ -84,7 +94,7 @@ if (isset($_GET['idVenta'])) {
     $pdf->Cell($qtyWidth, 5, 'Cant', 0, 0, 'L');
     $pdf->Cell($dsctWidth, 5, 'Dsct', 0, 0, 'L');
     $pdf->Cell($priceWidth, 5, 'Precio', 0, 1, 'R');
-    
+
     $pdf->SetFont('Arial', '', 7);
 
     foreach ($datosVenta as $item) {
@@ -124,7 +134,7 @@ if (isset($_GET['idVenta'])) {
     $pdf->SetFont('Arial', 'B', 9);
     $total = number_format($datosVenta[0]['Total'], 2);
     $pdf->Cell($printableWidth, 6, 'Total: S/. ' . number_format($total, 2), 0, 1, 'R');
-    
+
     if($saldo > 0 ){
         $pdf->SetFont('Arial', '', 8);
         $pdf->Cell($printableWidth, 5, 'Saldo: S/. ' . number_format($saldo, 2), 0, 1, 'R');
@@ -138,12 +148,10 @@ if (isset($_GET['idVenta'])) {
     $pdf->Ln(6);
     $pdf->SetFont('Arial', 'B', 9);
     $pdf->Cell($printableWidth, 5, utf8_decode('Gracias por su compra!!'), 0, 1, 'C');
-    
+
+    $pdf->ajustarAlturaPagina(max(180, ceil($pdf->GetY() + 4)));
     $pdf->Output('I', 'ticket.pdf');
 } else {
     echo "No se proporcionó un ID de venta.";
 }
 ?>
-
-
-

@@ -22,12 +22,11 @@ $start_from = ($current_page - 1) * $results_per_page;
 // Base de la consulta
 $consulta = "
     SELECT v.IdVenta, v.Fecha, v.Cod_Caja, v.dniCliente, cl.Nombre, v.Total, v.Estado, v.Medio_Pago, 
-            v.saldo, c.Cod_Empleado as empl, e.Nombre as nempl, v.utilidad, dva.nombreArticulo
+            v.saldo, c.Cod_Empleado as empl, e.Nombre as nempl, v.utilidad
     FROM ventas v 
     INNER JOIN caja c ON v.Cod_Caja = c.IdCaja
     INNER JOIN empleados e ON c.Cod_Empleado = e.IdEmpleado
     INNER JOIN clientes cl ON cl.Dni = v.dniCliente
-    INNER JOIN detalle_venta_articulos dva ON dva.Cod_Venta = v.IdVenta
     WHERE 1=1";
 
 $tipos = "";
@@ -42,11 +41,17 @@ if (!empty($busqueda)) {
     $params[] = $busqueda;
 }
 
-if (!empty($nombreProducto)) {
-    $consulta .= " AND dva.nombreArticulo LIKE ?";
-    $tipos .= "s";
-    $params[] = "%" . $nombreProducto . "%";
-}
+if (!empty($nombreProducto)) { 
+    $consulta .= " AND EXISTS (
+        SELECT 1
+        FROM detalle_venta_articulos dva
+        WHERE dva.Cod_Venta = v.IdVenta
+        AND dva.nombreArticulo LIKE ?
+    )"; 
+    
+    $tipos .= "s"; 
+    $params[] = "%" . $nombreProducto . "%"; 
+}  
 
 if (!empty($medioPago)) {
     $consulta .= " AND v.Medio_Pago = ?";
@@ -117,7 +122,6 @@ if ($query->execute()) {
             INNER JOIN caja c ON v.Cod_Caja = c.IdCaja
             INNER JOIN empleados e ON c.Cod_Empleado = e.IdEmpleado
             INNER JOIN clientes cl ON cl.Dni = v.dniCliente
-            INNER JOIN detalle_venta_articulos dva ON dva.Cod_Venta = v.IdVenta
             WHERE 1=1";
 
         $count_tipos = "";
@@ -132,10 +136,16 @@ if ($query->execute()) {
             $count_params[] = $busqueda;
         }
 
-        if (!empty($nombreProducto)) {
-            $count_query .= " AND dva.nombreArticulo LIKE ?";
-            $count_tipos .= "s";
-            $count_params[] = $nombreProducto;
+        if (!empty($nombreProducto)) { 
+            $count_query .= " AND EXISTS (
+                SELECT 1
+                FROM detalle_venta_articulos dva
+                WHERE dva.Cod_Venta = v.IdVenta
+                AND dva.nombreArticulo LIKE ?
+            )"; 
+            
+            $count_tipos .= "s"; 
+            $count_params[] = "%" . $nombreProducto . "%";
         }
 
         if (!empty($medioPago)) {
