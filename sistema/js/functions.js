@@ -1020,13 +1020,19 @@ function mostrarFormulario(idFormulario, id){
             if(data.resultado){
                 document.getElementById('idProveedoreditar').value = data.datos.IdProveedor;
                 document.getElementById('nombreProveedorEditar').value = data.datos.Nombre;
-                document.getElementById('direccionProveedorEditar').value = data.datos.Direccion;
-                document.getElementById('telefonoProveedorEditar').value = data.datos.Telefono;
-                document.getElementById('correoProveedorEditar').value = data.datos.Email;
-                document.getElementById('ruc').value = data.datos.ruc;
+                document.getElementById('direccionProveedorEditar').value = data.datos.Direccion || '';
+                document.getElementById('telefonoProveedorEditar').value = data.datos.Telefono || '';
+                document.getElementById('correoProveedorEditar').value = data.datos.Email || '';
+                document.getElementById('ruc').value = data.datos.ruc || '';
             }else{
+                ocultarFormulario('editarProveedor');
                 mostrarAlertaErrorTiempo(data.mensaje);
             }
+        })
+        .catch(error => {
+            console.error('Error al cargar proveedor: ', error);
+            ocultarFormulario('editarProveedor');
+            mostrarAlertaErrorTiempo('No se pudieron cargar los datos del proveedor.');
         })
     }else if(idFormulario === 'eliminarProveedor'){
         document.getElementById('idProveedorEliminar').value = id;
@@ -3544,41 +3550,49 @@ function buscarProveedor(page = 1){
     })
     .then(response => response.json())
     .then(data => {
+        var cuerpoTabla = document.querySelector('#tablaProveedores tbody');
         if (data.resultado) {
-            // Limpia la tabla de resultados actuales
-            document.querySelector('#tablaProveedores tbody').innerHTML = '';
+            cuerpoTabla.innerHTML = '';
+            if (data.datos.length === 0) {
+                cuerpoTabla.innerHTML = '<tr><td colspan="7">No se encontraron resultados.</td></tr>';
+                return;
+            }
 
-            // Itera sobre los datos recibidos y agrega filas a la tabla
-            data.datos.forEach(function(data) {
+            var escapar = function(valor) {
+                return String(valor == null ? '' : valor).replace(/[&<>"']/g, function(caracter) {
+                    return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[caracter];
+                });
+            };
+            data.datos.forEach(function(proveedor) {
+                var idProveedor = Number(proveedor.IdProveedor);
                 var fila = `<tr>
-                    <td>${data.IdProveedor}</td>
-                    <td>${data.ruc}</td>
-                    <td>${data.Nombre}</td>
-                    <td>${data.Direccion}</td>
-                    <td>${data.Telefono}</td>
-                    <td>${data.Email}</td>
+                    <td>${escapar(idProveedor)}</td>
+                    <td>${escapar(proveedor.ruc)}</td>
+                    <td>${escapar(proveedor.Nombre)}</td>
+                    <td>${escapar(proveedor.Direccion)}</td>
+                    <td>${escapar(proveedor.Telefono)}</td>
+                    <td>${escapar(proveedor.Email)}</td>
                     <td>
                         <div class="btn-group dropend">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Acciones
                             </button>
                             <ul class="dropdown-menu">
-                                <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('editarProveedor', ${data.IdProveedor})">Editar</button></li>
-                                <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('eliminarProveedor', ${data.IdProveedor})">Eliminar</button></li>
+                                <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('editarProveedor', ${idProveedor})">Editar</button></li>
+                                <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('eliminarProveedor', ${idProveedor})">Eliminar</button></li>
                             </ul>
                         </div>
                     </td> 
                 </tr>`;
-                document.querySelector('#tablaProveedores tbody').insertAdjacentHTML('beforeend', fila);
-            });     
+                cuerpoTabla.insertAdjacentHTML('beforeend', fila);
+            });
         } else {
-            // Maneja el caso en que no se encontraron resultados
-            document.querySelector('#tablaProveedores tbody').innerHTML = '<tr><td colspan="9">No se encontraron resultados.</td></tr>';
+            mostrarAlertaErrorTiempo(data.mensaje || 'No se pudo completar la búsqueda.');
         }
     })
     .catch(error => {
-        // Maneja errores de la consulta fetch
         console.error('Error en la consulta fetch: ', error);
+        mostrarAlertaErrorTiempo('No se pudo completar la búsqueda.');
     });
 }
 
@@ -3852,11 +3866,15 @@ function reiniciarMetricas(){
 
 function editarProveedor(){
     var IdProveedor = $('#idProveedoreditar').val();
-    var nombre = $('#nombreProveedorEditar').val();
+    var nombre = $('#nombreProveedorEditar').val().trim();
     var direccion = $('#direccionProveedorEditar').val();
     var telefono = $('#telefonoProveedorEditar').val();
     var correo = $('#correoProveedorEditar').val();
-    var ruc = $('#ruc').val();
+    var ruc = $('#ruc').val().trim();
+    if (!ruc || !nombre) {
+        mostrarAlertaErrorTiempo('El RUC y el nombre son obligatorios.');
+        return;
+    }
     fetch('../proveedores/editar_proveedor.php', {
         method: 'POST',
         headers: {
@@ -3881,6 +3899,10 @@ function editarProveedor(){
             mostrarAlertaErrorTiempo(data.mensaje);
         }
     })
+    .catch(error => {
+        console.error('Error al actualizar proveedor: ', error);
+        mostrarAlertaErrorTiempo('No se pudo actualizar el proveedor.');
+    });
 }
 
 function editarCategoria(){
@@ -5564,4 +5586,3 @@ function guardarCotizacion() {
         }
     });
 }
-

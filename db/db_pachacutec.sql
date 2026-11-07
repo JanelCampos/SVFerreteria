@@ -288,10 +288,10 @@ CREATE TABLE `prestamos` (
 
 CREATE TABLE `proveedores` (
   `IdProveedor` int(11) NOT NULL,
-  `ruc` int(20) DEFAULT NULL,
+  `ruc` varchar(20) DEFAULT NULL,
   `Nombre` varchar(50) NOT NULL,
   `Direccion` varchar(50) DEFAULT NULL,
-  `Telefono` int(11) NOT NULL,
+  `Telefono` varchar(20) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -477,7 +477,8 @@ ALTER TABLE `prestamos`
 -- Indices de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  ADD PRIMARY KEY (`IdProveedor`);
+  ADD PRIMARY KEY (`IdProveedor`),
+  ADD KEY `idx_proveedores_ruc` (`ruc`);
 
 --
 -- Indices de la tabla `rol`

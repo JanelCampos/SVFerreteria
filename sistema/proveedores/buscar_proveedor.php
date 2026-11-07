@@ -1,46 +1,50 @@
 <?php
-    include "../../conexion.php";
-    header('Content-Type: application/json');
+    require_once "../../conexion.php";
+    header('Content-Type: application/json; charset=utf-8');
 
-    // Obtener los datos POST enviados
     $input = json_decode(file_get_contents('php://input'), true);
-
-    $busqueda = isset($input['busqueda']) ? '%' . $conexionDB->real_escape_string($input['busqueda']) . '%' : '%';
-    $current_page = isset($input['page']) ? intval($input['page']) : 1;
-
-    $results_per_page = 10;
-    $start_from = ($current_page - 1) * $results_per_page;
-    // Construir la consulta SQL con filtro de búsqueda
-    $consulta = "
-        SELECT *
-        FROM proveedores
-        WHERE Nombre LIKE '%$busqueda%'
-        ORDER BY IdProveedor DESC LIMIT $start_from, $results_per_page
-    ";
-
-    $result = $conexionDB->query($consulta);
-
-    // Preparar el arreglo de resultados para JSON
-    $response = array();
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $response[] = $row;
-        }
-
-        $count_query = "
-            SELECT COUNT(*) as total
-            FROM proveedores
-            WHERE Nombre LIKE '%$busqueda%'
-        ";
-
-        $count_result = $conexionDB->query($count_query);
-        $total_records = $count_result->fetch_assoc()['total'];
-
-        echo json_encode(['resultado' => true, 'datos' => $response, 'total_records' => $total_records, 'mensaje' => 'Busqueda exitosa.']);
-    } else {
-        echo json_encode(['resultado' => false, 'mensaje' => 'No se encontraron resultados.']);
+    if (!is_array($input)) {
+        http_response_code(400);
+        echo json_encode(['resultado' => false, 'mensaje' => 'La solicitud no tiene un formato válido.']);
+        exit;
     }
 
-    $conexionDB->close();
+    $busqueda = isset($input['busqueda']) && is_string($input['busqueda']) ? trim($input['busqueda']) : '';
+    $pagina = isset($input['page']) ? filter_var($input['page'], FILTER_VALIDATE_INT) : 1;
+    $pagina = $pagina && $pagina > 0 ? $pagina : 1;
+    $porPagina = 10;
+    $desde = ($pagina - 1) * $porPagina;
+    $filtro = '%' . $busqueda . '%';
+
+    try {
+        $consulta = $conexionDB->prepare(
+            "SELECT IdProveedor, ruc, Nombre, Direccion, Telefono, Email
+             FROM proveedores
+             WHERE Nombre LIKE ?
+             ORDER BY IdProveedor DESC
+             LIMIT ?, ?"
+        );
+        $consulta->bind_param("sii", $filtro, $desde, $porPagina);
+        $consulta->execute();
+        $resultado = $consulta->get_result();
+        $proveedores = $resultado->fetch_all(MYSQLI_ASSOC);
+        $consulta->close();
+
+        $consulta_total = $conexionDB->prepare("SELECT COUNT(*) AS total FROM proveedores WHERE Nombre LIKE ?");
+        $consulta_total->bind_param("s", $filtro);
+        $consulta_total->execute();
+        $total = (int) $consulta_total->get_result()->fetch_assoc()['total'];
+        $consulta_total->close();
+
+        echo json_encode([
+            'resultado' => true,
+            'datos' => $proveedores,
+            'total_records' => $total,
+            'mensaje' => 'Búsqueda exitosa.'
+        ]);
+    } catch (mysqli_sql_exception $exception) {
+        error_log("Error al buscar proveedores: " . $exception->getMessage());
+        http_response_code(500);
+        echo json_encode(['resultado' => false, 'mensaje' => 'No se pudo completar la búsqueda.']);
+    }
 ?>

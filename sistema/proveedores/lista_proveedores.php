@@ -4,20 +4,23 @@
     include "../includes/paginador.php";
 
     $results_per_page = 10;
-    $current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-    
-    $consulta = "
-        SELECT *
-        FROM proveedores
-        ORDER BY IdProveedor DESC
-    ";
-    $where = "
-        proveedores
-        ORDER BY IdProveedor DESC
-    ";
+    $current_page = max(1, isset($_GET['page']) ? intval($_GET['page']) : 1);
+    $start_from = ($current_page - 1) * $results_per_page;
 
-    list($result, $total_records) = getPaginatedDataArticulos($conexionDB, $consulta, $where, $current_page, $results_per_page);
-    
+    $consulta = $conexionDB->prepare(
+        "SELECT IdProveedor, ruc, Nombre, Direccion, Telefono, Email
+         FROM proveedores
+         ORDER BY IdProveedor DESC
+         LIMIT ?, ?"
+    );
+    $consulta->bind_param("ii", $start_from, $results_per_page);
+    $consulta->execute();
+    $result = $consulta->get_result();
+
+    $consulta_total = $conexionDB->prepare("SELECT COUNT(*) AS total FROM proveedores");
+    $consulta_total->execute();
+    $total_records = (int) $consulta_total->get_result()->fetch_assoc()['total'];
+
     $row = $result->num_rows;
 ?>
 <!DOCTYPE html>
@@ -75,12 +78,12 @@
                             while ($data = $result->fetch_assoc()){
                             ?>
                                 <tr>
-                                    <td><?php echo $data["IdProveedor"]; ?></td>
-                                    <td><?php echo $data['ruc']; ?></td>
-                                    <td><?php echo $data["Nombre"]; ?></td>
-                                    <td><?php echo $data["Direccion"]; ?></td>
-                                    <td><?php echo $data["Telefono"]; ?></td>
-                                    <td><?php echo $data["Email"]; ?></td>
+                                    <td><?php echo (int) $data["IdProveedor"]; ?></td>
+                                    <td><?php echo htmlspecialchars((string) $data['ruc'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars((string) $data["Nombre"], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars((string) $data["Direccion"], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars((string) $data["Telefono"], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars((string) $data["Email"], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td>
                                         <div class="btn-group dropend">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -134,23 +137,23 @@
                         <input type="hidden" id="idProveedoreditar" name="idProveedoreditar">
                         <div class="mb-3">
                             <label for="ruc">Ruc</label>
-                            <input type="number" name="ruc" id="ruc" placeholder="Ingrese el ruc">
+                            <input type="text" name="ruc" id="ruc" placeholder="Ingrese el RUC" maxlength="20" required>
                         </div>
                         <div class="mb-3">
                             <label for="nombreProveedorEditar">Nombre</label>
-                            <input type="text" name="nombreProveedorEditar" id="nombreProveedorEditar" placeholder="Ingrese el Nombre">
+                            <input type="text" name="nombreProveedorEditar" id="nombreProveedorEditar" placeholder="Ingrese el Nombre" maxlength="50" required>
                         </div>
                         <div class="mb-3">
                             <label for="direccionProveedorEditar">Dirección</label>
-                            <input type="text" name="direccionProveedorEditar" id="direccionProveedorEditar" placeholder="Ingrese una Dirección">
+                            <input type="text" name="direccionProveedorEditar" id="direccionProveedorEditar" placeholder="Ingrese una Dirección" maxlength="50">
                         </div>
                         <div class="mb-3">
                             <label for="telefonoProveedorEditar">Teléfono</label>
-                            <input type="number" name="telefonoProveedorEditar" id="telefonoProveedorEditar" placeholder="Ingrese un Teléfono" oninput="limitarDigitos(this,9)">
+                            <input type="text" name="telefonoProveedorEditar" id="telefonoProveedorEditar" placeholder="Ingrese un Teléfono" maxlength="20">
                         </div>
                         <div class="mb-3">
                             <label for="correoProveedorEditar">Email</label>
-                            <input type="email" name="correoProveedorEditar" id="correoProveedorEditar" placeholder="Ingrese un Correo electrónico">
+                            <input type="email" name="correoProveedorEditar" id="correoProveedorEditar" placeholder="Ingrese un Correo electrónico" maxlength="50">
                         </div>
                     </div>
                     <div class="modal-footer">
