@@ -36,10 +36,14 @@
                                 $totalVenta += $precioEfectivo * floatval($producto['cantidad']);
                                 $totalGanancias += floatval($producto['Ganancias']);
                             }
+                            $totalVenta = round($totalVenta, 2);
+                            $totalVentaCentimos = (int) round($totalVenta * 100);
                             $estadoVenta = isset($input['estadoVenta']) ? $input['estadoVenta'] : null;
                             $metodoPago = isset($input['metodoPago']) ? $input['metodoPago'] : null;
-                            $efectivo = isset($input['efectivo']) ? $input['efectivo'] : null;
-                            $tarjeta = isset($input['tarjeta']) ? $input['tarjeta'] : null;
+                            $efectivo = round((float) (isset($input['efectivo']) ? $input['efectivo'] : 0), 2);
+                            $tarjeta = round((float) (isset($input['tarjeta']) ? $input['tarjeta'] : 0), 2);
+                            $efectivoCentimos = (int) round($efectivo * 100);
+                            $tarjetaCentimos = (int) round($tarjeta * 100);
                             $vuelto = isset($input['vuelto']) ? $input['vuelto'] : null;
                             $metodoVuelto = isset($input['metodoVuelto']) ? $input['metodoVuelto'] : null;
                             $fechaVenta = isset($input['fechaVenta']) ? $input['fechaVenta'] : null;
@@ -47,20 +51,19 @@
 
                             if($estadoVenta === 'pagado'){
                                 if($metodoPago === 'efectivo'){
-                                    if($efectivo >= $totalVenta){
+                                    if($efectivoCentimos >= $totalVentaCentimos){
                                         procesarVenta($conexionDB,$efectivo,$tarjeta,$totalGanancias,$vuelto,$metodoVuelto,$estadoVenta,$totalVenta,$fechaVenta,$dniCliente,$metodoPago);
                                     }else{
                                         echo json_encode(['resultado' => false, 'message' => 'El monto de pago debe ser mayor al de la venta']);
                                     }
                                 }else if($metodoPago === 'tarjeta'){
-                                    if($tarjeta >= $totalVenta){
+                                    if($tarjetaCentimos >= $totalVentaCentimos){
                                         procesarVenta($conexionDB,$efectivo,$tarjeta,$totalGanancias,$vuelto,$metodoVuelto,$estadoVenta,$totalVenta,$fechaVenta,$dniCliente,$metodoPago);
                                     }else{
                                         echo json_encode(['resultado' => false, 'message' => 'El monto de pago debe ser mayor al de la venta']);
                                     }
                                 }else{
-                                    $totalIngreso = $efectivo + $tarjeta;
-                                    if($totalIngreso >= $totalVenta){
+                                    if($efectivoCentimos + $tarjetaCentimos >= $totalVentaCentimos){
                                         procesarVenta($conexionDB,$efectivo,$tarjeta,$totalGanancias,$vuelto,$metodoVuelto,$estadoVenta,$totalVenta,$fechaVenta,$dniCliente,$metodoPago);
                                     }else{
                                         echo json_encode(['resultado' => false, 'message' => 'El monto de pago debe ser mayor al de la venta']);

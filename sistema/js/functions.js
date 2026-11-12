@@ -1929,6 +1929,7 @@ function mostrarDatosVenta(data) {
             </tr>
         `;
     });
+    totalVenta = Number(totalVenta.toFixed(2));
     resultadosHtml += `
         <tr>
             <td colspan="5" class="text-end"><strong>Total</strong></td>
