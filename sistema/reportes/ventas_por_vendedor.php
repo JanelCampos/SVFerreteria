@@ -99,8 +99,8 @@ $resultEmpleados = mysqli_num_rows($queryEmpleados);
                                     <tr>
                                         <th>TOTALES</th>
                                         <th class="text-center" id="totNVentas">0</th>
-                                        <th class="text-end" id="totTotalVenta">0.00</th>
-                                        <th class="text-end" id="totUtilidad">0.00</th>
+                                        <th class="text-end" id="totTotalVenta">0.0</th>
+                                        <th class="text-end" id="totUtilidad">0.0</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -197,14 +197,14 @@ $resultEmpleados = mysqli_num_rows($queryEmpleados);
                 html += `<tr>
                     <td>${escapeHtml(item.NombreEmpleado)}</td>
                     <td class="text-center">${item.NVentas}</td>
-                    <td class="text-end">S/. ${Number(item.TotalVenta).toFixed(2)}</td>
-                    <td class="text-end">S/. ${Number(item.Utilidad).toFixed(2)}</td>
+                    <td class="text-end">S/. ${Number(item.TotalVenta).toFixed(1)}</td>
+                    <td class="text-end">S/. ${Number(item.Utilidad).toFixed(1)}</td>
                 </tr>`;
             });
             tbody.innerHTML = html;
             document.getElementById('totNVentas').textContent = data.resumenPorVendedor.reduce((a, b) => a + Number(b.NVentas), 0);
-            document.getElementById('totTotalVenta').textContent = 'S/. ' + Number(data.totalGeneral || 0).toFixed(2);
-            document.getElementById('totUtilidad').textContent = 'S/. ' + Number(data.resumenPorVendedor.reduce((a, b) => a + Number(b.Utilidad), 0)).toFixed(2);
+            document.getElementById('totTotalVenta').textContent = 'S/. ' + Number(data.totalGeneral || 0).toFixed(1);
+            document.getElementById('totUtilidad').textContent = 'S/. ' + Number(data.resumenPorVendedor.reduce((a, b) => a + Number(b.Utilidad), 0)).toFixed(1);
             tfoot.style.display = '';
         }
 
@@ -221,7 +221,7 @@ $resultEmpleados = mysqli_num_rows($queryEmpleados);
                     <td>${escapeHtml(item.Nombre)}</td>
                     <td>${escapeHtml(item.NombreCategoria || '-')}</td>
                     <td class="text-center">${item.Cantidad}</td>
-                    <td class="text-end">S/. ${Number(item.Importe).toFixed(2)}</td>
+                    <td class="text-end">S/. ${Number(item.Importe).toFixed(1)}</td>
                 </tr>`;
             });
             tbody.innerHTML = html;

@@ -60,17 +60,17 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
             <div class="analytics-kpis">
                 <article class="analytics-kpi">
                     <span>Ventas del periodo</span>
-                    <strong>S/. <?php echo number_format($overview['total_sales'], 2); ?></strong>
+                    <strong>S/. <?php echo number_format($overview['total_sales'], 1); ?></strong>
                     <small><?php echo htmlspecialchars($filters['label']); ?></small>
                 </article>
                 <article class="analytics-kpi">
                     <span>Utilidad generada</span>
-                    <strong>S/. <?php echo number_format($overview['total_profit'], 2); ?></strong>
+                    <strong>S/. <?php echo number_format($overview['total_profit'], 1); ?></strong>
                     <small>Margen registrado en ventas cerradas</small>
                 </article>
                 <article class="analytics-kpi">
                     <span>Venta promedio</span>
-                    <strong>S/. <?php echo number_format($overview['average_ticket'], 2); ?></strong>
+                    <strong>S/. <?php echo number_format($overview['average_ticket'], 1); ?></strong>
                     <small><?php echo (int)$overview['sales_count']; ?> ventas analizadas</small>
                 </article>
                 <article class="analytics-kpi">
@@ -80,7 +80,7 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                 </article>
                 <article class="analytics-kpi">
                     <span>Cartera pendiente</span>
-                    <strong>S/. <?php echo number_format($overview['pending_balance'], 2); ?></strong>
+                    <strong>S/. <?php echo number_format($overview['pending_balance'], 1); ?></strong>
                     <small><?php echo (int)$overview['pending_sales']; ?> ventas con saldo o pendiente</small>
                 </article>
                 <article class="analytics-kpi">
@@ -116,15 +116,15 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                     <span class="badge <?php echo $estadoCaja === 'Abierto' ? 'text-bg-success' : 'text-bg-secondary'; ?>"><?php echo htmlspecialchars($estadoCaja); ?></span>
                 </div>
                 <div class="analytics-list">
-                    <div><span>Efectivo del dia</span><strong>S/. <?php echo number_format((float)$totalEfectivoDia, 2); ?></strong></div>
-                    <div><span>Tarjeta del dia</span><strong>S/. <?php echo number_format((float)$totalTarjetaDia, 2); ?></strong></div>
-                    <div><span>Caja del dia</span><strong>S/. <?php echo number_format((float)$totalCajaDia, 2); ?></strong></div>
+                    <div><span>Efectivo del dia</span><strong>S/. <?php echo number_format((float)$totalEfectivoDia, 1); ?></strong></div>
+                    <div><span>Tarjeta del dia</span><strong>S/. <?php echo number_format((float)$totalTarjetaDia, 1); ?></strong></div>
+                    <div><span>Caja del dia</span><strong>S/. <?php echo number_format((float)$totalCajaDia, 1); ?></strong></div>
                     <?php if ($_SESSION['rol'] == 1) { ?>
-                        <div><span>Utilidad del dia</span><strong>S/. <?php echo number_format((float)$utilidadDia, 2); ?></strong></div>
-                        <div><span>Efectivo acumulado</span><strong>S/. <?php echo number_format((float)$totalEfectivo, 2); ?></strong></div>
-                        <div><span>Tarjeta acumalado</span><strong>S/. <?php echo number_format((float)$totalTarjeta, 2); ?></strong></div>
-                        <div><span>Caja acumulada</span><strong>S/. <?php echo number_format((float)$totalCaja, 2); ?></strong></div>
-                        <div><span>Utilidad acumulada</span><strong>S/. <?php echo number_format((float)$utilidadTotal, 2); ?></strong></div>
+                        <div><span>Utilidad del dia</span><strong>S/. <?php echo number_format((float)$utilidadDia, 1); ?></strong></div>
+                        <div><span>Efectivo acumulado</span><strong>S/. <?php echo number_format((float)$totalEfectivo, 1); ?></strong></div>
+                        <div><span>Tarjeta acumalado</span><strong>S/. <?php echo number_format((float)$totalTarjeta, 1); ?></strong></div>
+                        <div><span>Caja acumulada</span><strong>S/. <?php echo number_format((float)$totalCaja, 1); ?></strong></div>
+                        <div><span>Utilidad acumulada</span><strong>S/. <?php echo number_format((float)$utilidadTotal, 1); ?></strong></div>
                     <?php } ?>
                 </div>
                 <div class="analytics-actions mt-3">
@@ -167,7 +167,7 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                                         <td><?php echo htmlspecialchars($client['Nombre']); ?></td>
                                         <td><?php echo (int)$client['cantidadCompras']; ?></td>
                                         <?php if ($_SESSION['rol'] == 1) { ?>
-                                            <td>S/. <?php echo number_format((float)$client['montoCompras'], 2); ?></td>
+                                            <td>S/. <?php echo number_format((float)$client['montoCompras'], 1); ?></td>
                                         <?php } ?>
                                     </tr>
                                 <?php } ?>
@@ -208,7 +208,7 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                                             <td><?php echo htmlspecialchars($product['Nombre']); ?></td>
                                             <td><?php echo (int)$product['cantidadVendida']; ?></td>
                                             <?php if ($_SESSION['rol'] == 1) { ?>
-                                                <td>S/. <?php echo number_format((float)$product['utilidadGenerada'], 2); ?></td>
+                                                <td>S/. <?php echo number_format((float)$product['utilidadGenerada'], 1); ?></td>
                                             <?php } ?>
                                         </tr>
                                     <?php } ?>
@@ -271,7 +271,7 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                         <input type="hidden" id="idAbrirCaja" name="idAbrirCaja">
                         <div class="mb-3">
                             <label for="montoAbrirCaja">Monto inicial</label>
-                            <input type="number" id="montoAbrirCaja" name="montoAbrirCaja" step="0.01" placeholder="Ingrese el monto inicial">
+                            <input type="number" id="montoAbrirCaja" name="montoAbrirCaja" step="0.1" placeholder="Ingrese el monto inicial">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -465,9 +465,21 @@ $estadoCaja = $estadoCajaRow['Estado'] ?? 'Cerrado';
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: value => Number(value).toFixed(1)
+                            }
+                        }
+                    },
                     plugins: {
                         legend: {
                             position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: context => context.dataset.label + ': ' + Number(context.raw).toFixed(1)
+                            }
                         }
                     }
                 }

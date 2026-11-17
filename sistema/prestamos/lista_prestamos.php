@@ -76,10 +76,10 @@
                     <tr>
                         <td><?php echo $data['idPrestamo']; ?></td>
                         <td><?php echo $data['nombre']; ?></td>
-                        <td>S/. <?php echo number_format($data['monto'],2); ?></td>
+                        <td>S/. <?php echo number_format($data['monto'], 1); ?></td>
                         <td><?php echo $data['cuotas']; ?></td>
-                        <td>S/. <?php echo number_format($data['montoCuota'],2); ?></td>
-                        <td>S/. <?php echo number_format($data['montoPagar'],2); ?></td>
+                        <td>S/. <?php echo number_format($data['montoCuota'], 1); ?></td>
+                        <td>S/. <?php echo number_format($data['montoPagar'], 1); ?></td>
                         <td><?php echo $data['fechaPrestamo']; ?></td>
                         <?php 
                             $estado = $data['estado'];
@@ -137,7 +137,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="monto">Monto a pagar</label>
-                            <input type="number" id="monto" name="monto" required step="0.01">
+                            <input type="number" id="monto" name="monto" required step="0.1">
                         </div>
                         <div class="mb-3">
                             <label for="metodoDePago">Metodo de pago</label>

@@ -166,7 +166,7 @@ function analyticsBuildMonthlySeries($rows, $filters, $valueKey)
     foreach ($rows as $row) {
         $key = $row['periodo'];
         if (isset($indexMap[$key])) {
-            $values[$indexMap[$key]] = round((float)$row[$valueKey], 2);
+            $values[$indexMap[$key]] = round((float)$row[$valueKey], 1);
         }
     }
 
@@ -295,7 +295,7 @@ function analyticsGetOverviewMetrics($conexionDB, $filters)
         'active_clients' => $activeClients,
         'personal_expenses' => $personalExpenses,
         'capital_expenses' => $capitalExpenses,
-        'average_ticket' => $salesCount > 0 ? round($totalSales / $salesCount, 2) : 0,
+        'average_ticket' => $salesCount > 0 ? round($totalSales / $salesCount, 1) : 0,
         'sold_out_products' => $soldOutProducts,
         'pending_sales' => $pendingSales,
         'pending_balance' => $pendingBalance,
@@ -433,8 +433,8 @@ function analyticsGetExpenseSeries($conexionDB, $filters)
     foreach ($rows as $row) {
         if (isset($indexMap[$row['periodo']])) {
             $position = $indexMap[$row['periodo']];
-            $personalValues[$position] = round((float)$row['personal'], 2);
-            $capitalValues[$position] = round((float)$row['capital'], 2);
+            $personalValues[$position] = round((float)$row['personal'], 1);
+            $capitalValues[$position] = round((float)$row['capital'], 1);
         }
     }
 
@@ -468,7 +468,7 @@ function analyticsGetPaymentMethodBreakdown($conexionDB, $filters)
             return ucfirst($row['etiqueta']);
         }, $rows),
         'values' => array_map(static function ($row) {
-            return round((float)$row['total'], 2);
+            return round((float)$row['total'], 1);
         }, $rows),
     ];
 }
@@ -526,7 +526,7 @@ function analyticsGetCapitalBreakdown($conexionDB, $filters)
             return 'Capital';
         }, $rows),
         'values' => array_map(static function ($row) {
-            return round((float)$row['capitalTotal'], 2);
+            return round((float)$row['capitalTotal'], 1);
         }, $rows),
     ];
 }
@@ -555,7 +555,7 @@ function analyticsGetSellerPerformance($conexionDB, $filters)
     return [
         'labels' => array_column($rows, 'etiqueta'),
         'values' => array_map(static function ($row) {
-            return round((float)$row['total'], 2);
+            return round((float)$row['total'], 1);
         }, $rows),
     ];
 }
@@ -622,7 +622,9 @@ function analyticsGetClientRankingChart($conexionDB, $filters, $limit = 10, $sor
             return $row['Nombre'];
         }, $rows),
         'values' => array_map(static function ($row) use ($valueKey) {
-            return round((float)$row[$valueKey], 2);
+            return $valueKey === 'cantidadCompras'
+                ? (int)$row[$valueKey]
+                : round((float)$row[$valueKey], 1);
         }, $rows),
         'rows' => $rows,
     ];

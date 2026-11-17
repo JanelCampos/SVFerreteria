@@ -118,7 +118,7 @@ $(document).ready(function() {
                         // Utilizar $.each para iterar sobre el array
                         $.each(data, function(i, item) {
                             $('#resultadoBusqueda').append(item.IdArticulo + ' - ' + item.Nombre + ' - ' +
-                                item.Cantidad + ' - ' + item.Precio_Unitario + '<br>');
+                                item.Cantidad + ' - ' + parseFloat(item.Precio_Unitario).toFixed(1) + '<br>');
                         });
                     }
                 },
@@ -228,7 +228,7 @@ $(document).ready(function() {
             if(pagoEfectivo < montoCobrar ){
                 $('#cambio').val('0');
             }else{
-                $('#cambio').val(vuelto.toFixed(2));
+                $('#cambio').val(vuelto.toFixed(1));
             }
         }
         
@@ -268,8 +268,8 @@ $(document).ready(function() {
                             $('#txt_nombre').html(info.Nombre);
                             $('#txt_existencia').html(info.Cantidad);
                             $('#txt_cant_producto').val('1');
-                            $('#txt_precio').val((info.Precio_Unitario));
-                            $('#txt_precio_total').html(info.Precio_Unitario);
+                            $('#txt_precio').val(parseFloat(info.Precio_Unitario).toFixed(1));
+                            $('#txt_precio_total').html(parseFloat(info.Precio_Unitario).toFixed(1));
 
                             //Activar Cantidad
                             $('#txt_cant_producto').removeAttr('disabled');
@@ -284,8 +284,8 @@ $(document).ready(function() {
                         $('#txt_nombre').html('-');
                         $('#txt_existencia').html('-');
                         $('#txt_cant_producto').val('0');
-                        $('#txt_precio').val('0.00');
-                        $('#txt_precio_total').html('0.00');
+                        $('#txt_precio').val('0.0');
+                        $('#txt_precio_total').html('0.0');
 
                         //Bloquear Cantidad
                         $('#txt_cant_producto').attr('disabled','disabled');
@@ -307,7 +307,7 @@ $(document).ready(function() {
         e.preventDefault();
         var precio_total = $(this).val() * $('#txt_cant_producto').val();
         var existencia = parseInt($('#txt_existencia').html());
-        $('#txt_precio_total').html(precio_total.toFixed(2));
+        $('#txt_precio_total').html(precio_total.toFixed(1));
 
         //Ocultar el boton agregar si el precio no es válido
         if( ($(this).val() <= 0 || isNaN($(this).val())) || (existencia <= 0)){
@@ -322,7 +322,7 @@ $(document).ready(function() {
         e.preventDefault();
         var precio_total = $(this).val() * $('#txt_precio').val();
         var existencia = parseInt($('#txt_existencia').html());
-        $('#txt_precio_total').html(precio_total.toFixed(2));
+        $('#txt_precio_total').html(precio_total.toFixed(1));
 
         //Ocultar el boton agregar si la cantidad es menor que 1
         if( ($(this).val() <= 0 || isNaN($(this).val())) || ($(this).val() > existencia) || (existencia <= 0)){
@@ -358,8 +358,8 @@ $(document).ready(function() {
                         $('#txt_nombre').html('-');
                         $('#txt_existencia').html('-');
                         $('#txt_cant_producto').val('0');
-                        $('#txt_precio').val('0.00');
-                        $('#txt_precio_total').html('0.00');
+                        $('#txt_precio').val('0.0');
+                        $('#txt_precio_total').html('0.0');
 
                         //Bloquear Cantidad
                         $('#txt_cant_producto').attr('disabled','disabled');
@@ -369,7 +369,7 @@ $(document).ready(function() {
                         $('#add_product_venta').slideUp();
 
                         //Añadir monto a datos de venta
-                        $('#monto').val(info.total);
+                        $('#monto').val(parseFloat(info.total).toFixed(1));
 
                     } else {
                         console.log('no data');
@@ -600,8 +600,8 @@ function del_product_detalle(correlativo){
                 $('#txt_nombre').html('-');
                 $('#txt_existencia').html('-');
                 $('#txt_cant_producto').val('0');
-                $('#txt_precio').html('0.00');
-                $('#txt_precio_total').html('0.00');
+                $('#txt_precio').html('0.0');
+                $('#txt_precio_total').html('0.0');
 
                 //Bloquear Cantidad
                 $('#txt_cant_product').attr('disabled','disabled');
@@ -801,8 +801,8 @@ function mostrarFormulario(idFormulario, id){
             .then(response => response.json())
             .then(data => {
                 document.getElementById('idPrestamo').value = data.idPrestamo;
-                document.getElementById('montoPagar').value = data.montoPagar;
-                document.getElementById('monto').value = data.montoPagar;
+                document.getElementById('montoPagar').value = parseFloat(data.montoPagar).toFixed(1);
+                document.getElementById('monto').value = parseFloat(data.montoPagar).toFixed(1);
                 document.getElementById('monto').focus();
                 document.getElementById('nombrePrestamista').value = data.nombre;
             })
@@ -822,8 +822,8 @@ function mostrarFormulario(idFormulario, id){
                 document.getElementById('stockProducto').value = data.Cantidad;
                 document.getElementById('cantidadActual').value = data.Cantidad;
                 var precioMinimo = parseFloat(data.Precio_Minimo) || 0;
-                document.getElementById('precioMinimoArticulo').value = precioMinimo.toFixed(2);
-                document.getElementById('precioMinimoMostrar').value = precioMinimo.toFixed(2);
+                document.getElementById('precioMinimoArticulo').value = precioMinimo.toFixed(1);
+                document.getElementById('precioMinimoMostrar').value = precioMinimo.toFixed(1);
                 var unidadBase = data.Unidad_Base || 'unidad';
                 var selectUdM = document.getElementById('unidadVenta');
                 selectUdM.innerHTML = '';
@@ -859,7 +859,7 @@ function mostrarFormulario(idFormulario, id){
                     infoHtml = 'Sin descuentos escalonados configurados para este artículo.';
                 }
                 document.getElementById('infoDescuentosEscalonados').innerHTML = infoHtml;
-                document.getElementById('precioVenta').value = parseFloat(data.Precio_Unitario || 0).toFixed(2);
+                document.getElementById('precioVenta').value = parseFloat(data.Precio_Unitario || 0).toFixed(1);
                 document.getElementById('stockVenta').value = 1;
                 cambiarUnidadVenta();
             })
@@ -872,9 +872,9 @@ function mostrarFormulario(idFormulario, id){
                     var saldoVenta = data.datos.saldo;
                     var totalPagado = ventaTotal - saldoVenta;
                     document.getElementById('idVenta').value = data.datos.IdVenta;
-                    document.getElementById('montoVenta').value = parseFloat(data.datos.Total);
-                    document.getElementById('montoPagado').value = totalPagado;
-                    document.getElementById('saldoVenta').value = parseFloat(data.datos.saldo);
+                    document.getElementById('montoVenta').value = parseFloat(data.datos.Total).toFixed(1);
+                    document.getElementById('montoPagado').value = totalPagado.toFixed(1);
+                    document.getElementById('saldoVenta').value = parseFloat(data.datos.saldo).toFixed(1);
                 }else{
                     if (window.hideLegacyModal) {
                         window.hideLegacyModal(idFormulario);
@@ -890,8 +890,8 @@ function mostrarFormulario(idFormulario, id){
             .then(data => {
                 if(data.resultado){
                     document.getElementById('idPagarVentaPendiente').value = data.datos.IdVenta;
-                    document.getElementById('montoTotalVenta').value = parseFloat(data.datos.saldo.toFixed(2));
-                    document.getElementById('efectivoPendiente').value = parseFloat(data.datos.saldo.toFixed(2));
+                    document.getElementById('montoTotalVenta').value = parseFloat(data.datos.saldo.toFixed(1));
+                    document.getElementById('efectivoPendiente').value = parseFloat(data.datos.saldo.toFixed(1));
                     document.getElementById('utilidadVentaPendiente').value = parseFloat(data.datos.utilidad);
                 }else{
                     if (window.hideLegacyModal) {
@@ -1073,7 +1073,7 @@ function mostrarFormulario(idFormulario, id){
             if(data.resultado){
                 document.getElementById('idCuotaPago').value = data.datos.idCuota;
                 document.getElementById('idPrestamoPago').value = data.datos.idPrestamo;
-                document.getElementById('montoCuotaPago').value = data.datos.montoCuota;
+                document.getElementById('montoCuotaPago').value = parseFloat(data.datos.montoCuota).toFixed(1);
             }else{
                 mostrarAlertaErrorTiempo(data.mensaje);
             }
@@ -1093,7 +1093,7 @@ function mostrarFormulario(idFormulario, id){
             if(data.resultado){
                 document.getElementById('idCuotaCancelar').value = data.datos.idCuota;
                 document.getElementById('idPrestamoCancelar').value = data.datos.idPrestamo;
-                document.getElementById('montoCuotaCancelar').value = data.datos.montoCuota;
+                document.getElementById('montoCuotaCancelar').value = parseFloat(data.datos.montoCuota).toFixed(1);
             }else{
                 mostrarAlertaErrorTiempo(data.mensaje);
             }
@@ -1113,7 +1113,7 @@ function mostrarFormulario(idFormulario, id){
             if(data.resultado){
                 document.getElementById('idArticuloAñadir').value = data.datos.IdArticulo;
                 document.getElementById('nombreProductoAñadir').value = data.datos.Nombre;
-                document.getElementById('precio_compraAñadir').value = data.datos.Precio_Compra;
+                document.getElementById('precio_compraAñadir').value = parseFloat(data.datos.Precio_Compra).toFixed(1);
                 document.getElementById('cantidadActualAñadir').value = data.datos.Cantidad;
                 var selA = document.getElementById('unidadAñadirSelect');
                 selA.innerHTML = '';
@@ -1153,9 +1153,9 @@ function mostrarFormulario(idFormulario, id){
                 document.getElementById('idArticuloeditar').value = data.datos.IdArticulo;
                 document.getElementById('codigoBarrasEditar').value = data.datos.codigoBarras;
                 document.getElementById('nombreProductoEditar').value = data.datos.Nombre;
-                document.getElementById('precioCompraEditar').value = data.datos.Precio_Compra;
-                document.getElementById('precioVentaEditar').value = data.datos.Precio_Unitario;
-                document.getElementById('precioMinimoEditar').value = data.datos.Precio_Minimo || 0;
+                document.getElementById('precioCompraEditar').value = parseFloat(data.datos.Precio_Compra).toFixed(1);
+                document.getElementById('precioVentaEditar').value = parseFloat(data.datos.Precio_Unitario).toFixed(1);
+                document.getElementById('precioMinimoEditar').value = parseFloat(data.datos.Precio_Minimo || 0).toFixed(1);
                 document.getElementById('stockAlertaEditar').value = data.datos.Stock_Alerta || 5;
                 document.getElementById('unidadActual').value = data.datos.Unidad_Presentacion || 'unidad';
                 document.getElementById('proveedorActual').value = data.datos.nombreProveedor;
@@ -1255,9 +1255,9 @@ function mostrarFormulario(idFormulario, id){
                     var saldoVenta = data.datos.saldo;
                     var totalPagado = ventaTotal - saldoVenta;
                     document.getElementById('idVenta').value = data.datos.IdVenta;
-                    document.getElementById('montoVenta').value = parseFloat(data.datos.Total);
-                    document.getElementById('montoPagado').value = totalPagado;
-                    document.getElementById('saldoVenta').value = parseFloat(data.datos.saldo);
+                    document.getElementById('montoVenta').value = parseFloat(data.datos.Total).toFixed(1);
+                    document.getElementById('montoPagado').value = totalPagado.toFixed(1);
+                    document.getElementById('saldoVenta').value = parseFloat(data.datos.saldo).toFixed(1);
                 }else{
                     if (window.hideLegacyModal) {
                         window.hideLegacyModal(idFormulario);
@@ -1273,8 +1273,8 @@ function mostrarFormulario(idFormulario, id){
             .then(data => {
                 if(data.resultado){
                     document.getElementById('idPagarVentaPendiente').value = data.datos.IdVenta;
-                    document.getElementById('montoTotalVenta').value = parseFloat(data.datos.saldo.toFixed(2));
-                    document.getElementById('efectivoPendiente').value = parseFloat(data.datos.saldo.toFixed(2));
+                    document.getElementById('montoTotalVenta').value = parseFloat(data.datos.saldo.toFixed(1));
+                    document.getElementById('efectivoPendiente').value = parseFloat(data.datos.saldo.toFixed(1));
                     document.getElementById('utilidadVentaPendiente').value = parseFloat(data.datos.utilidad);
                 }else{
                     if (window.hideLegacyModal) {
@@ -1323,8 +1323,8 @@ function mostrarFormulario(idFormulario, id){
             .then(data => {
                 if(data.resultado){
                     document.getElementById('idPagarVentaPendiente').value = data.datos.IdVenta;
-                    document.getElementById('montoTotalVenta').value = parseFloat(data.datos.saldo.toFixed(2));
-                    document.getElementById('efectivoPendiente').value = parseFloat(data.datos.saldo.toFixed(2));
+                    document.getElementById('montoTotalVenta').value = parseFloat(data.datos.saldo.toFixed(1));
+                    document.getElementById('efectivoPendiente').value = parseFloat(data.datos.saldo.toFixed(1));
                     document.getElementById('utilidadVentaPendiente').value = parseFloat(data.datos.utilidad);
                 }else{
                     if (window.hideLegacyModal) {
@@ -1344,9 +1344,9 @@ function mostrarFormulario(idFormulario, id){
                     var saldoVenta = data.datos.saldo;
                     var totalPagado = ventaTotal - saldoVenta;
                     document.getElementById('idVenta').value = data.datos.IdVenta;
-                    document.getElementById('montoVenta').value = parseFloat(data.datos.Total);
-                    document.getElementById('montoPagado').value = totalPagado;
-                    document.getElementById('saldoVenta').value = parseFloat(data.datos.saldo);
+                    document.getElementById('montoVenta').value = parseFloat(data.datos.Total).toFixed(1);
+                    document.getElementById('montoPagado').value = totalPagado.toFixed(1);
+                    document.getElementById('saldoVenta').value = parseFloat(data.datos.saldo).toFixed(1);
                 }else{
                     if (window.hideLegacyModal) {
                         window.hideLegacyModal(idFormulario);
@@ -1524,7 +1524,7 @@ async function get_articulo(id) {
         let resultadosHtml = '<ul> <h5>Resultados encontrados: '+ data.length + '</h5>';
         data.forEach(item => {
             resultadosHtml += `
-                <button type="button" class="list-group-item list-group-item-action list-group-item-info mt-1 rounded-end"  onclick="mostrarFormulario('añadirProducto',${item.IdArticulo})">${item.Nombre} - ${item.Cantidad} - ${rolUsuario == 1 ? item.Precio_Compra : ""}</button>
+                <button type="button" class="list-group-item list-group-item-action list-group-item-info mt-1 rounded-end"  onclick="mostrarFormulario('añadirProducto',${item.IdArticulo})">${item.Nombre} - ${item.Cantidad} - ${rolUsuario == 1 ? Number(item.Precio_Compra).toFixed(1) : ""}</button>
             `;
         });
         resultadosHtml += '</ul>';
@@ -1618,7 +1618,7 @@ async function get_articulo(id) {
             document.getElementById('saldo').value = '';
             document.getElementById('saldoContainer').style.display = 'none';
         }
-        $('#saldo').val(saldo.toFixed(2));
+        $('#saldo').val(saldo.toFixed(1));
     }
 
     function calcularVuelto(){
@@ -1642,7 +1642,7 @@ async function get_articulo(id) {
             document.getElementById('metodoVueltoContainer').style.display = 'none';
             document.getElementById('vueltoContainer').style.display = 'none';
         }
-        $('#vuelto').val(vuelto.toFixed(2));
+        $('#vuelto').val(vuelto.toFixed(1));
     }
     
 
@@ -1764,10 +1764,10 @@ function cambiarUnidadVenta(){
 
     document.getElementById('factorAplicado').value = factor.toFixed(4);
     document.getElementById('unidadSeleccionada').value = unidad;
-    document.getElementById('precioVenta').value = precioVentaUdM;
-    document.getElementById('precioMinimoMostrar').value = precioMinimo;
+    document.getElementById('precioVenta').value = precioVentaUdM.toFixed(1);
+    document.getElementById('precioMinimoMostrar').value = precioMinimo.toFixed(1);
     document.getElementById('stockProducto').value = (parseFloat(cantidadActual.value) * factor).toFixed(2);
-    document.getElementById('precioMinimoArticulo').value = precioMinimo;
+    document.getElementById('precioMinimoArticulo').value = precioMinimo.toFixed(1);
 
     calcularDescuentoVenta();
     actualizarEquivalenteVenta();
@@ -1815,8 +1815,8 @@ function calcularDescuentoVenta(){
     var subTotal = precioConDescuento * cantidad;
     document.getElementById('descuentoMostrar').value = porcentajeDto.toFixed(2);
     document.getElementById('porcentajeDescuentoAplicado').value = porcentajeDto.toFixed(4);
-    document.getElementById('precioConDescuentoMostrar').value = precioConDescuento.toFixed(2);
-    document.getElementById('subTotalMostrar').value = 'S/. ' + subTotal.toFixed(2);
+    document.getElementById('precioConDescuentoMostrar').value = precioConDescuento.toFixed(1);
+    document.getElementById('subTotalMostrar').value = 'S/. ' + subTotal.toFixed(1);
     var inpPrecioVenta = document.getElementById('precioVenta');
     var inpSubTotal = document.getElementById('subTotalMostrar');
     if(aplicarDescuento){
@@ -1852,12 +1852,12 @@ function añadirProducto(){
     var aplicarDescuento = $('#aplicarDescuento').is(':checked');
     if(aplicarDescuento){
         if (precioMinimo > 0 && parseFloat(precioConDescuento) < precioMinimo) {
-            mostrarAlertaError('El precio con descuento (S/.' + precioConDescuento + ') está por debajo del precio mínimo permitido (S/.' + precioMinimo.toFixed(2) + ').');
+            mostrarAlertaError('El precio con descuento (S/.' + precioConDescuento + ') está por debajo del precio mínimo permitido (S/.' + precioMinimo.toFixed(1) + ').');
             return;
         }
     }else {
         if (precioMinimo > 0 && parseFloat(precioVenta) < precioMinimo) {
-            mostrarAlertaError('El precio con descuento (S/.' + precioVenta + ') está por debajo del precio mínimo permitido (S/.' + precioMinimo.toFixed(2) + ').');
+            mostrarAlertaError('El precio con descuento (S/.' + precioVenta + ') está por debajo del precio mínimo permitido (S/.' + precioMinimo.toFixed(1) + ').');
             return;
         }
     }
@@ -1920,26 +1920,26 @@ function mostrarDatosVenta(data) {
                 <td class="text-wrap" style="max-width:180px; overflow-wrap: break-word;" title="${nombreArticulo}">${nombreArticulo}</td>
                 <td>${cantidad}</td>
                 <td>${unidad}</td>
-                <td>S/. ${precioUnitario.toFixed(2)}</td>
-                <td>${porcentajeDto > 0 ? porcentajeDto.toFixed(1) + '%' : '-'}</td>
-                <td>S/. ${subTotal.toFixed(2)}</td>
+                <td>S/. ${precioUnitario.toFixed(1)}</td>
+                <td>${porcentajeDto > 0 ? porcentajeDto.toFixed(2) + '%' : '-'}</td>
+                <td>S/. ${subTotal.toFixed(1)}</td>
                 <td>
                     <button type="button" class="btn btn-danger btn-sm" onclick="quitarProducto(${item.correlativo})"><i class="far fa-trash-alt"></i></button>
                 </td>
             </tr>
         `;
     });
-    totalVenta = Number(totalVenta.toFixed(2));
+    totalVenta = Number(totalVenta.toFixed(1));
     resultadosHtml += `
         <tr>
             <td colspan="5" class="text-end"><strong>Total</strong></td>
-            <td id="totalVenta" data-total="${totalVenta}"><strong>S/. ${totalVenta.toFixed(2)}</strong></td>
+            <td id="totalVenta" data-total="${totalVenta}"><strong>S/. ${totalVenta.toFixed(1)}</strong></td>
             <td></td>
         </tr>
     `;
     $('#datosVenta').html(resultadosHtml);
     if (document.getElementById('efectivo')) {
-        document.getElementById('efectivo').value = totalVenta.toFixed(2);
+        document.getElementById('efectivo').value = totalVenta.toFixed(1);
     }
 }
 
@@ -2537,7 +2537,7 @@ function buscarVenta(page = 1){
                         </span>
                     </td>
                     <td>${item.Medio_Pago}</td>
-                    <td>${item.saldo.toFixed(2)}</td>
+                    <td>${item.saldo.toFixed(1)}</td>
                     <td>
                         <div class="btn-group dropend">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -2639,7 +2639,7 @@ function buscarVentaDia(page = 1){
                         </span>
                     </td>
                     <td>${item.Medio_Pago}</td>
-                    <td>${item.saldo.toFixed(2)}</td>
+                    <td>${item.saldo.toFixed(1)}</td>
                     ${rolUsuario == 1 ? `
                         <td>
                             <div class="btn-group dropend">
@@ -2770,7 +2770,7 @@ function buscarVentaMes(page = 1){
                         <span class="badge ${claseEstado}">${item.Estado}</span>
                     </td>
                     <td>${item.Medio_Pago}</td>
-                    <td>${item.saldo.toFixed(2)}</td>
+                    <td>${item.saldo.toFixed(1)}</td>
                     <td>
                         <div class="btn-group dropend">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -2846,8 +2846,8 @@ function buscarPMV(page = 1){
                     <td>${item.Cod_Articulo}</td>
                     <td>${item.Nombre}</td>
                     <td>${item.Cantidad}</td>
-                    <td>${item.Precio_Compra}</td>
-                    <td>${item.Precio_Unitario}</td>
+                    <td>${Number(item.Precio_Compra).toFixed(1)}</td>
+                    <td>${Number(item.Precio_Unitario).toFixed(1)}</td>
                     <td>${item.nombreProv}</td>
                     <td>${item.cantidadVendida}</td>
                     <td>${item.gananciaGenerada}</td>
@@ -2910,7 +2910,7 @@ function buscarGastoMes(page = 1){
                 var fila = `<tr>
                     <td>${item.idGastos}</td>
                     <td>${item.descripcion}</td>
-                    <td>${item.montoGasto.toFixed(2)}</td>
+                    <td>${item.montoGasto.toFixed(1)}</td>
                     <td>${item.fechaGasto}</td>
                     <td>${item.medioPago}</td>
                     <td>${item.tipoGasto}</td>
@@ -2981,7 +2981,7 @@ function buscarGasto(page = 1){
                 var fila = `<tr>
                     <td>${item.idGastos}</td>
                     <td>${item.descripcion}</td>
-                    <td>${item.montoGasto.toFixed(2)}</td>
+                    <td>${item.montoGasto.toFixed(1)}</td>
                     <td>${item.fechaGasto}</td>
                     <td>${item.medioPago}</td>
                     <td>${item.tipoGasto}</td>
@@ -3042,7 +3042,7 @@ function buscarGastoDia(page = 1){
                 var fila = `<tr>
                     <td>${item.idGastos}</td>
                     <td>${item.descripcion}</td>
-                    <td>${item.montoGasto.toFixed(2)}</td>
+                    <td>${item.montoGasto.toFixed(1)}</td>
                     <td>${item.fechaGasto}</td>
                     <td>${item.medioPago}</td>
                     <td>${item.tipoGasto}</td>
@@ -3232,9 +3232,9 @@ function buscarArticulo(page = 1){
                     <td>${data.Cantidad}${badgeStock}</td>
                     <td>${data.Stock_Alerta}</td>
                     <td>${data.Unidad_Presentacion}</td>
-                    ${rolUsuario == 1 ? `<td>S/. ${Number(data.Precio_Compra).toFixed(2)}</td>` : "" }
-                    <td>S/. ${Number(data.Precio_Unitario).toFixed(2)}</td>
-                    <td>S/. ${Number(data.Precio_Minimo || 0).toFixed(2)}</td>
+                    ${rolUsuario == 1 ? `<td>S/. ${Number(data.Precio_Compra).toFixed(1)}</td>` : "" }
+                    <td>S/. ${Number(data.Precio_Unitario).toFixed(1)}</td>
+                    <td>S/. ${Number(data.Precio_Minimo || 0).toFixed(1)}</td>
                     ${rolUsuario == 1 ? `<td>${data.nombreP}</td>` : "" }
                     ${rolUsuario == 1 ? `
                         <td>
@@ -3688,8 +3688,8 @@ function buscarCliente(page = 1){
                     <td>${data.Fecha_Registro}</td>
                     <td>${data.cantidadCompras}</td>
                     ${rolUsuario == 1 ? `
-                        <td>S/. ${parseFloat(data.montoCompras || 0).toFixed(2)}</td>
-                        <td>S/. ${parseFloat(data.gananciaGenerada || 0).toFixed(2)}</td>
+                        <td>S/. ${parseFloat(data.montoCompras || 0).toFixed(1)}</td>
+                        <td>S/. ${parseFloat(data.gananciaGenerada || 0).toFixed(1)}</td>
                         <td>
                             <div class="btn-group dropend">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -4115,7 +4115,7 @@ function añadirStock(){
             .then(articulo => {
                 ocultarFormulario('añadirStock');
                 document.getElementById('fila-' + idArticulo).querySelector('td:nth-child(4)').textContent = articulo.datos.Cantidad;
-                document.getElementById('fila-' + idArticulo).querySelector('td:nth-child(7)').textContent = articulo.datos.Precio_Compra;
+                document.getElementById('fila-' + idArticulo).querySelector('td:nth-child(7)').textContent = parseFloat(articulo.datos.Precio_Compra).toFixed(1);
                 mostrarAlertaExito(data.mensaje);
             })
              .catch(error => {
@@ -4304,8 +4304,8 @@ function agregarFilaUnidad(data){
     html += '<option value="Otro" '+(u.Unidad==='Otro'?'selected':'')+'>Otro</option>';
     html += '</select></div>';
     html += '<div class="col-2"><input type="number" step="0.0001" class="form-control form-control-sm" name="u_factor" placeholder="Factor x unidad base" value="'+(u.FactorEquivalencia||1)+'"></div>';
-    html += '<div class="col-2"><input type="number" step="0.01" class="form-control form-control-sm" name="u_precio" placeholder="Precio venta" value="'+(u.PrecioVenta||0)+'"></div>';
-    html += '<div class="col-2"><input type="number" step="0.01" class="form-control form-control-sm" name="u_minimo" placeholder="Precio mínimo" value="'+(u.PrecioMinimo||0)+'"></div>';  
+    html += '<div class="col-2"><input type="number" step="0.1" class="form-control form-control-sm" name="u_precio" placeholder="Precio venta" value="'+(parseFloat(u.PrecioVenta) || 0).toFixed(1)+'"></div>';
+    html += '<div class="col-2"><input type="number" step="0.1" class="form-control form-control-sm" name="u_minimo" placeholder="Precio mínimo" value="'+(parseFloat(u.PrecioMinimo) || 0).toFixed(1)+'"></div>';
     html += '<div class="col-1 text-center"><input type="checkbox" name="u_pred" '+(u.EsPredeterminada?'checked':'')+'></div>';
     html += '<div class="col-1"><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest(\'.unidad-row\').remove()"><i class="fas fa-trash"></i></button></div>';
     html += '</div>';
@@ -5174,7 +5174,7 @@ function buscarCotizacion(page) {
                 var cliente = rr.NombreCliente ? rr.NombreCliente : '—';
                 if (rr.DniCliente) cliente += ' <small class="text-muted">(' + rr.DniCliente + ')</small>';
                 var vendedor = rr.NombreEmpleado ? rr.NombreEmpleado : '—';
-                var total = 'S/. ' + (parseFloat(rr.Total) || 0).toFixed(2);
+                var total = 'S/. ' + (parseFloat(rr.Total) || 0).toFixed(1);
                 var vigencia = rr.VigenciaHasta ? rr.VigenciaHasta : '—';
                 var acciones = '<div class="btn-group btn-group-sm">'
                     + '<a class="btn btn-sm btn-outline-danger" title="PDF" target="_blank" href="' + window._cotizacionBase + 'imprimir_cotizacion.php?idCotizacion=' + rr.IdCotizacion + '&nPdf=1"><i class="fa-solid fa-file-pdf"></i></a>'
@@ -5312,7 +5312,7 @@ function buscarArticulosCot() {
         var html = '';
         resp.datos.forEach(function(a) {
             var stock = parseFloat(a.Cantidad) || 0;
-            var precio = 'S/. ' + (parseFloat(a.Precio_Unitario) || 0).toFixed(2);
+            var precio = 'S/. ' + (parseFloat(a.Precio_Unitario) || 0).toFixed(1);
             html += '<button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-start" onclick="mostrarFormularioCot(\'añadirProductoCotizacion\',' + a.IdArticulo + ')">'
                 + '<div><div class="fw-semibold">' + a.Nombre + '</div><div class="small text-muted">Stock: ' + stock + ' ' + (a.Unidad_Base || 'u.') + (a.Cod_Barra ? ' • Cod: ' + a.Cod_Barra : '') + '</div></div>'
                 + '<span class="badge text-bg-primary rounded-pill ms-2">' + precio + '</span></button>';
@@ -5346,9 +5346,9 @@ function mostrarDatosCotizacion(data) {
                 + '<td>' + item.nombreArticulo + '</td>'
                 + '<td class="text-end">' + cant + '</td>'
                 + '<td><span class="badge text-bg-light text-dark border">' + udm + '</span></td>'
-                + '<td class="text-end">S/. ' + prec.toFixed(2) + '</td>'
+                + '<td class="text-end">S/. ' + prec.toFixed(1) + '</td>'
                 + '<td class="text-end">' + (dto > 0 ? dto.toFixed(2) + '%' : '-') + '</td>'
-                + '<td class="text-end fw-semibold">S/. ' + subt.toFixed(2) + '</td>'
+                + '<td class="text-end fw-semibold">S/. ' + subt.toFixed(1) + '</td>'
                 + '<td><button class="btn btn-sm btn-outline-danger" onclick="quitarProductoTempCotizacion(' + item.correlativo + ')"><i class="fa-solid fa-trash"></i></button></td>'
                 + '</tr>';
         });
@@ -5356,7 +5356,7 @@ function mostrarDatosCotizacion(data) {
         rows = '<tr><td colspan="7" class="text-center small text-muted py-3">No hay articulos agregados. Busque y agregue productos.</td></tr>';
     }
     document.getElementById('datosCotizacion').innerHTML = rows;
-    if (document.getElementById('totalCotizacion')) document.getElementById('totalCotizacion').value = 'S/. ' + total.toFixed(2);
+    if (document.getElementById('totalCotizacion')) document.getElementById('totalCotizacion').value = 'S/. ' + total.toFixed(1);
 }
 
 function ocultarFormularioCot(nombre) {
@@ -5384,9 +5384,9 @@ function mostrarFormularioCot(nombre, idArticulo) {
         if (document.getElementById('categoriaArticuloCot')) document.getElementById('categoriaArticuloCot').value = d.NombreCategoria || '';
         var stock = parseFloat(d.Cantidad) || 0;
         if (document.getElementById('stockActualCot')) document.getElementById('stockActualCot').value = stock + ' ' + (d.Unidad_Base || 'u.');
-        if (document.getElementById('precioVentaMostrarCot')) document.getElementById('precioVentaMostrarCot').value = (parseFloat(d.Precio_Unitario) || 0).toFixed(2);
-        if (document.getElementById('precioMinimoArticuloCot')) document.getElementById('precioMinimoArticuloCot').value = (parseFloat(d.Precio_Minimo) || 0).toFixed(2);
-        if (document.getElementById('precioMinimoMostrarCot')) document.getElementById('precioMinimoMostrarCot').value = (parseFloat(d.Precio_Minimo) || 0).toFixed(2);
+        if (document.getElementById('precioVentaMostrarCot')) document.getElementById('precioVentaMostrarCot').value = (parseFloat(d.Precio_Unitario) || 0).toFixed(1);
+        if (document.getElementById('precioMinimoArticuloCot')) document.getElementById('precioMinimoArticuloCot').value = (parseFloat(d.Precio_Minimo) || 0).toFixed(1);
+        if (document.getElementById('precioMinimoMostrarCot')) document.getElementById('precioMinimoMostrarCot').value = (parseFloat(d.Precio_Minimo) || 0).toFixed(1);
         if (document.getElementById('cantidadVentaCot')) document.getElementById('cantidadVentaCot').value = 1;
         var unidades = resp.unidades && resp.unidades.length ? resp.unidades : [{Unidad: (d.Unidad_Base || 'u.'), Factor: 1}];
         var sel = document.getElementById('unidadVentaCot');
@@ -5429,7 +5429,7 @@ function cambiarUnidadVentaCotizacion() {
     if (document.getElementById('factorMostrarCot')) document.getElementById('factorMostrarCot').value = factor.toFixed(4);
     if (document.getElementById('factorAplicadoCot')) document.getElementById('factorAplicadoCot').value = factor.toFixed(4);
     if (document.getElementById('unidadSeleccionadaCot')) document.getElementById('unidadSeleccionadaCot').value = opt.value;
-    if (document.getElementById('precioVentaMostrarCot')) document.getElementById('precioVentaMostrarCot').value = precioUdM.toFixed(2);
+    if (document.getElementById('precioVentaMostrarCot')) document.getElementById('precioVentaMostrarCot').value = precioUdM.toFixed(1);
     calcularDescuentoVentaCotizacion();
     actualizarEquivalenteVentaCot();
 }
@@ -5470,8 +5470,8 @@ function calcularDescuentoVentaCotizacion() {
     var sub = precioConDescuento * cantidad;
     if (document.getElementById('descuentoMostrarCot')) document.getElementById('descuentoMostrarCot').value = porcentajeDto.toFixed(2) + '%';
     if (document.getElementById('porcentajeDescuentoAplicadoCot')) document.getElementById('porcentajeDescuentoAplicadoCot').value = porcentajeDto.toFixed(2);
-    if (document.getElementById('precioConDescuentoMostrarCot')) document.getElementById('precioConDescuentoMostrarCot').value = precioConDescuento.toFixed(2);
-    if (document.getElementById('subTotalMostrarCot')) document.getElementById('subTotalMostrarCot').value = sub.toFixed(2);
+    if (document.getElementById('precioConDescuentoMostrarCot')) document.getElementById('precioConDescuentoMostrarCot').value = precioConDescuento.toFixed(1);
+    if (document.getElementById('subTotalMostrarCot')) document.getElementById('subTotalMostrarCot').value = sub.toFixed(1);
     actualizarEquivalenteVentaCot();
 }
 
@@ -5489,11 +5489,11 @@ function añadirProductoCotizacion() {
         + '?id=' + encodeURIComponent(idArticulo)
         + '&cantidad=' + encodeURIComponent(cantidad)
         + '&precioCompra=0'
-        + '&precioVenta=' + encodeURIComponent(precioVentaUdM.toFixed(2))
+        + '&precioVenta=' + encodeURIComponent(precioVentaUdM.toFixed(1))
         + '&unidad=' + encodeURIComponent(unidad)
         + '&factorAplicado=' + encodeURIComponent(factor.toFixed(4))
         + '&porcentajeDescuento=' + encodeURIComponent(porcentajeDto.toFixed(2))
-        + '&precioConDescuento=' + encodeURIComponent(precioConDescuento.toFixed(2));
+        + '&precioConDescuento=' + encodeURIComponent(precioConDescuento.toFixed(1));
     fetch(url).then(r => r.json()).then(d => {
         if (d.resultado) {
             mostrarDatosCotizacion(d.datos || []);

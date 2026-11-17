@@ -213,15 +213,15 @@
                     </div>
                     <div class="col-md-2">
                         <label for="precio_compra" class="form-label">Precio compra</label>
-                        <input type="number" step="0.01" name="precio_compra" id="precio_compra" class="form-control form-control-sm" placeholder="Precio compra" min="0">
+                        <input type="number" step="0.1" name="precio_compra" id="precio_compra" class="form-control form-control-sm" placeholder="Precio compra" min="0">
                     </div>
                     <div class="col-md-2">
                         <label for="precio_unitario" class="form-label">Precio venta</label>
-                        <input type="number" step="0.01" name="precio_unitario" id="precio_unitario" class="form-control form-control-sm" placeholder="Precio venta base" required min="0">
+                        <input type="number" step="0.1" name="precio_unitario" id="precio_unitario" class="form-control form-control-sm" placeholder="Precio venta base" required min="0">
                     </div>
                     <div class="col-md-2">
                         <label for="precio_minimo" class="form-label">Precio mínimo</label>
-                        <input type="number" step="0.01" name="precio_minimo" id="precio_minimo" class="form-control form-control-sm" placeholder="Precio mínimo" min="0">
+                        <input type="number" step="0.1" name="precio_minimo" id="precio_minimo" class="form-control form-control-sm" placeholder="Precio mínimo" min="0">
                     </div>
                     <div class="col-md-2">
                         <label for="unidad_presentacion" class="form-label">Unidad de presentración</label>

@@ -159,7 +159,7 @@ mysqli_close($conexionDB);
                         var dniCli = rr.DniCliente ? rr.DniCliente : '';
                         var nomEmp = rr.NombreEmpleado ? rr.NombreEmpleado : '—';
                         var badgeClass = 'text-bg-secondary';
-                        var total = Number(rr.Total || 0).toFixed(2);
+                        var total = Number(rr.Total || 0).toFixed(1);
                         var vigencia = rr.VigenciaHasta ? rr.VigenciaHasta : '—';
                         var fechaCot = rr.Fecha ? rr.Fecha.substring(0,10) : '—';
 

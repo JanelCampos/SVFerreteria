@@ -89,7 +89,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="monto">Monto de préstamo</label>
-                        <input type="number" name="monto" id="monto" step="0.01">
+                        <input type="number" name="monto" id="monto" step="0.1">
                     </div>
                     <div class="col-md-3">
                         <label for="fechaPrestamo">Fecha de préstamo</label>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="montoCuota">Monto de la cuota</label>
-                        <input type="number" name="montoCuota" id="montoCuota" step="0.01">
+                        <input type="number" name="montoCuota" id="montoCuota" step="0.1">
                     </div>
                     <div class="col-md-3">
                         <label for="fechaCuota">Fecha de primera cuota</label>

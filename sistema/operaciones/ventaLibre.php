@@ -92,7 +92,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="monto">Monto</label>
-                        <input type="number" name="monto" id="monto" placeholder="Ingrese el monto S/." autofocus step="0.01"/>
+                        <input type="number" name="monto" id="monto" placeholder="Ingrese el monto S/." autofocus step="0.1"/>
                     </div>
                     <div class="col-md-6">
                         <label for="medioPago">Medio de pago</label>
@@ -144,7 +144,7 @@
 				        <input type="hidden" id="idAbrirCaja" name="idAbrirCaja">
                         <div class="mb-3">
                             <label for="montoAbrirCaja">Monto inicial</label>
-				            <input type="number" id="montoAbrirCaja" name="montoAbrirCaja" step="0.01" placeholder="Ingrese el monto inicial">
+				            <input type="number" id="montoAbrirCaja" name="montoAbrirCaja" step="0.1" placeholder="Ingrese el monto inicial">
                         </div>
                     </div>
                     <div class="modal-footer">

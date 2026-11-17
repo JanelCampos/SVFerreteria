@@ -63,8 +63,8 @@
             $pdf->Cell(90,6,mb_convert_encoding($fila["nombreArticulo"], 'ISO-8859-1', 'UTF-8'),1,0,'L',1);
             $pdf->Cell(25,6,$fila["Cantidad"] . ' ' . $fila["unidad"],1,0,'C',1);
             $pdf->Cell(25,6,$fila["Descuento"] . '%',1,0,'C',1);
-            $pdf->Cell(25,6,'S/. '.number_format($precioVenta,2),1,0,'C',1);
-            $pdf->Cell(25,6,'S/. '.number_format($subTotal,2),1,1,'C',1);   
+            $pdf->Cell(25,6,'S/. '.number_format($precioVenta, 1),1,0,'C',1);
+            $pdf->Cell(25,6,'S/. '.number_format($subTotal, 1),1,1,'C',1);
             $total = $fila["Total"];
         }
         $pdf->Ln(105);
@@ -74,7 +74,7 @@
         $pdf->Cell(25,6,'Total',1,0,'C',1);
 		$pdf->SetFillColor(255,255,255);
         $pdf->SetFont('Arial','',10);
-        $pdf->Cell(25,6,'S/.'.$total,1,1,'C',1);
+        $pdf->Cell(25,6,'S/.'.number_format((float)$total, 1),1,1,'C',1);
         if($vuelto > 0){
             $pdf->Cell(136);
             $pdf->SetFillColor(210,210,210);
@@ -82,7 +82,7 @@
             $pdf->Cell(25,6,'vuelto',1,0,'C',1);
             $pdf->SetFillColor(255,255,255);
             $pdf->SetFont('Arial','',10);
-            $pdf->Cell(25,6,'S/.'.number_format($vuelto,2),1,0,'C',1);
+            $pdf->Cell(25,6,'S/.'.number_format($vuelto, 1),1,0,'C',1);
         }
         if($saldo > 0){
             $pdf->Cell(136);
@@ -91,7 +91,7 @@
             $pdf->Cell(25,6,'Saldo',1,0,'C',1);
             $pdf->SetFillColor(255,255,255);
             $pdf->SetFont('Arial','',10);
-            $pdf->Cell(25,6,'S/.'.number_format($saldo,2),1,0,'C',1);
+            $pdf->Cell(25,6,'S/.'.number_format($saldo, 1),1,0,'C',1);
         }
         
         $pdf->Output('', 'Ticket de venta Nro '.$noFactura.'.pdf');

@@ -124,7 +124,7 @@ if (isset($_GET['idVenta'])) {
         $pdf->SetXY($x + $nameWidth, $y);
         $pdf->Cell($qtyWidth, 4, number_format($cantidad, 1) . ' ' . $unidad, 0, 0, 'R');
         $pdf->Cell($dsctWidth, 4, number_format($porcentajeDescuento, 1) . '%', 0, 0, 'R');
-        $pdf->Cell($priceWidth, 4, number_format($precioVenta, 2), 0, 1,'R');
+        $pdf->Cell($priceWidth, 4, number_format($precioVenta, 1), 0, 1,'R');
 
         // Mover el cursor a la línea más baja usada (si el nombre ocupó más de una línea)
         $pdf->SetY(max($yAfter, $pdf->GetY()));
@@ -132,16 +132,16 @@ if (isset($_GET['idVenta'])) {
 
     $pdf->Ln(4);
     $pdf->SetFont('Arial', 'B', 9);
-    $total = number_format($datosVenta[0]['Total'], 2);
-    $pdf->Cell($printableWidth, 6, 'Total: S/. ' . number_format($total, 2), 0, 1, 'R');
+    $total = number_format($datosVenta[0]['Total'], 1);
+    $pdf->Cell($printableWidth, 6, 'Total: S/. ' . number_format($total, 1), 0, 1, 'R');
 
     if($saldo > 0 ){
         $pdf->SetFont('Arial', '', 8);
-        $pdf->Cell($printableWidth, 5, 'Saldo: S/. ' . number_format($saldo, 2), 0, 1, 'R');
+        $pdf->Cell($printableWidth, 5, 'Saldo: S/. ' . number_format($saldo, 1), 0, 1, 'R');
     }
     if($vuelto > 0){
         $pdf->SetFont('Arial', '', 8);
-        $pdf->Cell($printableWidth, 5, 'Vuelto: S/. ' . number_format($vuelto, 2), 0, 1, 'R');
+        $pdf->Cell($printableWidth, 5, 'Vuelto: S/. ' . number_format($vuelto, 1), 0, 1, 'R');
     }
 
     // Mensajes finales

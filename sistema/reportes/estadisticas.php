@@ -162,11 +162,11 @@
                                     <td><?php echo $data['Cod_Articulo']; ?></td>
                                     <td><?php echo $data["Nombre"]; ?></td>
                                     <td><?php echo $data["Cantidad"]; ?></td>
-                                    <td><?php echo $data["Precio_Compra"]; ?></td>
-                                    <td><?php echo $data["Precio_Unitario"]; ?></td>
+                                    <td><?php echo number_format((float)$data["Precio_Compra"], 1); ?></td>
+                                    <td><?php echo number_format((float)$data["Precio_Unitario"], 1); ?></td>
                                     <td><?php echo $data["nombreProv"]; ?></td>
                                     <td><?php echo $data["cantidadVendida"]; ?></td>
-                                    <td><?php echo $data["gananciaGenerada"]; ?></td>
+                                    <td><?php echo number_format((float)$data["gananciaGenerada"], 1); ?></td>
                                 </tr>
                     <?php
                             }

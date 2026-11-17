@@ -176,15 +176,15 @@
                             </div>
                             <div id="montoEfectivo">
                                 <label for="efectivo">Monto efectivo: </label>
-                                <input type="number" name="efectivo" id="efectivo" step="0.01">
+                                <input type="number" name="efectivo" id="efectivo" step="0.1">
                             </div>
                             <div id="montoTarjeta">
                                 <label for="tarjeta">Monto tarjeta: </label>
-                                <input type="number" name="tarjeta" id="tarjeta" step="0.01">
+                                <input type="number" name="tarjeta" id="tarjeta" step="0.1">
                             </div>
                             <div id="vueltoContainer">
                                 <label for="vuelto">Vuelto: </label>
-                                <input type="number" name="vuelto" id="vuelto" readonly value="0.00">
+                                <input type="number" name="vuelto" id="vuelto" readonly value="0.0">
                             </div>
                             <div id="metodoVueltoContainer">
                                 <label for="metodoVuelto">M. vuelto</label>
@@ -195,7 +195,7 @@
                             </div>
                             <div id="saldoContainer">
                                 <label for="saldo">Saldo: </label>
-                                <input type="number" name="saldo" id="saldo" readonly value="0.00">
+                                <input type="number" name="saldo" id="saldo" readonly value="0.0">
                             </div>
                             <label for="fechaVenta">Fecha: </label>
                             <input type="datetime-local" name="fechaVenta" id="fechaVenta" value="<?php echo date('Y-m-d H:i'); ?>">
@@ -231,7 +231,7 @@
                     <input type="hidden" id="idAbrirCaja" name="idAbrirCaja">
                     <div class="mb-3">
                         <label for="montoAbrirCaja">Monto inicial</label>
-                        <input type="number" id="montoAbrirCaja" name="montoAbrirCaja" step="0.01" placeholder="Ingrese el monto inicial">
+                        <input type="number" id="montoAbrirCaja" name="montoAbrirCaja" step="0.1" placeholder="Ingrese el monto inicial">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -275,7 +275,7 @@
                     <div class="row g-2 mb-3">
                         <div class="col-md-6">
                             <label for="precioVenta" class="form-label">Precio de venta (UdM)</label>
-                            <input type="number" id="precioVenta" name="precioVenta" step="0.01" class="form-control" required oninput="calcularDescuentoVenta()">
+                            <input type="number" id="precioVenta" name="precioVenta" step="0.1" class="form-control" required oninput="calcularDescuentoVenta()">
                         </div>
                         <div class="col-md-6">
                             <label for="precioMinimoMostrar" class="form-label">Precio mínimo</label>
@@ -304,7 +304,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label mb-1">Precio c/descuento</label>
-                                    <input type="number" id="precioConDescuentoMostrar" class="form-control form-control-sm" readonly step="0.01">
+                                    <input type="number" id="precioConDescuentoMostrar" class="form-control form-control-sm" readonly step="0.1">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label mb-1">Subtotal</label>

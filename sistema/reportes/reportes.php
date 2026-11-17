@@ -91,22 +91,22 @@ $topProducts = $reportData['top_products'];
         <div class="analytics-kpis">
             <article class="analytics-kpi">
                 <span>Ventas totales</span>
-                <strong>S/. <?php echo number_format($overview['total_sales'], 2); ?></strong>
+                <strong>S/. <?php echo number_format($overview['total_sales'], 1); ?></strong>
                 <small><?php echo htmlspecialchars($filters['label']); ?></small>
             </article>
             <article class="analytics-kpi">
                 <span>Utilidad total</span>
-                <strong>S/. <?php echo number_format($overview['total_profit'], 2); ?></strong>
+                <strong>S/. <?php echo number_format($overview['total_profit'], 1); ?></strong>
                 <small>Periodo filtrado</small>
             </article>
             <article class="analytics-kpi">
                 <span>Gastos personales</span>
-                <strong>S/. <?php echo number_format($overview['personal_expenses'], 2); ?></strong>
+                <strong>S/. <?php echo number_format($overview['personal_expenses'], 1); ?></strong>
                 <small>Egresos operativos</small>
             </article>
             <article class="analytics-kpi">
                 <span>Gastos de capital</span>
-                <strong>S/. <?php echo number_format($overview['capital_expenses'], 2); ?></strong>
+                <strong>S/. <?php echo number_format($overview['capital_expenses'], 1); ?></strong>
                 <small>Inversion y reposicion</small>
             </article>
             <article class="analytics-kpi">
@@ -117,7 +117,7 @@ $topProducts = $reportData['top_products'];
             <article class="analytics-kpi">
                 <span>Top cliente</span>
                 <strong><?php echo htmlspecialchars($overview['top_client_name']); ?></strong>
-                <small>S/. <?php echo number_format($overview['top_client_amount'], 2); ?></small>
+                <small>S/. <?php echo number_format($overview['top_client_amount'], 1); ?></small>
             </article>
         </div>
 
@@ -156,7 +156,7 @@ $topProducts = $reportData['top_products'];
                                     <tr>
                                         <td><?php echo htmlspecialchars($product['Nombre']); ?></td>
                                         <td><?php echo (int)$product['cantidadVendida']; ?></td>
-                                        <td>S/. <?php echo number_format((float)$product['utilidadGenerada'], 2); ?></td>
+                                        <td>S/. <?php echo number_format((float)$product['utilidadGenerada'], 1); ?></td>
                                     </tr>
                                 <?php } ?>
                             <?php } else { ?>
@@ -191,8 +191,8 @@ $topProducts = $reportData['top_products'];
                                     <tr>
                                         <td><?php echo htmlspecialchars($client['Nombre']); ?></td>
                                         <td><?php echo (int)$client['cantidadCompras']; ?></td>
-                                        <td>S/. <?php echo number_format((float)$client['montoCompras'], 2); ?></td>
-                                        <td>S/. <?php echo number_format((float)$client['utilidadGenerada'], 2); ?></td>
+                                        <td>S/. <?php echo number_format((float)$client['montoCompras'], 1); ?></td>
+                                        <td>S/. <?php echo number_format((float)$client['utilidadGenerada'], 1); ?></td>
                                         <td><?php echo htmlspecialchars((string)$client['ultimaCompra']); ?></td>
                                     </tr>
                                 <?php } ?>
@@ -331,9 +331,21 @@ $topProducts = $reportData['top_products'];
                     indexAxis: horizontal ? 'y' : 'x',
                     responsive: true,
                     maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: value => Number(value).toFixed(1)
+                            }
+                        }
+                    },
                     plugins: {
                         legend: {
                             position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: context => context.dataset.label + ': ' + Number(context.raw).toFixed(1)
+                            }
                         }
                     }
                 }

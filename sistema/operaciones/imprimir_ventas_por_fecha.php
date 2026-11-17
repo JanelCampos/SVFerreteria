@@ -52,7 +52,7 @@ include "../conexion.php";
                 $pdf->Cell(25, 6, $fila["dnis"], 1, 0, 'C', 1);
                 $pdf->Cell(35, 6, mb_convert_encoding($fila["cliente"], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
                 $pdf->Cell(35, 6, $fila["empl"].'-'.mb_convert_encoding($fila["nempl"], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
-                $pdf->Cell(20, 6, 'S/. '.$fila["Total"], 1, 1, 'C', 1);
+                $pdf->Cell(20, 6, 'S/. '.number_format((float)$fila["Total"], 1), 1, 1, 'C', 1);
             }
 
         $pdf->Output('', 'ventas_por_fecha.pdf');
@@ -119,7 +119,7 @@ include "../conexion.php";
                         echo            $fila["empl"].'-'.$fila["nempl"];
                         echo        "<td>";
                         echo        "<td style=\"width:100px\">";
-                        echo            ''.$fila["Total"];
+                        echo            number_format((float)$fila["Total"], 1);
                         echo        "<td>";
                         echo    "<tr>";                                                                    
                     }

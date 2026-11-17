@@ -62,7 +62,7 @@ require('../../conexion.php');
             {
                 $pdf->Cell(15,6,$row['idGastos'],1,0,'C');
                 $pdf->Cell(60,6,$row['descripcion'],1,0,'C');
-                $pdf->Cell(20,6,$row['montoGasto'],1,0,'C');
+                $pdf->Cell(20,6,number_format((float)$row['montoGasto'], 1),1,0,'C');
                 $pdf->Cell(30,6,$row['fechaGasto'],1,0,'C');
                 $pdf->Cell(30,6,$row['medioPago'],1,0,'C');
                 $pdf->Cell(30,6,$row['tipoGasto'],1,1,'C');
@@ -91,7 +91,7 @@ require('../../conexion.php');
                     echo "<tr style='text-align: center;'>";
                     echo "<td style='width:50px; border: 1px solid black;'>{$fila['idGastos']}</td>";
                     echo "<td style='width:400px; border: 1px solid black;'>" . mb_convert_encoding($fila['descripcion'], 'ISO-8859-1', 'UTF-8') . "</td>";
-                    echo "<td style='width:150px; border: 1px solid black;'>{$fila['montoGasto']}</td>";
+                    echo "<td style='width:150px; border: 1px solid black;'>" . number_format((float)$fila['montoGasto'], 1) . "</td>";
                     echo "<td style='width:150px; border: 1px solid black;'>{$fila['fechaGasto']}</td>";
                     echo "<td style='width:100px; border: 1px solid black;'>{$fila['medioPago']}</td>";
                     echo "<td style='width:100px; border: 1px solid black;'>{$fila['tipoGasto']}</td>";

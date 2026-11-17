@@ -177,7 +177,7 @@
 				</div>
 				<div class="wd40">
 					<label for="monto">Monto</label>
-					<input type="number" name="monto" placeholder="Ingrese monto" value="10" autofocus step="0.01"/>
+					<input type="number" name="monto" placeholder="Ingrese monto" value="10" autofocus step="0.1"/>
 				</div>
 				<div class="wd30">
 					<button type="submit" class="link_addone" name="confirmar"><i class="far fa-check-circle"></i> Confirmar</button>

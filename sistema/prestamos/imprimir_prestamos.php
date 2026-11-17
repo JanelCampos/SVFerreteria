@@ -70,10 +70,10 @@
                     // recorro el query imprimiendo los campos
                     $pdf->Cell(10, 6, $fila["idPrestamo"], 1, 0, 'C', 1);
                     $pdf->Cell(40, 6, mb_convert_encoding($fila["nombre"], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
-                    $pdf->Cell(25, 6, 'S/. '.$fila["monto"], 1, 0, 'C', 1);
+                    $pdf->Cell(25, 6, 'S/. '.number_format((float)$fila["monto"], 1), 1, 0, 'C', 1);
                     $pdf->Cell(20, 6, $fila["cuotas"], 1, 0, 'C', 1);
-                    $pdf->Cell(25, 6, 'S/. '.$fila["montoCuota"], 1, 0, 'C', 1);
-                    $pdf->Cell(25, 6, 'S/. '.$fila["montoPagar"], 1, 0, 'C', 1);
+                    $pdf->Cell(25, 6, 'S/. '.number_format((float)$fila["montoCuota"], 1), 1, 0, 'C', 1);
+                    $pdf->Cell(25, 6, 'S/. '.number_format((float)$fila["montoPagar"], 1), 1, 0, 'C', 1);
                     $pdf->Cell(27, 6, $fila["fechaPrestamo"], 1, 0, 'C', 1);
                     if($fila["estado"]){
                         $pdf->Cell(18, 6, 'Pagado', 1, 1, 'C', 1);
@@ -113,10 +113,10 @@
                         echo "<tr style='text-align: center;'>";
                         echo "<td style='width:50px; border: 1px solid black;'>{$fila['idPrestamo']}</td>";
                         echo "<td style='width:300px; border: 1px solid black;'>" . mb_convert_encoding($fila['nombre'], 'ISO-8859-1', 'UTF-8') . "</td>";
-                        echo "<td style='width:150px; border: 1px solid black;'>S/. {$fila['monto']}</td>";
+                        echo "<td style='width:150px; border: 1px solid black;'>S/. " . number_format((float)$fila['monto'], 1) . "</td>";
                         echo "<td style='width:50px; border: 1px solid black;'>{$fila['cuotas']}</td>";
-                        echo "<td style='width:150px; border: 1px solid black;'>S/. {$fila['montoCuota']}</td>";
-                        echo "<td style='width:150px; border: 1px solid black;'>S/. {$fila['montoPagar']}</td>";
+                        echo "<td style='width:150px; border: 1px solid black;'>S/. " . number_format((float)$fila['montoCuota'], 1) . "</td>";
+                        echo "<td style='width:150px; border: 1px solid black;'>S/. " . number_format((float)$fila['montoPagar'], 1) . "</td>";
                         echo "<td style='width:150px; border: 1px solid black;'>{$fila['fechaPrestamo']}</td>";
                         if($fila['estado']){
                             echo "<td style='width:100px; border: 1px solid black;'>Pagado</td>";

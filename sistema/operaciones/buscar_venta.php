@@ -125,7 +125,7 @@
                             <td><?php echo $data["dnis"]; ?></td>
                             <td><?php echo $data["cliente"]; ?></td>
                             <td><?php echo $data["empl"]; ?>-<?php echo $data["nempl"]; ?></td>
-                            <td><span>S/. </span><?php echo $data["Total"]; ?></td>
+                            <td><span>S/. </span><?php echo number_format((float)$data["Total"], 1); ?></td>
                             <td>
                                 <div class="div_acciones">
                                     <div>

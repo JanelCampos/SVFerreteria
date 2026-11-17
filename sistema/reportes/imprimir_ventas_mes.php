@@ -101,10 +101,10 @@
                     $pdf->Cell(40, 6, mb_convert_encoding($fila["Fecha"], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
                     $pdf->Cell(37, 6, $fila["Cod_Caja"].'-'.$fila['nempl'], 1, 0, 'C', 1);
                     $pdf->Cell(25, 6, $fila["dniCliente"], 1, 0, 'C', 1);
-                    $pdf->Cell(20, 6, 'S/. '.$fila["Total"], 1, 0, 'C', 1);
+                    $pdf->Cell(20, 6, 'S/. '.number_format((float)$fila["Total"], 1), 1, 0, 'C', 1);
                     $pdf->Cell(20, 6, $fila["Estado"], 1, 0, 'C', 1);
                     $pdf->Cell(20, 6, $fila["Medio_Pago"], 1, 0, 'C', 1);
-                    $pdf->Cell(20, 6, 'S/. '.$fila["saldo"], 1, 1, 'C', 1);
+                    $pdf->Cell(20, 6, 'S/. '.number_format((float)$fila["saldo"], 1), 1, 1, 'C', 1);
                 }
                 $pdf->Output('', 'articulos_completo.pdf');
                 // acá mando la salida y con nombre por defecto como "articulos_completo.pdf"
@@ -140,10 +140,10 @@
                         echo "<td style='width:200px; border: 1px solid black;'>" . mb_convert_encoding($fila['Fecha'], 'ISO-8859-1', 'UTF-8') . "</td>";
                         echo "<td style='width:150px; border: 1px solid black;'>{$fila['Cod_Caja']}-{$fila['nempl']}</td>";
                         echo "<td style='width:150px; border: 1px solid black;'>{$fila['dniCliente']}</td>";
-                        echo "<td style='width:100px; border: 1px solid black;'>S/. {$fila['Total']}</td>";
+                        echo "<td style='width:100px; border: 1px solid black;'>S/. " . number_format((float)$fila['Total'], 1) . "</td>";
                         echo "<td style='width:100px; border: 1px solid black;'>{$fila['Estado']}</td>";
                         echo "<td style='width:100px; border: 1px solid black;'>{$fila['Medio_Pago']}</td>";
-                        echo "<td style='width:100px; border: 1px solid black;'>S/. {$fila['saldo']}</td>";
+                        echo "<td style='width:100px; border: 1px solid black;'>S/. " . number_format((float)$fila['saldo'], 1) . "</td>";
                         echo "</tr>";
                     }
 

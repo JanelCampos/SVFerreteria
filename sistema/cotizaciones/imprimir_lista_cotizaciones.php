@@ -110,14 +110,14 @@ if (isset($_GET['nPdf'])) {
         $pdf->Cell(29, 6, $fila['Fecha'], 1, 0, 'C', 1);
         $pdf->Cell(80, 6, mb_convert_encoding($nomCli, 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', 1);
         $pdf->Cell(65, 6, mb_convert_encoding($nomEmp, 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', 1);
-        $pdf->Cell(28, 6, 'S/. ' . number_format((float)$fila['Total'], 2), 1, 0, 'R', 1);
+        $pdf->Cell(28, 6, 'S/. ' . number_format((float)$fila['Total'], 1), 1, 0, 'R', 1);
         $pdf->Cell(28, 6, $vigencia, 1, 1, 'C', 1);
     }
 
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->SetFillColor(210, 230, 255);
     $pdf->Cell(166, 8, 'TOTAL GENERAL', 1, 0, 'R', 1);
-    $pdf->Cell(82, 8, 'S/. ' . number_format($totalGeneral, 2), 1, 1, 'R', 1);
+    $pdf->Cell(82, 8, 'S/. ' . number_format($totalGeneral, 1), 1, 1, 'R', 1);
 
     $pdf->Output('', 'lista_cotizaciones.pdf');
     $conexionDB->close();
@@ -155,14 +155,14 @@ if (isset($_GET['nExcel'])) {
         echo "<td>" . htmlspecialchars($fila['Fecha']) . "</td>";
         echo "<td style='text-align:left;'>" . $nomCli . "</td>";
         echo "<td style='text-align:left;'>" . $nomEmp . "</td>";
-        echo "<td style='text-align:right;'>S/. " . number_format((float)$fila['Total'], 2) . "</td>";
+        echo "<td style='text-align:right;'>S/. " . number_format((float)$fila['Total'], 1) . "</td>";
         echo "<td>" . $vigencia . "</td>";
         echo "</tr>";
     }
 
     echo "<tr style='background-color: #d9e2f3; font-weight:bold;'>";
     echo "<td colspan='4' style='text-align:right;'>TOTAL GENERAL</td>";
-    echo "<td style='text-align:right;'>S/. " . number_format($totalGeneral, 2) . "</td>";
+    echo "<td style='text-align:right;'>S/. " . number_format($totalGeneral, 1) . "</td>";
     echo "<td colspan='2'></td>";
     echo "</tr>";
     echo "</table>";

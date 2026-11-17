@@ -154,10 +154,10 @@
                         <td><?php echo $data["Stock_Alerta"]; ?></td>
                         <td><?php echo $data["Unidad_Presentacion"]; ?></td>
                         <?php if($_SESSION['rol'] == 1){ ?>
-                        <td>S/. <?php echo number_format($data["Precio_Compra"],2); ?></td>
+                        <td>S/. <?php echo number_format($data["Precio_Compra"], 1); ?></td>
                         <?php } ?>
-                        <td>S/. <?php echo number_format($data["Precio_Unitario"],2); ?></td>
-                        <td>S/. <?php echo number_format($data["Precio_Minimo"],2); ?></td>
+                        <td>S/. <?php echo number_format($data["Precio_Unitario"], 1); ?></td>
+                        <td>S/. <?php echo number_format($data["Precio_Minimo"], 1); ?></td>
                         <?php if($_SESSION['rol'] == 1){ ?>
                         <td><?php echo $data["nombreP"]; ?></td>
                         <td>
@@ -282,15 +282,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="precioCompraEditar">Precio compra</label>
-                            <input type="number" name="precioCompraEditar" id="precioCompraEditar" step="0.01">
+                            <input type="number" name="precioCompraEditar" id="precioCompraEditar" step="0.1">
                         </div>
                         <div class="mb-3">
                             <label for="precioVentaEditar">Precio venta</label>
-                            <input type="number" name="precioVentaEditar" id="precioVentaEditar" step="0.01">
+                            <input type="number" name="precioVentaEditar" id="precioVentaEditar" step="0.1">
                         </div>
                         <div class="mb-3">
                             <label for="precioMinimoEditar">Precio mínimo</label>
-                            <input type="number" name="precioMinimoEditar" id="precioMinimoEditar" step="0.01">
+                            <input type="number" name="precioMinimoEditar" id="precioMinimoEditar" step="0.1">
                         </div>
                         <div class="mb-3">
                             <label for="stockAlertaEditar">Stock de alerta</label>
@@ -383,7 +383,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="precio_compraAñadir">Precio de compra</label>
-                    <input type="number" name="precio_compraAñadir" id="precio_compraAñadir" step="0.01">
+                    <input type="number" name="precio_compraAñadir" id="precio_compraAñadir" step="0.1">
                 </div>
                 <div class="mb-3">
                     <label for="cantidadActualAñadir">Cantidad actual</label>

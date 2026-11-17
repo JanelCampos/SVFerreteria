@@ -144,7 +144,7 @@
                                 <tr id="row_<?php echo $data["idGastos"]; ?>">
                                     <td><?php echo $data['idGastos']; ?></td>
                                     <td><?php echo $data['descripcion']; ?></td>
-                                    <td>S/. <?php echo $data["montoGasto"]; ?></td>
+                                    <td>S/. <?php echo number_format((float)$data["montoGasto"], 1); ?></td>
                                     <td><?php echo date("Y-m-d",  strtotime($data["fechaGasto"])); ?></td>
                                     <td><?php echo $data['medioPago']; ?></td>
                                     <td><?php echo $data['tipoGasto']; ?></td>

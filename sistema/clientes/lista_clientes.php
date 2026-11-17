@@ -125,8 +125,8 @@ $total_records = $clientData['total_records'];
                                 <td><?php echo htmlspecialchars($data['Fecha_Registro']); ?></td>
                                 <td><?php echo (int)$data['cantidadCompras']; ?></td>
                                 <?php if($_SESSION['rol'] == 1){ ?>
-                                    <td>S/. <?php echo number_format((float)$data['montoCompras'], 2); ?></td>
-                                    <td>S/. <?php echo number_format((float)$data['gananciaGenerada'], 2); ?></td>
+                                    <td>S/. <?php echo number_format((float)$data['montoCompras'], 1); ?></td>
+                                    <td>S/. <?php echo number_format((float)$data['gananciaGenerada'], 1); ?></td>
                                     <td>
                                         <div class="btn-group dropend">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

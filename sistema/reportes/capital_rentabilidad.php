@@ -67,7 +67,7 @@ $fechaHoy = date('Y-m-d');
                                 <h6 class="card-subtitle text-success mb-2">
                                     <i class="fas fa-arrow-up me-1"></i> INGRESOS
                                 </h6>
-                                <h3 class="card-title mb-0 text-success" id="cardIngresos">S/. 0.00</h3>
+                                <h3 class="card-title mb-0 text-success" id="cardIngresos">S/. 0.0</h3>
                                 <small class="text-muted">Ventas del periodo</small>
                             </div>
                             <i class="fas fa-dollar-sign fa-2x text-success opacity-50"></i>
@@ -83,7 +83,7 @@ $fechaHoy = date('Y-m-d');
                                 <h6 class="card-subtitle text-danger mb-2">
                                     <i class="fas fa-arrow-down me-1"></i> GASTOS
                                 </h6>
-                                <h3 class="card-title mb-0 text-danger" id="cardGastos">S/. 0.00</h3>
+                                <h3 class="card-title mb-0 text-danger" id="cardGastos">S/. 0.0</h3>
                                 <small class="text-muted">Egresos del periodo</small>
                             </div>
                             <i class="fas fa-money-bill-wave fa-2x text-danger opacity-50"></i>
@@ -99,7 +99,7 @@ $fechaHoy = date('Y-m-d');
                                 <h6 class="card-subtitle text-primary mb-2">
                                     <i class="fas fa-chart-line me-1"></i> UTILIDAD NETA
                                 </h6>
-                                <h3 class="card-title mb-0 text-primary" id="cardUtilidad">S/. 0.00</h3>
+                                <h3 class="card-title mb-0 text-primary" id="cardUtilidad">S/. 0.0</h3>
                                 <small class="text-muted">Ingresos - Gastos</small>
                             </div>
                             <i class="fas fa-coins fa-2x text-primary opacity-50"></i>
@@ -173,9 +173,9 @@ $fechaHoy = date('Y-m-d');
                         <tfoot id="tfootTablaDiaria" class="table-dark" style="display:none;">
                             <tr>
                                 <th>TOTALES</th>
-                                <th class="text-end" id="tfIngresos">0.00</th>
-                                <th class="text-end" id="tfGastos">0.00</th>
-                                <th class="text-end" id="tfUtilidad">0.00</th>
+                                <th class="text-end" id="tfIngresos">0.0</th>
+                                <th class="text-end" id="tfGastos">0.0</th>
+                                <th class="text-end" id="tfUtilidad">0.0</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -222,9 +222,9 @@ $fechaHoy = date('Y-m-d');
         }
 
         function renderizarTarjetas(data) {
-            document.getElementById('cardIngresos').textContent = 'S/. ' + Number(data.ingresos).toFixed(2);
-            document.getElementById('cardGastos').textContent = 'S/. ' + Number(data.gastos).toFixed(2);
-            document.getElementById('cardUtilidad').textContent = 'S/. ' + Number(data.utilidad).toFixed(2);
+            document.getElementById('cardIngresos').textContent = 'S/. ' + Number(data.ingresos).toFixed(1);
+            document.getElementById('cardGastos').textContent = 'S/. ' + Number(data.gastos).toFixed(1);
+            document.getElementById('cardUtilidad').textContent = 'S/. ' + Number(data.utilidad).toFixed(1);
             document.getElementById('cardRentabilidad').textContent = Number(data.rentabilidadPct).toFixed(2) + '%';
         }
 
@@ -323,17 +323,17 @@ $fechaHoy = date('Y-m-d');
                 const cls = u < 0 ? 'text-danger' : (u > 0 ? 'text-success' : '');
                 html += `<tr>
                     <td>${row.fecha}</td>
-                    <td class="text-end text-success">S/. ${Number(row.ingresos).toFixed(2)}</td>
-                    <td class="text-end text-danger">S/. ${Number(row.gastos).toFixed(2)}</td>
-                    <td class="text-end ${cls}">S/. ${u.toFixed(2)}</td>
+                    <td class="text-end text-success">S/. ${Number(row.ingresos).toFixed(1)}</td>
+                    <td class="text-end text-danger">S/. ${Number(row.gastos).toFixed(1)}</td>
+                    <td class="text-end ${cls}">S/. ${u.toFixed(1)}</td>
                 </tr>`;
             });
             tbody.innerHTML = html;
-            document.getElementById('tfIngresos').textContent = 'S/. ' + totI.toFixed(2);
-            document.getElementById('tfGastos').textContent = 'S/. ' + totG.toFixed(2);
+            document.getElementById('tfIngresos').textContent = 'S/. ' + totI.toFixed(1);
+            document.getElementById('tfGastos').textContent = 'S/. ' + totG.toFixed(1);
             const cls = totU < 0 ? 'text-danger' : (totU > 0 ? 'text-success' : '');
             const tfU = document.getElementById('tfUtilidad');
-            tfU.textContent = 'S/. ' + totU.toFixed(2);
+            tfU.textContent = 'S/. ' + totU.toFixed(1);
             tfU.className = 'text-end ' + cls;
             tfoot.style.display = '';
         }

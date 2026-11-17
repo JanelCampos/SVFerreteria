@@ -146,9 +146,9 @@
                                     <td><?php echo $data["empl"]; ?>-<?php echo $data["nempl"]; ?></td>
                                     <td><?php echo $data['dniCliente']; ?></td>
                                     <td><?php echo $data['Nombre']; ?></td>
-                                    <td>S/. <?php echo $data["Total"]; ?></td>
+                                    <td>S/. <?php echo number_format((float)$data["Total"], 1); ?></td>
                                     <?php if($_SESSION['rol'] == 1){ ?>
-                                        <td>S/. <?php echo $data['utilidad']; ?></td>                                        
+                                        <td>S/. <?php echo number_format((float)$data['utilidad'], 1); ?></td>
                                     <?php } ?>
                                     <td>
                                         <div class="div_acciones">
@@ -192,7 +192,7 @@
                                         </span>
                                     </td>
                                     <td><?php echo $data['Medio_Pago']; ?></td>
-                                    <td><?php echo number_format($data['saldo'],2); ?></td>
+                                    <td><?php echo number_format($data['saldo'], 1); ?></td>
                                     <td>
                                         <div class="btn-group dropend">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -266,19 +266,19 @@
                         <div class="mb-3">
                             <div id="efectivo_container">
                                 <label for="efectivoPendiente">Monto efectivo: </label>
-                                <input type="number" name="efectivoPendiente" id="efectivoPendiente" step="0.01">
+                                <input type="number" name="efectivoPendiente" id="efectivoPendiente" step="0.1">
                             </div>
                         </div>
                         <div class="mb-3">
                             <div id="tarjeta_container">
                                 <label for="tarjetaPendiente">Monto tarjeta: </label>
-                                <input type="number" name="tarjetaPendiente" id="tarjetaPendiente" step="0.01">
+                                <input type="number" name="tarjetaPendiente" id="tarjetaPendiente" step="0.1">
                             </div>
                         </div>
                         <div class="mb-3">
                             <div id="vuelto_pendiente_container">
                                 <label for="vueltoPendiente">Vuelto: </label>
-                                <input type="number" name="vueltoPendiente" id="vueltoPendiente" readonly value="0.00">
+                                <input type="number" name="vueltoPendiente" id="vueltoPendiente" readonly value="0.0">
                                 <label for="metodoVueltoPendiente">M. vuelto</label>
                                 <select name="metodoVueltoPendiente" id="metodoVueltoPendiente">
                             <option value="efectivo" selected>Efectivo</option>
@@ -289,7 +289,7 @@
                         <div class="mb-3">
                             <div id="saldo_container">
                                 <label for="saldoPendiente">Saldo</label>
-                                <input type="number" id="saldoPendiente" name="saldoPendiente" step="0.01" disabled>
+                                <input type="number" id="saldoPendiente" name="saldoPendiente" step="0.1" disabled>
                             </div>
                         </div>
                     </div>

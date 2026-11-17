@@ -46,8 +46,8 @@ if (isset($_GET['nPdf'])) {
         $pdf->Cell(30, 6, (string)$fila["Telefono"], 1, 0, 'C', 1);
         $pdf->Cell(40, 6, $fila["Fecha_Registro"], 1, 0, 'C', 1);
         $pdf->Cell(28, 6, $fila["cantidadCompras"], 1, 0, 'C', 1);
-        $pdf->Cell(38, 6, 'S/. ' . number_format((float)$fila["montoCompras"], 2), 1, 0, 'R', 1);
-        $pdf->Cell(38, 6, 'S/. ' . number_format((float)$fila["gananciaGenerada"], 2), 1, 1, 'R', 1);
+        $pdf->Cell(38, 6, 'S/. ' . number_format((float)$fila["montoCompras"], 1), 1, 0, 'R', 1);
+        $pdf->Cell(38, 6, 'S/. ' . number_format((float)$fila["gananciaGenerada"], 1), 1, 1, 'R', 1);
     }
 
     $pdf->Output('', 'reporte_clientes.pdf');
@@ -80,8 +80,8 @@ if (isset($_GET['nExcel'])) {
         echo "<td>{$fila['Telefono']}</td>";
         echo "<td>{$fila['Fecha_Registro']}</td>";
         echo "<td>{$fila['cantidadCompras']}</td>";
-        echo "<td>S/. " . number_format((float)$fila['montoCompras'], 2) . "</td>";
-        echo "<td>S/. " . number_format((float)$fila['gananciaGenerada'], 2) . "</td>";
+        echo "<td>S/. " . number_format((float)$fila['montoCompras'], 1) . "</td>";
+        echo "<td>S/. " . number_format((float)$fila['gananciaGenerada'], 1) . "</td>";
         echo "</tr>";
     }
 

@@ -128,8 +128,8 @@
                                             <th>'.$data['codArticulo'].'</th>
                                             <td colspan="2">'.$data['Nombre'].'</td>
                                             <td class="textcenter">'.$data['cantidad'].'</td>
-                                            <td class="textright">'.$data['precio_venta'].'</td>
-                                            <td class="textright">'.$precioTotal.'</td>
+                                            <td class="textright">'.number_format((float)$data['precio_venta'], 1).'</td>
+                                            <td class="textright">'.number_format((float)$precioTotal, 1).'</td>
                                             <td class="">
                                                 <a class="link_delete" href="#" onclick="event.preventDefault(); del_product_detalle('.$data['correlativo'].');"><i class="far fa-trash-alt"></i></a>
                                             </td>
@@ -138,11 +138,11 @@
                     
                     $detalleTotales = ' <tr>
                                             <td colspan="5" class="textright">SUBTOTAL</td>
-                                            <td class="textright">'.$sub_total.'</td>
+                                            <td class="textright">'.number_format((float)$sub_total, 1).'</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="textright">TOTAL</td>
-                                            <td class="textright">'.$total.'</td>
+                                            <td class="textright">'.number_format((float)$total, 1).'</td>
                                         </tr>';
 
                     $arrayData['detalle'] = $detalleTabla;
@@ -190,8 +190,8 @@
                                             <th>'.$data['codArticulo'].'</th>
                                             <td colspan="2">'.$data['Nombre'].'</td>
                                             <td class="textcenter">'.$data['cantidad'].'</td>
-                                            <td class="textright">'.$data['precio_venta'].'</td>
-                                            <td class="textright">'.$precioTotal.'</td>
+                                            <td class="textright">'.number_format((float)$data['precio_venta'], 1).'</td>
+                                            <td class="textright">'.number_format((float)$precioTotal, 1).'</td>
                                             <td class="">
                                                 <a class="link_delete" href="#" onclick="event.preventDefault(); del_product_detalle('.$data['correlativo'].');"><i class="far fa-trash-alt"></i></a>
                                             </td>
@@ -200,11 +200,11 @@
                     
                     $detalleTotales = ' <tr>
                                             <td colspan="5" class="textright">SUBTOTAL</td>
-                                            <td class="textright">'.$sub_total.'</td>
+                                            <td class="textright">'.number_format((float)$sub_total, 1).'</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="textright">TOTAL</td>
-                                            <td class="textright">'.$total.'</td>
+                                            <td class="textright">'.number_format((float)$total, 1).'</td>
                                         </tr>';
 
                     $arrayData['detalle'] = $detalleTabla;
@@ -245,8 +245,8 @@
                                             <th>'.$data['codArticulo'].'</th>
                                             <td colspan="2">'.$data['Nombre'].'</td>
                                             <td class="textcenter">'.$data['cantidad'].'</td>
-                                            <td class="textright">'.$data['precio_venta'].'</td>
-                                            <td class="textright">'.$precioTotal.'</td>
+                                            <td class="textright">'.number_format((float)$data['precio_venta'], 1).'</td>
+                                            <td class="textright">'.number_format((float)$precioTotal, 1).'</td>
                                             <td class="">
                                                 <a class="link_delete" href="#" onclick="event.preventDefault(); del_product_detalle('.$data['correlativo'].');"><i class="far fa-trash-alt"></i></a>
                                             </td>
@@ -255,11 +255,11 @@
                     
                     $detalleTotales = ' <tr>
                                             <td colspan="5" class="textright">SUBTOTAL</td>
-                                            <td class="textright">'.$sub_total.'</td>
+                                            <td class="textright">'.number_format((float)$sub_total, 1).'</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="textright">TOTAL</td>
-                                            <td class="textright">'.$total.'</td>
+                                            <td class="textright">'.number_format((float)$total, 1).'</td>
                                         </tr>';
 
                     $arrayData['detalle'] = $detalleTabla;

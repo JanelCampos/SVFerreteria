@@ -13,7 +13,7 @@
 
 
         <p><?php echo $resultado["IdArticulo"]; ?> - <?php echo $resultado["Nombre"] ?> - 
-        <?php echo $resultado['Cantidad'] ?> - S/.<?php echo $resultado["Precio_Unitario"] ?></p>
+        <?php echo $resultado['Cantidad'] ?> - S/.<?php echo number_format((float)$resultado["Precio_Unitario"], 1) ?></p>
 
 
 <?php } ?>

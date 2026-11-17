@@ -223,7 +223,7 @@ if ($accion === 'run') {
                                                      AND Leida=0
                                                    LIMIT 1");
                 if (!$chk2 || mysqli_num_rows($chk2) == 0) {
-                    $msg2 = "Cuota vencida: Cliente $nomC (DNI $dniC) - Cuota N°$numC - Monto S/. " . number_format($montoC, 2) . " - Venc. $fecV";
+                    $msg2 = "Cuota vencida: Cliente $nomC (DNI $dniC) - Cuota N°$numC - Monto S/. " . number_format($montoC, 1) . " - Venc. $fecV";
                     $ins2 = mysqli_query($conexionDB, "INSERT INTO alertas_sistema
                         (Tipo, IdReferencia, Mensaje, FechaGeneracion)
                         VALUES ('cuota_vencida', $idCuota, '$msg2', '$fechaActual')");

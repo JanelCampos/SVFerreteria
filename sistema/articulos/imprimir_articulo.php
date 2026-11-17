@@ -95,9 +95,9 @@ if ($nExcel) {
             <td>' . $f['Cantidad'] . '</td>
             <td>' . $f['Stock_Alerta'] . '</td>
             <td>' . $f['Unidad_Presentacion'] . '</td>
-            <td>' . $f['Precio_Compra'] . '</td>
-            <td>' . $f['Precio_Unitario'] . '</td>
-            <td>' . $f['Precio_Minimo'] . '</td>
+            <td>' . number_format($f['Precio_Compra'], 1) . '</td>
+            <td>' . number_format($f['Precio_Unitario'], 1) . '</td>
+            <td>' . number_format($f['Precio_Minimo'], 1) . '</td>
             <td>' . $f['nombreProveedor'] . '</td>
         </tr>';
     }
@@ -134,16 +134,16 @@ foreach ($filas as $f) {
     $pdf->Cell(15,6,$f['Cantidad'],1,0,'C');
     $pdf->Cell(15,6,$f['Stock_Alerta'],1,0,'C');
     $pdf->Cell(18,6,iconv('UTF-8','ISO-8859-1',$f['Unidad_Presentacion']),1,0,'C');
-    $pdf->Cell(20,6,number_format($f['Precio_Compra'],2),1,0,'R');
-    $pdf->Cell(20,6,number_format($f['Precio_Unitario'],2),1,0,'R');
-    $pdf->Cell(20,6,number_format($f['Precio_Minimo'],2),1,0,'R');
+    $pdf->Cell(20,6,number_format($f['Precio_Compra'], 1),1,0,'R');
+    $pdf->Cell(20,6,number_format($f['Precio_Unitario'], 1),1,0,'R');
+    $pdf->Cell(20,6,number_format($f['Precio_Minimo'], 1),1,0,'R');
     $pdf->Cell(40,6,iconv('UTF-8','ISO-8859-1',$f['nombreProveedor']),1,1,'L');
 }
 $pdf->Ln(4);
 $pdf->SetFont('Arial','B',8);
 $pdf->Cell(178,6,'TOTALES (inventario):',1,0,'R');
-$pdf->Cell(20,6,number_format($totalCompra,2),1,0,'R');
-$pdf->Cell(20,6,number_format($totalVenta,2),1,0,'R');
-$pdf->Cell(20,6,number_format($totalMinimo,2),1,1,'R');
+$pdf->Cell(20,6,number_format($totalCompra, 1),1,0,'R');
+$pdf->Cell(20,6,number_format($totalVenta, 1),1,0,'R');
+$pdf->Cell(20,6,number_format($totalMinimo, 1),1,1,'R');
 $pdf->Output('I','Reporte_Articulos.pdf');
 ?>

@@ -157,9 +157,9 @@ foreach ($serie15 as $dia) {
     $etq = (new DateTime($dia))->format('d/m/Y');
     $tablaDiaria[] = [
         'fecha' => $etq,
-        'ingresos' => round($mI, 2),
-        'gastos' => round($mG, 2),
-        'utilidad' => round($mU, 2)
+        'ingresos' => round($mI, 1),
+        'gastos' => round($mG, 1),
+        'utilidad' => round($mU, 1)
     ];
     $totI += $mI;
     $totG += $mG;
@@ -213,9 +213,9 @@ if ($nPdf == 1) {
 
     $pdf->SetFont('Arial', 'B', 14);
     $pdf->SetFillColor(255, 255, 255);
-    $pdf->Cell(47, 14, 'S/. ' . number_format($ingresos, 2), 1, 0, 'C', 1);
-    $pdf->Cell(47, 14, 'S/. ' . number_format($gastos, 2), 1, 0, 'C', 1);
-    $pdf->Cell(47, 14, 'S/. ' . number_format($utilidad, 2), 1, 0, 'C', 1);
+    $pdf->Cell(47, 14, 'S/. ' . number_format($ingresos, 1), 1, 0, 'C', 1);
+    $pdf->Cell(47, 14, 'S/. ' . number_format($gastos, 1), 1, 0, 'C', 1);
+    $pdf->Cell(47, 14, 'S/. ' . number_format($utilidad, 1), 1, 0, 'C', 1);
     $pdf->Cell(47, 14, number_format($rentabilidadPct, 2) . '%', 1, 1, 'C', 1);
 
     $pdf->Ln(10);
@@ -233,9 +233,9 @@ if ($nPdf == 1) {
     $pdf->SetFont('Arial', '', 9);
     foreach ($tablaDiaria as $row) {
         $pdf->Cell(55, 7, $row['fecha'], 1, 0, 'C');
-        $pdf->Cell(45, 7, 'S/. ' . number_format($row['ingresos'], 2), 1, 0, 'R');
-        $pdf->Cell(45, 7, 'S/. ' . number_format($row['gastos'], 2), 1, 0, 'R');
-        $pdf->Cell(45, 7, 'S/. ' . number_format($row['utilidad'], 2), 1, 1, 'R');
+        $pdf->Cell(45, 7, 'S/. ' . number_format($row['ingresos'], 1), 1, 0, 'R');
+        $pdf->Cell(45, 7, 'S/. ' . number_format($row['gastos'], 1), 1, 0, 'R');
+        $pdf->Cell(45, 7, 'S/. ' . number_format($row['utilidad'], 1), 1, 1, 'R');
     }
 
     if (count($tablaDiaria) == 0) {
@@ -245,9 +245,9 @@ if ($nPdf == 1) {
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->SetFillColor(240, 240, 240);
     $pdf->Cell(55, 8, mb_convert_encoding('TOTALES', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
-    $pdf->Cell(45, 8, 'S/. ' . number_format($totI, 2), 1, 0, 'R', 1);
-    $pdf->Cell(45, 8, 'S/. ' . number_format($totG, 2), 1, 0, 'R', 1);
-    $pdf->Cell(45, 8, 'S/. ' . number_format($totU, 2), 1, 1, 'R', 1);
+    $pdf->Cell(45, 8, 'S/. ' . number_format($totI, 1), 1, 0, 'R', 1);
+    $pdf->Cell(45, 8, 'S/. ' . number_format($totG, 1), 1, 0, 'R', 1);
+    $pdf->Cell(45, 8, 'S/. ' . number_format($totU, 1), 1, 1, 'R', 1);
 
     $pdf->Output('I', 'Reporte_capital_rentabilidad.pdf');
     exit;
@@ -276,9 +276,9 @@ if ($nExcel == 1) {
     echo '<th style="width:140px; text-align:center;">% RENTABILIDAD</th>';
     echo '</tr>';
     echo '<tr style="font-size:14px; font-weight:bold;">';
-    echo '<td style="text-align:center; color:green;">S/. ' . number_format($ingresos, 2) . '</td>';
-    echo '<td style="text-align:center; color:red;">S/. ' . number_format($gastos, 2) . '</td>';
-    echo '<td style="text-align:center; color:blue;">S/. ' . number_format($utilidad, 2) . '</td>';
+    echo '<td style="text-align:center; color:green;">S/. ' . number_format($ingresos, 1) . '</td>';
+    echo '<td style="text-align:center; color:red;">S/. ' . number_format($gastos, 1) . '</td>';
+    echo '<td style="text-align:center; color:blue;">S/. ' . number_format($utilidad, 1) . '</td>';
     echo '<td style="text-align:center; color:orange;">' . number_format($rentabilidadPct, 2) . '%</td>';
     echo '</tr>';
     echo '</table><br><br>';
@@ -298,9 +298,9 @@ if ($nExcel == 1) {
     foreach ($tablaDiaria as $row) {
         echo '<tr>';
         echo '<td style="text-align:center;">' . $row['fecha'] . '</td>';
-        echo '<td style="text-align:right; color:green;">S/. ' . number_format($row['ingresos'], 2) . '</td>';
-        echo '<td style="text-align:right; color:red;">S/. ' . number_format($row['gastos'], 2) . '</td>';
-        echo '<td style="text-align:right; ' . ($row['utilidad'] < 0 ? 'color:red;' : 'color:green;') . '">S/. ' . number_format($row['utilidad'], 2) . '</td>';
+        echo '<td style="text-align:right; color:green;">S/. ' . number_format($row['ingresos'], 1) . '</td>';
+        echo '<td style="text-align:right; color:red;">S/. ' . number_format($row['gastos'], 1) . '</td>';
+        echo '<td style="text-align:right; ' . ($row['utilidad'] < 0 ? 'color:red;' : 'color:green;') . '">S/. ' . number_format($row['utilidad'], 1) . '</td>';
         echo '</tr>';
     }
 
@@ -310,9 +310,9 @@ if ($nExcel == 1) {
 
     echo '<tr style="background-color:#EEEEEE; font-weight:bold;">';
     echo '<td style="text-align:center;">TOTALES</td>';
-    echo '<td style="text-align:right;">S/. ' . number_format($totI, 2) . '</td>';
-    echo '<td style="text-align:right;">S/. ' . number_format($totG, 2) . '</td>';
-    echo '<td style="text-align:right; ' . ($totU < 0 ? 'color:red;' : 'color:green;') . '">S/. ' . number_format($totU, 2) . '</td>';
+    echo '<td style="text-align:right;">S/. ' . number_format($totI, 1) . '</td>';
+    echo '<td style="text-align:right;">S/. ' . number_format($totG, 1) . '</td>';
+    echo '<td style="text-align:right; ' . ($totU < 0 ? 'color:red;' : 'color:green;') . '">S/. ' . number_format($totU, 1) . '</td>';
     echo '</tr>';
     echo '</table>';
     echo '</body></html>';

@@ -215,8 +215,8 @@ if ($nPdf == 1) {
         $particip = $totalGeneral > 0 ? round((($r['TotalVenta'] / $totalGeneral) * 100), 2) : 0;
         $pdf->Cell(80, 7, mb_convert_encoding($r['NombreEmpleado'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
         $pdf->Cell(30, 7, $r['NVentas'], 1, 0, 'C');
-        $pdf->Cell(40, 7, 'S/. ' . number_format($r['TotalVenta'], 2), 1, 0, 'R');
-        $pdf->Cell(40, 7, 'S/. ' . number_format($r['Utilidad'], 2), 1, 0, 'R');
+        $pdf->Cell(40, 7, 'S/. ' . number_format($r['TotalVenta'], 1), 1, 0, 'R');
+        $pdf->Cell(40, 7, 'S/. ' . number_format($r['Utilidad'], 1), 1, 0, 'R');
         $pdf->Cell(40, 7, $particip . '%', 1, 1, 'C');
     }
 
@@ -228,8 +228,8 @@ if ($nPdf == 1) {
     $pdf->SetFillColor(240, 240, 240);
     $pdf->Cell(80, 8, mb_convert_encoding('TOTALES', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
     $pdf->Cell(30, 8, $totalNVentas, 1, 0, 'C', 1);
-    $pdf->Cell(40, 8, 'S/. ' . number_format($totalGeneral, 2), 1, 0, 'R', 1);
-    $pdf->Cell(40, 8, 'S/. ' . number_format($totalUtilidad, 2), 1, 0, 'R', 1);
+    $pdf->Cell(40, 8, 'S/. ' . number_format($totalGeneral, 1), 1, 0, 'R', 1);
+    $pdf->Cell(40, 8, 'S/. ' . number_format($totalUtilidad, 1), 1, 0, 'R', 1);
     $pdf->Cell(40, 8, '100.00%', 1, 1, 'C', 1);
 
     $pdf->Ln(8);
@@ -256,7 +256,7 @@ if ($nPdf == 1) {
         $pdf->Cell(100, 7, mb_convert_encoding($p['Nombre'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
         $pdf->Cell(52, 7, mb_convert_encoding($p['NombreCategoria'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
         $pdf->Cell(30, 7, $p['Cantidad'], 1, 0, 'C');
-        $pdf->Cell(40, 7, 'S/. ' . number_format($p['Importe'], 2), 1, 1, 'R');
+        $pdf->Cell(40, 7, 'S/. ' . number_format($p['Importe'], 1), 1, 1, 'R');
         $totCant += $p['Cantidad'];
         $totImp += $p['Importe'];
         $pos++;
@@ -272,7 +272,7 @@ if ($nPdf == 1) {
     $pdf->Cell(100, 8, mb_convert_encoding('TOTALES', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
     $pdf->Cell(52, 8, '', 1, 0, 'C', 1);
     $pdf->Cell(30, 8, $totCant, 1, 0, 'C', 1);
-    $pdf->Cell(40, 8, 'S/. ' . number_format($totImp, 2), 1, 1, 'R', 1);
+    $pdf->Cell(40, 8, 'S/. ' . number_format($totImp, 1), 1, 1, 'R', 1);
 
     $pdf->Output('I', 'Reporte_ventas_por_vendedor.pdf');
     exit;
@@ -307,8 +307,8 @@ if ($nExcel == 1) {
         echo '<tr>';
         echo '<td>' . htmlspecialchars($r['NombreEmpleado']) . '</td>';
         echo '<td style="text-align:center;">' . $r['NVentas'] . '</td>';
-        echo '<td style="text-align:right;">S/. ' . number_format($r['TotalVenta'], 2) . '</td>';
-        echo '<td style="text-align:right;">S/. ' . number_format($r['Utilidad'], 2) . '</td>';
+        echo '<td style="text-align:right;">S/. ' . number_format($r['TotalVenta'], 1) . '</td>';
+        echo '<td style="text-align:right;">S/. ' . number_format($r['Utilidad'], 1) . '</td>';
         echo '<td style="text-align:center;">' . $particip . '%</td>';
         echo '</tr>';
     }
@@ -320,8 +320,8 @@ if ($nExcel == 1) {
     echo '<tr style="background-color:#EEEEEE; font-weight:bold;">';
     echo '<td>TOTALES</td>';
     echo '<td style="text-align:center;">' . $totalNVentas . '</td>';
-    echo '<td style="text-align:right;">S/. ' . number_format($totalGeneral, 2) . '</td>';
-    echo '<td style="text-align:right;">S/. ' . number_format($totalUtilidad, 2) . '</td>';
+    echo '<td style="text-align:right;">S/. ' . number_format($totalGeneral, 1) . '</td>';
+    echo '<td style="text-align:right;">S/. ' . number_format($totalUtilidad, 1) . '</td>';
     echo '<td style="text-align:center;">100.00%</td>';
     echo '</tr>';
     echo '</table><br><br>';
@@ -348,7 +348,7 @@ if ($nExcel == 1) {
         echo '<td>' . htmlspecialchars($p['Nombre']) . '</td>';
         echo '<td>' . htmlspecialchars($p['NombreCategoria']) . '</td>';
         echo '<td style="text-align:center;">' . $p['Cantidad'] . '</td>';
-        echo '<td style="text-align:right;">S/. ' . number_format($p['Importe'], 2) . '</td>';
+        echo '<td style="text-align:right;">S/. ' . number_format($p['Importe'], 1) . '</td>';
         echo '</tr>';
         $totCant += $p['Cantidad'];
         $totImp += $p['Importe'];
@@ -362,7 +362,7 @@ if ($nExcel == 1) {
     echo '<tr style="background-color:#EEEEEE; font-weight:bold;">';
     echo '<td colspan="3" style="text-align:center;">TOTALES</td>';
     echo '<td style="text-align:center;">' . $totCant . '</td>';
-    echo '<td style="text-align:right;">S/. ' . number_format($totImp, 2) . '</td>';
+    echo '<td style="text-align:right;">S/. ' . number_format($totImp, 1) . '</td>';
     echo '</tr>';
     echo '</table>';
     echo '</body></html>';

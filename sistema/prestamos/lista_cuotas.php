@@ -53,7 +53,7 @@
                     ?>
                     <tr>
                         <td><?php echo $data['idPrestamo'] ?></td>
-                        <td>S/. <?php echo $data['montoCuota']; ?></td>
+                        <td>S/. <?php echo number_format((float)$data['montoCuota'], 1); ?></td>
                         <td><?php echo $data['fechaCuota']; ?></td>
                         <?php 
                             $estado = $data['estado'];
@@ -74,9 +74,9 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <?php if($estado) { ?>
-                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('cancelarPago', <?php echo $data['idCuota']; ?>, <?php echo $data['montoCuota']; ?>, <?php echo $data['idPrestamo']; ?>)">Cancelar pago</button></li>
+                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('cancelarPago', <?php echo $data['idCuota']; ?>, <?php echo round((float)$data['montoCuota'], 1); ?>, <?php echo $data['idPrestamo']; ?>)">Cancelar pago</button></li>
                                     <?php } else{ ?>
-                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('procesarPago', <?php echo $data['idCuota']; ?>, <?php echo $data['montoCuota']; ?>, <?php echo $data['idPrestamo']; ?>)">Pagar</button></li>
+                                        <li><button class="dropdown-item" type="button" onclick="mostrarFormulario('procesarPago', <?php echo $data['idCuota']; ?>, <?php echo round((float)$data['montoCuota'], 1); ?>, <?php echo $data['idPrestamo']; ?>)">Pagar</button></li>
                                     <?php } ?>
                                 </ul>
                             </div>

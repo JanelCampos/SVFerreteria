@@ -92,7 +92,7 @@
                                         <td colspan="2">
                                             <div class="input-group">
                                                 <span class="input-group-text">S/.</span>
-                                                <input type="text" id="totalCotizacion" class="form-control" readonly value="0.00">
+                                                <input type="text" id="totalCotizacion" class="form-control" readonly value="0.0">
                                             </div>
                                         </td>
                                         <td></td>
@@ -146,7 +146,7 @@
                     <div class="row g-2 mb-3">
                         <div class="col-md-6">
                             <label for="precioVenta" class="form-label">Precio de venta (UdM)</label>
-                            <input type="number" id="precioVenta" name="precioVenta" step="0.01" class="form-control" required oninput="calcularDescuentoVentaCotizacion()">
+                            <input type="number" id="precioVenta" name="precioVenta" step="0.1" class="form-control" required oninput="calcularDescuentoVentaCotizacion()">
                         </div>
                         <div class="col-md-6">
                             <label for="precioMinimoMostrar" class="form-label">Precio mínimo</label>
@@ -175,7 +175,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label mb-1">Precio c/descuento</label>
-                                    <input type="number" id="precioConDescuentoMostrar" class="form-control form-control-sm" readonly step="0.01">
+                                    <input type="number" id="precioConDescuentoMostrar" class="form-control form-control-sm" readonly step="0.1">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label mb-1">Subtotal</label>
@@ -303,7 +303,7 @@
             let resultadosHtml = '<ul> <h5>Resultados encontrados: ' + data.length + '</h5>';
             data.forEach(item => {
                 resultadosHtml += `
-                    <button type="button" class="list-group-item list-group-item-action list-group-item-info mt-1 rounded-end" onclick="mostrarFormularioCotizacion('añadirProductoCotizacion',${item.IdArticulo})">${item.Nombre} - ${item.Cantidad} - ${rolUsuario == 1 ? item.Precio_Compra : ""}</button>
+                    <button type="button" class="list-group-item list-group-item-action list-group-item-info mt-1 rounded-end" onclick="mostrarFormularioCotizacion('añadirProductoCotizacion',${item.IdArticulo})">${item.Nombre} - ${item.Cantidad} - ${rolUsuario == 1 ? Number(item.Precio_Compra).toFixed(1) : ""}</button>
                 `;
             });
             resultadosHtml += '</ul>';
@@ -339,8 +339,8 @@
                         document.getElementById('stockProductoCot').value = data.Cantidad;
                         document.getElementById('cantidadActual').value = data.Cantidad;
                         var precioMinimo = parseFloat(data.Precio_Minimo) || 0;
-                        document.getElementById('precioMinimoArticulo').value = precioMinimo.toFixed(2);
-                        document.getElementById('precioMinimoMostrar').value = precioMinimo.toFixed(2);
+                        document.getElementById('precioMinimoArticulo').value = precioMinimo.toFixed(1);
+                        document.getElementById('precioMinimoMostrar').value = precioMinimo.toFixed(1);
                         var unidadBase = data.Unidad_Base || 'unidad';
                         var selectUdM = document.getElementById('unidadVenta');
                         selectUdM.innerHTML = '';
@@ -351,8 +351,8 @@
                             opt.dataset.unidad = ud.Unidad;
                             opt.dataset.factor = parseFloat(ud.Factor);
                             opt.dataset.predeterminada = ud.EsPredeterminada;
-                            opt.dataset.precVenta = parseFloat(ud.PrecioVenta || 0).toFixed(2);
-                            opt.dataset.precMinimo = parseFloat(ud.PrecioMinimo || 0).toFixed(2);
+                            opt.dataset.precVenta = parseFloat(ud.PrecioVenta || 0).toFixed(1);
+                            opt.dataset.precMinimo = parseFloat(ud.PrecioMinimo || 0).toFixed(1);
                             if (ud.EsPredeterminada == 1) opt.selected = true;
                             selectUdM.appendChild(opt);
                         });
@@ -375,7 +375,7 @@
                             infoHtml = 'Sin descuentos escalonados configurados para este artículo.';
                         }
                         document.getElementById('infoDescuentosEscalonados').innerHTML = infoHtml;
-                        document.getElementById('precioVenta').value = parseFloat(data.Precio_Unitario || 0).toFixed(2);
+                        document.getElementById('precioVenta').value = parseFloat(data.Precio_Unitario || 0).toFixed(1);
                         document.getElementById('stockVenta').value = 1;
                         cambiarUnidadVentaCotizacion();
                     })
@@ -431,9 +431,9 @@
             var precioVentaUDM = parseFloat(opt.dataset.precVenta) || 0;
             var precioMinimo = parseFloat(opt.dataset.precMinimo) || 0;
             document.getElementById('factorAplicado').value = factor.toFixed(4);
-            document.getElementById('precioMinimoMostrar').value = precioMinimo.toFixed(2);
-            document.getElementById('precioMinimoArticulo').value = precioMinimo.toFixed(2);
-            document.getElementById('precioVenta').value = precioVentaUDM.toFixed(2);
+            document.getElementById('precioMinimoMostrar').value = precioMinimo.toFixed(1);
+            document.getElementById('precioMinimoArticulo').value = precioMinimo.toFixed(1);
+            document.getElementById('precioVenta').value = precioVentaUDM.toFixed(1);
             document.getElementById('unidadSeleccionada').value = unidad;
             document.getElementById('stockVenta').value = 1;
             document.getElementById('stockVenta').focus();
@@ -458,9 +458,9 @@
             var subTotal = precioConDto * cantidad;
             document.getElementById('descuentoMostrar').value = porcentajeDto.toFixed(2);
             document.getElementById('porcentajeDescuento').value = porcentajeDto.toFixed(4);
-            document.getElementById('precioConDescuentoMostrar').value = precioConDto.toFixed(2);
+            document.getElementById('precioConDescuentoMostrar').value = precioConDto.toFixed(1);
             document.getElementById('precioConDescuento').value = precioConDto.toFixed(4);
-            document.getElementById('subTotalMostrar').value = 'S/. ' + subTotal.toFixed(2);
+            document.getElementById('subTotalMostrar').value = 'S/. ' + subTotal.toFixed(1);
         }
 
         function añadirProductoCotizacion() {
@@ -532,9 +532,9 @@
                         <td class="text-wrap" style="max-width:180px; overflow-wrap: break-word;" title="${nombreArticulo}">${nombreArticulo}</td>
                         <td>${cantidad}</td>
                         <td>${unidad}</td>
-                        <td>S/. ${precioUnitario.toFixed(2)}</td>
-                        <td>${porcentajeDto > 0 ? porcentajeDto.toFixed(1) + '%' : '-'}</td>
-                        <td>S/. ${subTotal.toFixed(2)}</td>
+                        <td>S/. ${precioUnitario.toFixed(1)}</td>
+                        <td>${porcentajeDto > 0 ? porcentajeDto.toFixed(2) + '%' : '-'}</td>
+                        <td>S/. ${subTotal.toFixed(1)}</td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" onclick="quitarProductoCotizacion(${item.correlativo})"><i class="far fa-trash-alt"></i></button>
                         </td>
@@ -542,7 +542,7 @@
                 `;
             });
             $('#datosCotizacion').html(resultadosHtml);
-            $('#totalCotizacion').val(totalCotizacion.toFixed(2));
+            $('#totalCotizacion').val(totalCotizacion.toFixed(1));
         }
 
         function quitarProductoCotizacion(correlativo) {

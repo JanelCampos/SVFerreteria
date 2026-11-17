@@ -166,7 +166,7 @@ $chartLabels = [];
 $chartData = [];
 foreach ($resumenPorVendedor as $r) {
     $chartLabels[] = $r['NombreEmpleado'];
-    $chartData[] = round((float)$r['TotalVenta'], 2);
+    $chartData[] = round((float)$r['TotalVenta'], 1);
 }
 
 echo json_encode([
@@ -175,7 +175,7 @@ echo json_encode([
     'topProductos' => $topProductos,
     'chartLabels' => $chartLabels,
     'chartData' => $chartData,
-    'totalGeneral' => round($totalGeneral, 2),
+    'totalGeneral' => round($totalGeneral, 1),
     'advertencia' => $advertencia
 ], JSON_UNESCAPED_UNICODE);
 

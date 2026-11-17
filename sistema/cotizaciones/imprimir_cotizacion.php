@@ -135,16 +135,16 @@
             echo '<td>' . htmlspecialchars($d['NombreArticulo']) . '</td>';
             echo '<td align="right">' . number_format($cant, 2) . '</td>';
             echo '<td>' . htmlspecialchars($d['Unidad']) . '</td>';
-            echo '<td align="right">S/. ' . number_format($pUnit, 2) . '</td>';
+            echo '<td align="right">S/. ' . number_format($pUnit, 1) . '</td>';
             echo '<td align="right">' . number_format($pDto, 2) . '%</td>';
-            echo '<td align="right">S/. ' . number_format($pCDes, 2) . '</td>';
-            echo '<td align="right">S/. ' . number_format($sub, 2) . '</td>';
+            echo '<td align="right">S/. ' . number_format($pCDes, 1) . '</td>';
+            echo '<td align="right">S/. ' . number_format($sub, 1) . '</td>';
             echo '</tr>';
             $item++;
         }
 
-        echo '<tr><td colspan="8" align="right" style="font-weight:bold;">SubTotal:</td><td align="right" style="font-weight:bold;">S/. ' . number_format(floatval($cotizacion['SubTotal']), 2) . '</td></tr>';
-        echo '<tr><td colspan="8" align="right" style="font-weight:bold;font-size:12pt;">Total:</td><td align="right" style="font-weight:bold;font-size:12pt;">S/. ' . number_format(floatval($cotizacion['Total']), 2) . '</td></tr>';
+        echo '<tr><td colspan="8" align="right" style="font-weight:bold;">SubTotal:</td><td align="right" style="font-weight:bold;">S/. ' . number_format(floatval($cotizacion['SubTotal']), 1) . '</td></tr>';
+        echo '<tr><td colspan="8" align="right" style="font-weight:bold;font-size:12pt;">Total:</td><td align="right" style="font-weight:bold;font-size:12pt;">S/. ' . number_format(floatval($cotizacion['Total']), 1) . '</td></tr>';
 
         if (!empty($cotizacion['Observaciones'])) {
             echo '<tr><td colspan="9">&nbsp;</td></tr>';
@@ -291,10 +291,10 @@
                 $d['NombreArticulo'],
                 number_format($cant, 2),
                 $d['Unidad'],
-                'S/. ' . number_format($pUnit, 2),
+                'S/. ' . number_format($pUnit, 1),
                 number_format($pDto, 2) . '%',
-                'S/. ' . number_format($pCDes, 2),
-                'S/. ' . number_format($sub, 2)
+                'S/. ' . number_format($pCDes, 1),
+                'S/. ' . number_format($sub, 1)
             ], $widths, $aligns, $fill);
             $fill = !$fill;
             $item++;
@@ -304,13 +304,13 @@
         $wTotalLabel = $widths[0] + $widths[1] + $widths[2] + $widths[3] + $widths[4] + $widths[5] + $widths[6] + $widths[7];
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell($wTotalLabel, 7, 'SUBTOTAL:', 1, 0, 'R');
-        $pdf->Cell($widths[8], 7, 'S/. ' . number_format(floatval($cotizacion['SubTotal']), 2), 1, 1, 'R');
+        $pdf->Cell($widths[8], 7, 'S/. ' . number_format(floatval($cotizacion['SubTotal']), 1), 1, 1, 'R');
 
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->SetFillColor(0, 51, 102);
         $pdf->SetTextColor(255, 255, 255);
         $pdf->Cell($wTotalLabel, 8, 'TOTAL:', 1, 0, 'R', true);
-        $pdf->Cell($widths[8], 8, 'S/. ' . number_format(floatval($cotizacion['Total']), 2), 1, 1, 'R', true);
+        $pdf->Cell($widths[8], 8, 'S/. ' . number_format(floatval($cotizacion['Total']), 1), 1, 1, 'R', true);
         $pdf->SetTextColor(0, 0, 0);
 
         if (!empty($cotizacion['Observaciones'])) {
@@ -559,10 +559,10 @@
                 $d['NombreArticulo'],
                 number_format($cant, 2),
                 $d['Unidad'],
-                'S/. ' . number_format($pUnit, 2),
+                'S/. ' . number_format($pUnit, 1),
                 number_format($pDto, 1) . '%',
-                'S/. ' . number_format($pCDes, 2), 
-                'S/. ' . number_format($sub, 2)
+                'S/. ' . number_format($pCDes, 1),
+                'S/. ' . number_format($sub, 1)
             ], $fill);
 
             $fill = !$fill;
@@ -580,7 +580,7 @@
         $pdf->Cell(
             17,
             6,
-            'S/. ' . number_format(floatval($cotizacion['SubTotal']), 2),
+            'S/. ' . number_format(floatval($cotizacion['SubTotal']), 1),
             1,
             1,
             'R'
@@ -595,7 +595,7 @@
         $pdf->Cell(
             17,
             8,
-            'S/. ' . number_format(floatval($cotizacion['Total']), 2),
+            'S/. ' . number_format(floatval($cotizacion['Total']), 1),
             1,
             1,
             'R',

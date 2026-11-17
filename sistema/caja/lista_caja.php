@@ -89,7 +89,7 @@
                             <h5>Total caja: </h5>
                         </div>
                         <div class="card-body">
-                            <span>S/. <?php echo number_format($totalcaja,2); ?></span>
+                            <span>S/. <?php echo number_format($totalcaja, 1); ?></span>
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                             <h5>Utilidad total: </h5>
                         </div>
                         <div class="card-body">
-                            <span>S/. <?php echo number_format($Utilidad,2); ?></span>
+                            <span>S/. <?php echo number_format($Utilidad, 1); ?></span>
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                             <h5>Total Efectivo: </h5>
                         </div>
                         <div class="card-body">
-                            <span>S/. <?php echo number_format($TotalEfectivo,2); ?></span>
+                            <span>S/. <?php echo number_format($TotalEfectivo, 1); ?></span>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                             <h5>Total tarjeta: </h5>
                         </div>
                         <div class="card-body">
-                            <span>S/. <?php echo number_format($TotalTarjeta,2); ?></span>
+                            <span>S/. <?php echo number_format($TotalTarjeta, 1); ?></span>
                         </div>
                     </div>
                 </div>
@@ -197,9 +197,9 @@
                                                 $nfecha =  date("Y-m-d H:i:s", strtotime($fechac));
                                                 echo $nfecha; ?></td>
                                     <td><?php echo $data["Actividad"]; ?></td>
-                                    <td>S/. <?php echo $data["Monto_inicial"]; ?></td>
-                                    <td>S/. <?php echo $data["Monto_salida"]; ?></td>
-                                    <td>S/. <?php echo $data["Total_caja"]; ?></td>
+                                    <td>S/. <?php echo number_format((float)$data["Monto_inicial"], 1); ?></td>
+                                    <td>S/. <?php echo number_format((float)$data["Monto_salida"], 1); ?></td>
+                                    <td>S/. <?php echo number_format((float)$data["Total_caja"], 1); ?></td>
                                     <td><?php echo $data["Cod_Empleado"]; ?>-<?php echo $data["Nombre"]; ?></td>
                                 </tr>
                     <?php

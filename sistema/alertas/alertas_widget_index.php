@@ -72,7 +72,8 @@ if (empty($_SESSION['active']) || $_SESSION['rol'] != 1) {
                 }
                 tb.innerHTML = res.datos.map(a=>{
                     const m = a.Mensaje || '';
-                    const monto = (m.match(/S\/\.\s*([0-9.,]+)/)||['','?'])[1];
+                    const montoRaw = (m.match(/S\/\.\s*([0-9.,]+)/)||['','?'])[1];
+                    const monto = montoRaw === '?' ? '?' : Number(montoRaw.replace(/,/g, '')).toFixed(1);
                     const venc = (m.match(/Venc\.\s*([0-9\- :]+)/)||['','?'])[1];
                     const parts = m.split(' - ');
                     const cliente = parts[0] ? parts[0].replace('Cuota vencida: ','') : m;

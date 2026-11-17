@@ -153,9 +153,9 @@ foreach ($serie30 as $dia) {
     $mG = $mapaGastos[$dia] ?? 0;
     $mU = $mI - $mG;
     $etq = (new DateTime($dia))->format('d/m');
-    $serieIngresos[] = ['fecha' => $etq, 'monto' => round($mI, 2)];
-    $serieGastos[] = ['fecha' => $etq, 'monto' => round($mG, 2)];
-    $serieUtilidad[] = ['fecha' => $etq, 'monto' => round($mU, 2)];
+    $serieIngresos[] = ['fecha' => $etq, 'monto' => round($mI, 1)];
+    $serieGastos[] = ['fecha' => $etq, 'monto' => round($mG, 1)];
+    $serieUtilidad[] = ['fecha' => $etq, 'monto' => round($mU, 1)];
 }
 
 $serie15 = [];
@@ -223,17 +223,17 @@ foreach ($serie15 as $dia) {
     $etq = (new DateTime($dia))->format('d/m/Y');
     $tablaDiaria[] = [
         'fecha' => $etq,
-        'ingresos' => round($mI, 2),
-        'gastos' => round($mG, 2),
-        'utilidad' => round($mI - $mG, 2)
+        'ingresos' => round($mI, 1),
+        'gastos' => round($mG, 1),
+        'utilidad' => round($mI - $mG, 1)
     ];
 }
 
 echo json_encode([
     'resultado' => true,
-    'ingresos' => round($ingresos, 2),
-    'gastos' => round($gastos, 2),
-    'utilidad' => round($utilidad, 2),
+    'ingresos' => round($ingresos, 1),
+    'gastos' => round($gastos, 1),
+    'utilidad' => round($utilidad, 1),
     'rentabilidadPct' => round($rentabilidadPct, 2),
     'serieIngresos' => $serieIngresos,
     'serieGastos' => $serieGastos,

@@ -131,11 +131,11 @@
                     $pdf->Cell(10, 6, $fila["Cod_Articulo"], 1, 0, 'C', 1);
                     $pdf->Cell(60, 6, mb_convert_encoding($fila["Nombre"], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
                     $pdf->Cell(13, 6, $fila["Cantidad"], 1, 0, 'C', 1);
-                    $pdf->Cell(13, 6, $fila["Precio_Compra"], 1, 0, 'C', 1);
-                    $pdf->Cell(13, 6, $fila["Precio_Unitario"], 1, 0, 'C', 1);
+                    $pdf->Cell(13, 6, number_format((float)$fila["Precio_Compra"], 1), 1, 0, 'C', 1);
+                    $pdf->Cell(13, 6, number_format((float)$fila["Precio_Unitario"], 1), 1, 0, 'C', 1);
                     $pdf->Cell(55, 6, mb_convert_encoding($fila["nombreProv"], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 1);
                     $pdf->Cell(13, 6, $fila["cantidadVendida"], 1, 0, 'C', 1);
-                    $pdf->Cell(16, 6, $fila["gananciaGenerada"], 1, 1, 'C', 1);
+                    $pdf->Cell(16, 6, number_format((float)$fila["gananciaGenerada"], 1), 1, 1, 'C', 1);
                 }
                 $pdf->Output('', 'Lista_productos_mas_vendidos.pdf');
                 // acá mando la salida y con nombre por defecto como "articulos_completo.pdf"
@@ -170,11 +170,11 @@
                         echo "<td style='width:50px; border: 1px solid black;'>{$fila['Cod_Articulo']}</td>";
                         echo "<td style='width:300px; border: 1px solid black;'>" . mb_convert_encoding($fila['Nombre'], 'ISO-8859-1', 'UTF-8') . "</td>";
                         echo "<td style='width:120px; border: 1px solid black;'>{$fila['Cantidad']}</td>";
-                        echo "<td style='width:120px; border: 1px solid black;'>S/. {$fila['Precio_Compra']}</td>";
-                        echo "<td style='width:120px; border: 1px solid black;'>S/. {$fila['Precio_Unitario']}</td>";
+                        echo "<td style='width:120px; border: 1px solid black;'>S/. " . number_format((float)$fila['Precio_Compra'], 1) . "</td>";
+                        echo "<td style='width:120px; border: 1px solid black;'>S/. " . number_format((float)$fila['Precio_Unitario'], 1) . "</td>";
                         echo "<td style='width:250px; border: 1px solid black;'>" . mb_convert_encoding($fila['nombreProv'], 'ISO-8859-1', 'UTF-8') . "</td>";
                         echo "<td style='width:100px; border: 1px solid black;'>{$fila['cantidadVendida']}</td>";
-                        echo "<td style='width:100px; border: 1px solid black;'> S/. {$fila['gananciaGenerada']}</td>";
+                        echo "<td style='width:100px; border: 1px solid black;'> S/. " . number_format((float)$fila['gananciaGenerada'], 1) . "</td>";
                         echo "</tr>";
                     }
 
